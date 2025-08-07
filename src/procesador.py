@@ -46,7 +46,7 @@ class Procesador:
             variables_faltantes = variables_consideradas - variables_en_diccionario
             raise ValueError(f'Las siguientes variables numéricas del DataFrame no están presentes en las llaves del diccionario: {', '.join(variables_faltantes)}')
         
-    def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:str) -> pd.Series:
+    def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None) -> pd.Series:
         
         if not isinstance(escala, str):
             raise TypeError('El parámetro escala debe ser de tipo str')
@@ -61,18 +61,19 @@ class Procesador:
         if var in self.variables_excluidas:
             raise ValueError(f'La variable {var} está en la lista de variables excluidas')
         
-        if not isinstance(var_base_normalizacion, str):
-            raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str')
-        if var_base_normalizacion not in df.columns:
-            raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la escala especificada')
-        if var_base_normalizacion in self.variables_excluidas:
-            raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
+        if var_base_normalizacion is not None:
+            if not isinstance(var_base_normalizacion, str):
+                raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
+            if var_base_normalizacion not in df.columns:
+                raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la escala especificada')
+            if var_base_normalizacion in self.variables_excluidas:
+                raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
         
         if df[var_base_normalizacion].eq(0).any():
             print(f'Advertencia: La variable {var_base_normalizacion} contiene valores de cero, reemplazando por NaN para evitar potenciales divisiones entre cero')
             df[var_base_normalizacion] = df[var_base_normalizacion].replace(0, np.nan)
             
-        return df[var] / df[var_base_normalizacion]
+        return df[var] / df[var_base_normalizacion] if var_base_normalizacion is not None else df[var]
     
     def categorizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None, q:int=10) -> pd.Series:
         
