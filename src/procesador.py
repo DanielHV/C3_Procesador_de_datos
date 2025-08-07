@@ -74,3 +74,32 @@ class Procesador:
             
         return df[var] / df[var_base_normalizacion]
     
+    def categorizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None, q:int=10) -> pd.Series:
+        
+        if not isinstance(escala, str):
+            raise TypeError('El parámetro escala debe ser de tipo str')
+        if escala not in self.dataframes_escalas.keys():
+            raise ValueError('La escala especificada no es válida')
+        
+        df = self.dataframes_escalas[escala]
+        if not isinstance(var, str):
+            raise TypeError('El parámetro var debe ser de tipo str')
+        if var not in df.columns:
+            raise ValueError(f'La variable {var} no existe en el DataFrame de la escala especificada')
+        if var in self.variables_excluidas:
+            raise ValueError(f'La variable {var} está en la lista de variables excluidas')
+        
+        if var_base_normalizacion is not None:
+            if not isinstance(var_base_normalizacion, str):
+                raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
+            if var_base_normalizacion not in df.columns:
+                raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la escala especificada')
+            if var_base_normalizacion in self.variables_excluidas:
+                raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
+        
+        if not isinstance(q, int):
+            raise TypeError('El parámetro q debe ser de tipo int')
+        if q < 1:
+            raise ValueError('El valor de q debe ser mayor a 1')
+        
+        return pd.qcut(self.normalizar_variable(escala=escala, var=var, var_base_normalizacion=var_base_normalizacion), q=q, duplicates='drop')
