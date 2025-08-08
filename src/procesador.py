@@ -69,9 +69,9 @@ class Procesador:
             if var_base_normalizacion in self.variables_excluidas:
                 raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
         
-        if df[var_base_normalizacion].eq(0).any():
-            print(f'Advertencia: La variable {var_base_normalizacion} contiene valores de cero, reemplazando por NaN para evitar potenciales divisiones entre cero')
-            df[var_base_normalizacion] = df[var_base_normalizacion].replace(0, np.nan)
+            if df[var_base_normalizacion].eq(0).any():
+                print(f'Advertencia: La variable {var_base_normalizacion} contiene valores de cero, reemplazando por NaN para evitar potenciales divisiones entre cero')
+                df[var_base_normalizacion] = df[var_base_normalizacion].replace(0, np.nan)
             
         return df[var] / df[var_base_normalizacion] if var_base_normalizacion is not None else df[var]
     
