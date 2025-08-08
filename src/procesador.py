@@ -226,3 +226,123 @@ class Procesador:
         
         return df_resultado[~bins_nulos].reset_index(drop=True)
     
+    def procesar_multiples_variables_list(self, escalas:list, dicc:dict, q:int=10) -> dict:
+        
+        if not isinstance(escalas, list):
+            raise TypeError('El parámetro escalas debe ser de tipo list')
+        for escala in escalas:
+            if not isinstance(escala, str):
+                raise TypeError('Los elementos del parámetro escalas deben ser de tipo str')
+            if escala not in self.dataframes_escalas.keys():
+                raise ValueError(f'La escala {escala} no es válida, pues no fue proporcionado un DataFrame para esta')
+            
+        if not isinstance(dicc, dict):
+            raise TypeError('El valor del parámetro dicc debe ser de tipo dict, de forma {base_porcentaje : lista_variables}')
+        if dicc == {}:
+            raise ValueError('El diccionario no contiene items, debe ser un diccionario de forma {base_porcentaje : lista variables}')
+        
+        if not isinstance(q, int):
+            raise TypeError('El parámetro q debe ser de tipo int')
+        if q < 1:
+            raise ValueError('El valor de q debe ser mayor a 1')
+        
+        resultado = {}
+        
+        for var_base_normalizacion, lista_vars in dicc.items():
+            
+            if var_base_normalizacion is not None:
+                if not isinstance(var_base_normalizacion, str):
+                    raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
+                if var_base_normalizacion in self.variables_excluidas:
+                    raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
+                
+            variables_procesadas = []
+            
+            for var in lista_vars:    
+                if not isinstance(var, str):
+                    raise TypeError('El parámetro var debe ser de tipo str')
+                if var in self.variables_excluidas:
+                    raise ValueError(f'La variable {var} está en la lista de variables excluidas')
+                
+                variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
+                
+            resultado[var_base_normalizacion] = pd.concat(variables_procesadas, ignore_index=True)
+            
+        return resultado
+    
+    def obtener_variables_regex(self, escala:str, regex:str) -> list:
+        
+        if not isinstance(escala, str):
+            raise TypeError('El parámetro escala debe ser de tipo str')
+        if escala not in self.dataframes_escalas.keys():
+            raise ValueError('La escala especificada no es válida')
+        
+        if not isinstance(regex, str):
+            raise TypeError('El parámetro regex debe ser de tipo str')
+        try:
+            re.compile(regex)
+        except re.error:
+            raise ValueError(f'La expresión regular {regex} no es válida')
+        
+        df = self.dataframes_escalas[escala]
+        
+        return list(df.fiter(regex=regex).columns)
+    
+    def procesar_multiples_variables_regex(self, escalas:list, dicc:dict, q:int=10) -> dict:
+    
+        if not isinstance(escalas, list):
+            raise TypeError('El parámetro escalas debe ser de tipo list')
+        for escala in escalas:
+            if not isinstance(escala, str):
+                raise TypeError('Los elementos del parámetro escalas deben ser de tipo str')
+            if escala not in self.dataframes_escalas.keys():
+                raise ValueError(f'La escala {escala} no es válida, pues no fue proporcionado un DataFrame para esta')
+            
+        if not isinstance(dicc, dict):
+            raise TypeError('El valor del parámetro dicc debe ser de tipo dict, de forma {base_porcentaje : lista_variables}')
+        if dicc == {}:
+            raise ValueError('El diccionario no contiene items, debe ser un diccionario de forma {base_porcentaje : lista variables}')
+        
+        if not isinstance(q, int):
+            raise TypeError('El parámetro q debe ser de tipo int')
+        if q < 1:
+            raise ValueError('El valor de q debe ser mayor a 1')
+        
+        resultado = {}
+        
+        for var_base_normalizacion, regex in dicc.items():
+            
+            if var_base_normalizacion is not None:
+                if not isinstance(var_base_normalizacion, str):
+                    raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
+                if var_base_normalizacion in self.variables_excluidas:
+                    raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
+                
+            if not isinstance(regex, str):
+                raise TypeError('El parámetro regex debe ser de tipo str')
+            try:
+                re.compile(regex)
+            except re.error:
+                raise ValueError(f'La expresión regular {regex} no es válida')
+            
+            variables_regex = set()
+            
+            for escala in escalas:
+                
+                variables_regex = variables_regex | (set(self.obtener_variables_regex(escala, regex)))
+                
+                if len(variables_regex) == 0:
+                    print(f'La expresión regular {regex} no coincide con ninguna variable')
+                    
+            variables_procesadas = []
+                
+            for var in variables_regex:
+                
+                if var in self.variables_excluidas:
+                    raise ValueError(f'La variable {var} está en la lista de variables excluidas')
+                
+                variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
+                
+            resultado[var_base_normalizacion] = pd.concat(variables_procesadas, ignore_index=True) if len(variables_procesadas) > 0 else None
+            
+        return resultado
