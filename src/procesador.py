@@ -122,7 +122,7 @@ class Procesador:
             if not isinstance(escala, str):
                 raise TypeError('Los elementos del parámetro escalas deben ser de tipo str')
             if escala not in self.dataframes_escalas.keys():
-                raise ValueError(f'La escala {escala} no es válida')
+                raise ValueError(f'La escala {escala} no es válida, pues no fue proporcionado un DataFrame para esta')
         
         if not isinstance(var, str):
             raise TypeError('El parámetro var debe ser de tipo str')
