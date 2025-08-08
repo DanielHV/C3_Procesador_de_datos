@@ -132,8 +132,6 @@ class Procesador:
         if var_base_normalizacion is not None:
             if not isinstance(var_base_normalizacion, str):
                 raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
-            if var_base_normalizacion not in df.columns:
-                raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la escala especificada')
             if var_base_normalizacion in self.variables_excluidas:
                 raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
         
