@@ -6,14 +6,14 @@ import re
 
 class Procesador:
 
-    def __init__(self, diccionario_variables:dict, dataframes_escalas:dict, variables_excluidas:list, variable_identificadora:str):
+    def __init__(self, traductor_variables:dict, dataframes_escalas:dict, variables_excluidas:list, variable_identificadora:str):
         
-        if not isinstance(diccionario_variables, dict):
-            raise TypeError('El valor del parámetro diccionario_variables debe ser de tipo dict')
-        if not all(isinstance(llave, str) for llave in diccionario_variables.keys()):
-            raise TypeError('Las llaves del diccionario diccionario_variables deben ser de tipo str')
-        if not all(isinstance(valor, str) for valor in diccionario_variables.values()):
-            raise TypeError('Los valores del diccionario diccionario_variables deben ser de tipo str')
+        if not isinstance(traductor_variables, dict):
+            raise TypeError('El valor del parámetro traductor_variables debe ser de tipo dict')
+        if not all(isinstance(llave, str) for llave in traductor_variables.keys()):
+            raise TypeError('Las llaves del diccionario traductor_variables deben ser de tipo str')
+        if not all(isinstance(valor, str) for valor in traductor_variables.values()):
+            raise TypeError('Los valores del diccionario traductor_variables deben ser de tipo str')
         
         if not isinstance(dataframes_escalas, dict):
             raise TypeError('El valor del parámetro dataframes_escalas debe ser de tipo dict')
@@ -30,9 +30,9 @@ class Procesador:
         if not isinstance(variable_identificadora, str):
             raise TypeError('El valor del parámetro variable_identificadora debe ser de tipo str')
         
-        self.diccionario_variables = diccionario_variables
+        self.traductor_variables = traductor_variables
         self.dataframes_escalas = dataframes_escalas
-        self.variables_excluidas = variables_excluidas
+        self.variables_excluidas = variables_excluidas + [variable_identificadora]
         self.variable_identificadora = variable_identificadora
         
         variables_consideradas = set()
@@ -41,10 +41,10 @@ class Procesador:
             
         variables_consideradas = variables_consideradas - set(self.variables_excluidas)
 
-        variables_en_diccionario = set(diccionario_variables.keys())
+        variables_en_diccionario = set(traductor_variables.keys())
         if not (variables_consideradas).issubset(variables_en_diccionario):
             variables_faltantes = variables_consideradas - variables_en_diccionario
-            raise ValueError(f'Las siguientes variables numéricas del DataFrame no están presentes en las llaves del diccionario: {', '.join(variables_faltantes)}')
+            raise ValueError(f'Las siguientes variables no excluidas del DataFrame no están presentes en las llaves del diccionario: {', '.join(variables_faltantes)}')
         
     def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None) -> pd.Series:
         
@@ -146,7 +146,7 @@ class Procesador:
             'bin': []
         }
         
-        nombre = self.diccionario_variables[var]
+        nombre = self.traductor_variables[var]
         codigo = var
         
         # se valida si la variable a procesar existe en al menos un dataframe de las escalas especificadas
