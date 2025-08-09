@@ -34,6 +34,7 @@ class Procesador:
         self.dataframes_escalas = dataframes_escalas
         self.variables_excluidas = variables_excluidas + [variable_identificadora]
         self.variable_identificadora = variable_identificadora
+        self.variables_faltantes_traductor = []
         
         variables_consideradas = set()
         for dataframe in dataframes_escalas.values():
@@ -41,10 +42,20 @@ class Procesador:
             
         variables_consideradas = variables_consideradas - set(self.variables_excluidas)
 
-        variables_en_diccionario = set(traductor_variables.keys())
-        if not (variables_consideradas).issubset(variables_en_diccionario):
-            variables_faltantes = variables_consideradas - variables_en_diccionario
-            raise ValueError(f'Las siguientes variables no excluidas del DataFrame no están presentes en las llaves del diccionario: {', '.join(variables_faltantes)}')
+        variables_en_traductor = set(traductor_variables.keys())
+        if not (variables_consideradas).issubset(variables_en_traductor):
+            variables_faltantes = variables_consideradas - variables_en_traductor
+            print(f'Se encontraron variables no excluidas del DataFrame que no están presentes en las llaves del traductor, por lo que se añadiran automáticamente a la lista de variables excluidas\nSe devuelve la lista completa de variables faltantes en el traductor con el método get_variables_faltantes_traductor')
+            self.variables_faltantes_traductor = sorted(list(variables_faltantes))
+            self.variables_excluidas = self.variables_excluidas + self.variables_faltantes_traductor
+
+    def get_variables_excluidas(self) -> list:
+        
+        return self.variables_excluidas
+
+    def get_variables_faltantes_traductor(self) -> list:
+        
+        return self.variables_faltantes_traductor
         
     def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None) -> pd.Series:
         
@@ -252,17 +263,22 @@ class Procesador:
             
             if var_base_normalizacion is not None:
                 if not isinstance(var_base_normalizacion, str):
-                    raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
+                    raise TypeError('Las llaves del diccionario deben ser de tipo str o None')
                 if var_base_normalizacion in self.variables_excluidas:
-                    raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
-                
+                    print(f'La variable {var_base_normalizacion} está en la lista de variables excluidas, no se procesará la lista asociada a esta variable')
+                    continue
+            
+            if not isinstance(lista_vars, list):
+                raise TypeError('Los valores del diccionario deben ser de tipo list')
+            
             variables_procesadas = []
             
-            for var in lista_vars:    
+            for var in lista_vars:
                 if not isinstance(var, str):
-                    raise TypeError('El parámetro var debe ser de tipo str')
+                    raise TypeError('Los elementos de las listas deben ser de tipo str')
                 if var in self.variables_excluidas:
-                    raise ValueError(f'La variable {var} está en la lista de variables excluidas')
+                    print(f'La variable {var} está en la lista de variables excluidas, no se procesará')
+                    continue
                 
                 variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
                 
@@ -314,12 +330,13 @@ class Procesador:
             
             if var_base_normalizacion is not None:
                 if not isinstance(var_base_normalizacion, str):
-                    raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
+                    raise TypeError('Las llaves del diccionario deben ser de tipo str o None')
                 if var_base_normalizacion in self.variables_excluidas:
-                    raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
+                    print(f'La variable {var_base_normalizacion} está en la lista de variables excluidas, no se procesará la expresión regular asociada a esta variable')
+                    continue
                 
             if not isinstance(regex, str):
-                raise TypeError('El parámetro regex debe ser de tipo str')
+                raise TypeError('Los valores del diccionario deben ser de tipo str, y una expresión regular válida')
             try:
                 re.compile(regex)
             except re.error:
@@ -336,11 +353,12 @@ class Procesador:
                     
             variables_procesadas = []
                 
-            for var in variables_regex:
+            for var in sorted(list(variables_regex)):
                 
                 if var in self.variables_excluidas:
-                    raise ValueError(f'La variable {var} está en la lista de variables excluidas')
-                
+                    print(f'La variable {var} está en la lista de variables excluidas, no se procesará')
+                    continue
+
                 variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
                 
             resultado[var_base_normalizacion] = pd.concat(variables_procesadas, ignore_index=True) if len(variables_procesadas) > 0 else None
