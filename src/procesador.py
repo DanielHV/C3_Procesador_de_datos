@@ -157,9 +157,6 @@ class Procesador:
             'bin': []
         }
         
-        nombre = self.traductor_variables[var]
-        codigo = var
-        
         # se valida si la variable a procesar existe en al menos un dataframe de las escalas especificadas
         
         validacion_escalas_var = {escala:False for escala in escalas}
@@ -185,6 +182,9 @@ class Procesador:
             raise ValueError(f'La variable {var} (var) no existe en ninguno de los DataFrames de las escalas especificadas')
         if all(validacion_escalas_var_base_normalizacion[escala] == False for escala in escalas):
             raise ValueError(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en ninguno de los DataFrames de las escalas especificadas')
+        
+        nombre = self.traductor_variables[var]
+        codigo = var
         
         # se hace la categorizacion de la variable en los dataframes donde si se encuentra
         
@@ -302,7 +302,7 @@ class Procesador:
         
         df = self.dataframes_escalas[escala]
         
-        return list(df.fiter(regex=regex).columns)
+        return list(df.filter(regex=regex).columns)
     
     def procesar_multiples_variables_regex(self, escalas:list, dicc:dict, q:int=10) -> dict:
     
