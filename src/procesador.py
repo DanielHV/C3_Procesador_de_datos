@@ -6,14 +6,14 @@ import re
 
 class Procesador:
 
-    def __init__(self, traductor_variables:dict, dataframes_escalas:dict, variables_excluidas:list, variable_identificadora:str):
+    def __init__(self, diccionario_variables:dict, dataframes_escalas:dict, variables_excluidas:list, variable_identificadora:str):
         
-        if not isinstance(traductor_variables, dict):
-            raise TypeError('El valor del parámetro traductor_variables debe ser de tipo dict')
-        if not all(isinstance(llave, str) for llave in traductor_variables.keys()):
-            raise TypeError('Las llaves del diccionario traductor_variables deben ser de tipo str')
-        if not all(isinstance(valor, str) for valor in traductor_variables.values()):
-            raise TypeError('Los valores del diccionario traductor_variables deben ser de tipo str')
+        if not isinstance(diccionario_variables, dict):
+            raise TypeError('El valor del parámetro diccionario_variables debe ser de tipo dict')
+        if not all(isinstance(llave, str) for llave in diccionario_variables.keys()):
+            raise TypeError('Las llaves del diccionario diccionario_variables deben ser de tipo str')
+        if not all(isinstance(valor, str) for valor in diccionario_variables.values()):
+            raise TypeError('Los valores del diccionario diccionario_variables deben ser de tipo str')
         
         if not isinstance(dataframes_escalas, dict):
             raise TypeError('El valor del parámetro dataframes_escalas debe ser de tipo dict')
@@ -30,11 +30,11 @@ class Procesador:
         if not isinstance(variable_identificadora, str):
             raise TypeError('El valor del parámetro variable_identificadora debe ser de tipo str')
         
-        self.traductor_variables = traductor_variables
+        self.diccionario_variables = diccionario_variables
         self.dataframes_escalas = dataframes_escalas
         self.variables_excluidas = variables_excluidas + [variable_identificadora]
         self.variable_identificadora = variable_identificadora
-        self.variables_faltantes_traductor = []
+        self.variables_faltantes_diccionario = []
         
         variables_consideradas = set()
         for dataframe in dataframes_escalas.values():
@@ -42,20 +42,20 @@ class Procesador:
             
         variables_consideradas = variables_consideradas - set(self.variables_excluidas)
 
-        variables_en_traductor = set(traductor_variables.keys())
-        if not (variables_consideradas).issubset(variables_en_traductor):
-            variables_faltantes = variables_consideradas - variables_en_traductor
-            print(f'Se encontraron variables no excluidas del DataFrame que no están presentes en las llaves del traductor, por lo que se añadiran automáticamente a la lista de variables excluidas\nSe devuelve la lista completa de variables faltantes en el traductor con el método get_variables_faltantes_traductor')
-            self.variables_faltantes_traductor = sorted(list(variables_faltantes))
-            self.variables_excluidas = self.variables_excluidas + self.variables_faltantes_traductor
+        variables_en_diccionario = set(diccionario_variables.keys())
+        if not (variables_consideradas).issubset(variables_en_diccionario):
+            variables_faltantes = variables_consideradas - variables_en_diccionario
+            print(f'Se encontraron variables no excluidas del DataFrame que no están presentes en las llaves del diccionario, por lo que se añadiran automáticamente a la lista de variables excluidas\nSe devuelve la lista completa de variables faltantes en el diccionario con el método get_variables_faltantes_diccionario')
+            self.variables_faltantes_diccionario = sorted(list(variables_faltantes))
+            self.variables_excluidas = self.variables_excluidas + self.variables_faltantes_diccionario
 
     def get_variables_excluidas(self) -> list:
         
         return self.variables_excluidas
 
-    def get_variables_faltantes_traductor(self) -> list:
+    def get_variables_faltantes_diccionario(self) -> list:
         
-        return self.variables_faltantes_traductor
+        return self.variables_faltantes_diccionario
         
     def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None) -> pd.Series:
         
@@ -183,7 +183,7 @@ class Procesador:
         if all(validacion_escalas_var_base_normalizacion[escala] == False for escala in escalas):
             raise ValueError(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en ninguno de los DataFrames de las escalas especificadas')
         
-        nombre = self.traductor_variables[var]
+        nombre = self.diccionario_variables[var]
         codigo = var
         
         # se hace la categorizacion de la variable en los dataframes donde si se encuentra
