@@ -4,9 +4,23 @@ import pandas as pd
 pd.set_option('future.no_silent_downcasting', True)
 import re
 
+def obtener_variables_regex_df(df:pd.DataFrame, regex:str) -> list:
+    
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError('El parámetro df debe ser de tipo pd.DataFrame')
+    
+    if not isinstance(regex, str):
+        raise TypeError('El parámetro regex debe ser de tipo str')
+    try:
+        pattern = re.compile(regex)
+    except re.error:
+        raise ValueError(f'La expresión regular {regex} no es válida')
+    
+    return list(df.filter(regex=regex).columns)
+
 class Procesador:
 
-    def __init__(self, diccionario_variables:dict, dataframes_escalas:dict, variables_excluidas:list, variable_identificadora:str):
+    def __init__(self, diccionario_variables:dict, dataframes_escalas:dict, variables_excluidas_list:list, variables_excluidas_regex:list, variable_identificadora:str):
         
         if not isinstance(diccionario_variables, dict):
             raise TypeError('El valor del parámetro diccionario_variables debe ser de tipo dict')
@@ -22,32 +36,45 @@ class Procesador:
         if not all(isinstance(valor, pd.DataFrame) for valor in dataframes_escalas.values()):
             raise TypeError('Los valores del diccionario dataframes_escalas deben ser de tipo pd.DataFrame')
                 
-        if not (isinstance(variables_excluidas, list)):
-            raise TypeError('El valor del parámetro variables_excluidas debe ser de tipo list')
-        if not (all(isinstance(x, str) for x in variables_excluidas)):
-            raise TypeError('Los elementos de la lista variables_excluidas deben ser de tipo str')
+        if not (isinstance(variables_excluidas_list, list)):
+            raise TypeError('El valor del parámetro variables_excluidas_list debe ser de tipo list')
+        if not (all(isinstance(x, str) for x in variables_excluidas_list)):
+            raise TypeError('Los elementos de la lista variables_excluidas_list deben ser de tipo str')
+        
+        if not (isinstance(variables_excluidas_regex, list)):
+            raise TypeError('El valor del parámetro variables_excluidas_regex debe ser de tipo list')
+        for regex in variables_excluidas_regex:
+            try:
+                re.compile(regex)
+            except re.error:
+                raise ValueError(f'Los elementos de la lista variables_excluidas_regex deben ser expresiones regular válidas, es inválida: {regex}')
         
         if not isinstance(variable_identificadora, str):
             raise TypeError('El valor del parámetro variable_identificadora debe ser de tipo str')
         
         self.diccionario_variables = diccionario_variables
         self.dataframes_escalas = dataframes_escalas
-        self.variables_excluidas = variables_excluidas + [variable_identificadora]
+
+        variables_excluidas = set(variables_excluidas_list) | {variable_identificadora}
+        for regex in variables_excluidas_regex:
+            for dataframe in dataframes_escalas.values():
+                variables_excluidas = variables_excluidas | set(obtener_variables_regex_df(dataframe, regex))
+
         self.variable_identificadora = variable_identificadora
         self.variables_faltantes_diccionario = []
         
         variables_consideradas = set()
         for dataframe in dataframes_escalas.values():
             variables_consideradas = variables_consideradas | set(dataframe.columns)
-            
-        variables_consideradas = variables_consideradas - set(self.variables_excluidas)
 
         variables_en_diccionario = set(diccionario_variables.keys())
         if not (variables_consideradas).issubset(variables_en_diccionario):
             variables_faltantes = variables_consideradas - variables_en_diccionario
             print(f'Se encontraron variables no excluidas del DataFrame que no están presentes en las llaves del diccionario, por lo que se añadiran automáticamente a la lista de variables excluidas\nSe devuelve la lista completa de variables faltantes en el diccionario con el método get_variables_faltantes_diccionario')
+            variables_excluidas = variables_excluidas | variables_faltantes
             self.variables_faltantes_diccionario = sorted(list(variables_faltantes))
-            self.variables_excluidas = self.variables_excluidas + self.variables_faltantes_diccionario
+
+        self.variables_excluidas = sorted(list(variables_excluidas))
 
     def get_variables_excluidas(self) -> list:
         
@@ -286,24 +313,6 @@ class Procesador:
             
         return resultado
     
-    def obtener_variables_regex(self, escala:str, regex:str) -> list:
-        
-        if not isinstance(escala, str):
-            raise TypeError('El parámetro escala debe ser de tipo str')
-        if escala not in self.dataframes_escalas.keys():
-            raise ValueError('La escala especificada no es válida')
-        
-        if not isinstance(regex, str):
-            raise TypeError('El parámetro regex debe ser de tipo str')
-        try:
-            re.compile(regex)
-        except re.error:
-            raise ValueError(f'La expresión regular {regex} no es válida')
-        
-        df = self.dataframes_escalas[escala]
-        
-        return list(df.filter(regex=regex).columns)
-    
     def procesar_multiples_variables_regex(self, escalas:list, dicc:dict, q:int=10) -> dict:
     
         if not isinstance(escalas, list):
@@ -346,7 +355,7 @@ class Procesador:
             
             for escala in escalas:
                 
-                variables_regex = variables_regex | (set(self.obtener_variables_regex(escala, regex)))
+                variables_regex = variables_regex | (set(obtener_variables_regex_df(self.dataframes_escalas[escala], regex)))
                 
                 if len(variables_regex) == 0:
                     print(f'La expresión regular {regex} no coincide con ninguna variable')
