@@ -117,7 +117,7 @@ if __name__ == '__main__':
                                                   variables_a_agrupar=var_list,
                                                   tipo_valores=tipo)
 
-            df_agregado.to_csv('./df_agregado.csv')
+            df_agregado.to_csv(f'./df_agregado_{tipo}.csv')
             
-        preprocesador.df.to_csv('./preprocesamiento.csv')
-        preprocesador.metadatos.to_csv('./preprocesamiento_metadatos.csv')
+    preprocesador.df.to_csv('./preprocesamiento.csv')
+    preprocesador.metadatos.to_csv('./preprocesamiento_metadatos.csv')
