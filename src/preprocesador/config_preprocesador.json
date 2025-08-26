@@ -1,0 +1,18 @@
+{
+    "ruta_csv_dataset" : "../../data/ensanut/raw/salud_hogar_orig_lower_promedios_for_elastic.csv",
+    "ruta_csv_metadatos" : "../../data/ensanut/preprocessed/metadatos_ensanut_rework.csv",
+    "columna_metadatos_alias" : "var_alias",
+    "columna_metadatos_nombres" : "var",
+    "columna_metadatos_tipos" : "dtype",
+    "columna_metadatos_filtro_excluir" : "var_type",
+    "valores_a_excluir" : ["abierta"],
+    "agrupacion" : {
+        "variables_id_agrupacion_list" : ["municipio"],
+        "variables_a_agrupar_tipos" : {
+            "observacion" : {
+                "list" : [],
+                "regex" : [".*"]
+            }
+        }
+    }
+}
