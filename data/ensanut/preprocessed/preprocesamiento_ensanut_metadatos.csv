@@ -1,0 +1,3185 @@
+var-posibles_valores,var_alias-posibles_valores_alias
+entidad-01 AGUASCALIENTES,entidad-1
+entidad-02 BAJA CALIFORNIA,entidad-2
+entidad-03 BAJA CALIFORNIA SUR,entidad-3
+entidad-04 CAMPECHE,entidad-4
+entidad-05 COAHUILA DE ZARAGOZA,entidad-5
+entidad-06 COLIMA,entidad-6
+entidad-07 CHIAPAS,entidad-7
+entidad-08 CHIHUAHUA,entidad-8
+entidad-09 CIUDAD DE MÉXICO,entidad-9
+entidad-10 DURANGO,entidad-10
+entidad-11 GUANAJUATO,entidad-11
+entidad-12 GUERRERO,entidad-12
+entidad-13 HIDALGO,entidad-13
+entidad-14 JALISCO,entidad-14
+entidad-15 MÉXICO,entidad-15
+entidad-16 MICHOACÁN DE OCAMPO,entidad-16
+entidad-17 MORELOS,entidad-17
+entidad-18 NAYARIT,entidad-18
+entidad-19 NUEVO LEÓN,entidad-19
+entidad-20 OAXACA,entidad-20
+entidad-21 PUEBLA,entidad-21
+entidad-22 QUERÉTARO,entidad-22
+entidad-23 QUINTANA ROO,entidad-23
+entidad-24 SAN LUIS POTOSÍ,entidad-24
+entidad-25 SINALOA,entidad-25
+entidad-26 SONORA,entidad-26
+entidad-27 TABASCO,entidad-27
+entidad-28 TAMAULIPAS,entidad-28
+entidad-29 TLAXCALA,entidad-29
+entidad-30 VERACRUZ DE IGNACIO DE LA LLAVE,entidad-30
+entidad-31 YUCATÁN,entidad-31
+entidad-32 ZACATECAS,entidad-32
+region-Pacifico_Norte,region-1
+region-Frontera,region-2
+region-Pacifico_Centro,region-3
+region-Centro_Norte,region-4
+region-Centro,region-5
+region-Cd México,region-6
+region-EdoMéxico,region-7
+region-Pácifico_Sur,region-8
+region-Península,region-9
+region_s-Pacifico_Norte,region_s-1
+region_s-Frontera,region_s-2
+region_s-Pacifico_Centro,region_s-3
+region_s-Centro_Norte,region_s-4
+region_s-Centro,region_s-5
+region_s-Cd México,region_s-6
+region_s-EdoMéxico,region_s-7
+region_s-Pácifico_Sur,region_s-8
+region_s-Península,region_s-9
+material_techo_hogar-Material de desecho,h0101-1
+material_techo_hogar-Lámina de cartón,h0101-2
+material_techo_hogar-Lámina metálica,h0101-3
+material_techo_hogar-Lámina de asbesto,h0101-4
+material_techo_hogar-Palma o paja,h0101-5
+material_techo_hogar-Madera o tejamanil,h0101-6
+material_techo_hogar-Terrado con vigueria,h0101-7
+material_techo_hogar-Teja,h0101-8
+material_techo_hogar-Losa de concreto o viguetas con bovedilla,h0101-9
+materia_paredes_hogar-Material de desecho,h0102-1
+materia_paredes_hogar-Lámina de cartón,h0102-2
+materia_paredes_hogar-Lámina de asbesto o metálica,h0102-3
+"materia_paredes_hogar-Carrizo, bambú o palma",h0102-4
+"materia_paredes_hogar-Embarro, bajareque o paja",h0102-5
+materia_paredes_hogar-Madera,h0102-6
+materia_paredes_hogar-Adobe,h0102-7
+"materia_paredes_hogar-Tabique, ladrillo,block, piedra, cantera, cemento o concreto",h0102-8
+material_piso_hogar-Tierra,h0103-1
+material_piso_hogar-Cemento o firme,h0103-2
+"material_piso_hogar-Madera, mosaico u otro recubrimiento",h0103-3
+hogar_tiene_cocina-Sí,h0106-1
+hogar_tiene_cocina-No,h0106-2
+lugar_cocinar_alimentos-en un pasillo o corredor?,h0107-1
+lugar_cocinar_alimentos-en un tejabán o techito?,h0107-2
+lugar_cocinar_alimentos-al aire libre?,h0107-3
+lugar_cocinar_alimentos-¿No cocinan en esta vivienda?,h0107-4
+duermen_donde_cocinan-Sí,h0108-1
+duermen_donde_cocinan-No,h0108-2
+combustible_cocinar-leña?,h0109-1
+combustible_cocinar-carbón?,h0109-2
+combustible_cocinar-gas de cilindro o estacionario?,h0109-3
+combustible_cocinar-gas natural o de tubería?,h0109-4
+combustible_cocinar-electricidad?,h0109-5
+combustible_cocinar-¿Otro combustible?,h0109-6
+combustible_cocinar-¿No cocinan?,h0109-7
+estufa_cocinar-Estufa o parrilla de gas,h0110-1
+estufa_cocinar-Estufa o parrilla eléctrica,h0110-2
+estufa_cocinar-Fuego abierto u horno sin chimenea ni campana,h0110-3
+estufa_cocinar-Fuego abierto u horno con chimenea o campana,h0110-4
+estufa_cocinar-Horno cerrado con chimenea,h0110-5
+estufa_cocinar-Otro,h0110-6
+luz_electrica_vivienda-Sí,h0111-1
+luz_electrica_vivienda-No,h0111-2
+agua_entubada_vivienda-dentro de la vivienda?,h0112-1
+agua_entubada_vivienda-solo en el terreno?,h0112-2
+agua_entubada_vivienda-no tiene agua entubada?,h0112-3
+origen_agua_entubada-del servicio público de agua?,h0113-1
+origen_agua_entubada-de un pozo?,h0113-2
+origen_agua_entubada-de una pipa?,h0113-3
+origen_agua_entubada-de otra vivienda?,h0113-4
+origen_agua_entubada-de otro lugar?,h0113-5
+otro_origen_agua-la sacan o acarrean de un pozo?,h0114-1
+otro_origen_agua-la acarrean de una toma o llave comunitaria?,h0114-2
+otro_origen_agua-la traen de otra vivienda?,h0114-3
+otro_origen_agua-la trae una pipa?,h0114-4
+"otro_origen_agua-la acarrean de un río, arroyo o lago?",h0114-5
+otro_origen_agua-la captan de la lluvia?,h0114-6
+jabon_lavado_manos-Sí,h0115-1
+jabon_lavado_manos-No,h0115-2
+jabon_lavado_manos-NS/NR,h0115-8
+"muestra_jabon-Sí, mostrado",h0116-1
+"muestra_jabon-No, mostrado",h0116-2
+tipo_jabon_1-Jabón en pastilla,h0117a-1
+tipo_jabon_1-Detergente (en polvo / liquido / en pasta),h0117a-2
+tipo_jabon_1-Jabón liquido,h0117a-3
+"tipo_jabon_1-Ceniza, barro o arena",h0117a-4
+tipo_jabon_2-Jabón en pastilla,h0117b-1
+tipo_jabon_2-Detergente (en polvo / liquido / en pasta),h0117b-2
+tipo_jabon_2-Jabón liquido,h0117b-3
+"tipo_jabon_2-Ceniza, barro o arena",h0117b-4
+tipo_jabon_3-Jabón en pastilla,h0117c-1
+tipo_jabon_3-Detergente (en polvo / liquido / en pasta),h0117c-2
+tipo_jabon_3-Jabón liquido,h0117c-3
+"tipo_jabon_3-Ceniza, barro o arena",h0117c-4
+vivienda_tiene_drenaje-la red pública?,h0118-1
+vivienda_tiene_drenaje-una fosa séptica o tanque séptico (biodigestor)?,h0118-2
+vivienda_tiene_drenaje-una tubería que va a dar a una barranca o grieta?,h0118-3
+"vivienda_tiene_drenaje-una tubería que va a dar a un río, lago o mar?",h0118-4
+vivienda_tiene_drenaje-¿No tiene drenaje?,h0118-5
+servicio_sanitario-tiene descarga directa de agua?,h0119-1
+servicio_sanitario-le echan agua con cubeta?,h0119-2
+servicio_sanitario-no se le puede echar agua?,h0119-3
+servicio_sanitario-no tiene servicio sanitario?,h0119-4
+servicio_sanitario_compartido-Sí,h0120-1
+servicio_sanitario_compartido-No,h0120-2
+recogida_basura_vivienda-la recoge un camión o un carrito de basura?,h0121-1
+recogida_basura_vivienda-la tiran en el basurero público?,h0121-2
+recogida_basura_vivienda-la tiran en un contenedor o depósito?,h0121-3
+recogida_basura_vivienda-la queman?,h0121-4
+recogida_basura_vivienda-la entierran?,h0121-5
+recogida_basura_vivienda-la tiran en un terreno baldío o calle?,h0121-6
+recogida_basura_vivienda-la tiran a la barranca o grieta?,h0121-7
+"recogida_basura_vivienda-la tiran al río, lago o mar?",h0121-8
+alguna_calefaccion-Sí,h0122-1
+alguna_calefaccion-No,h0122-2
+medio_calefaccion-Aparato o sistema de calefacción,h0123-1
+medio_calefaccion-Calentón,h0123-2
+medio_calefaccion-Resistencia,h0123-3
+medio_calefaccion-Brasero,h0123-4
+medio_calefaccion-Chimenea,h0123-5
+medio_calefaccion-Otro,h0123-6
+combustible_calefaccion-Gas,h0124-1
+combustible_calefaccion-Electricidad,h0124-2
+combustible_calefaccion-Queroseno,h0124-3
+combustible_calefaccion-Carbón mineral,h0124-4
+combustible_calefaccion-Carbón vegetal,h0124-5
+combustible_calefaccion-Leña o madera,h0124-6
+combustible_calefaccion-Residuos agrícolas o de cultivos,h0124-7
+combustible_calefaccion-Estiércol animal,h0124-8
+combustible_calefaccion-Matojos o hierba,h0124-9
+combustible_calefaccion-Otro combustible,h0124-10
+propietario_vivienda-es rentada?,h0125-1
+propietario_vivienda-es prestada?,h0125-2
+propietario_vivienda-es propia pero la están pagando?,h0125-3
+propietario_vivienda-es propia?,h0125-4
+propietario_vivienda-está intestada o en litigio?,h0125-5
+propietario_vivienda-está en otra situación?,h0125-6
+vivienda_calentador_agua-Sí,h0126a-1
+vivienda_calentador_agua-No,h0126a-2
+vivienda_tinaco-Sí,h0126b-1
+vivienda_tinaco-No,h0126b-2
+vivienda_aljibe-Sí,h0126c-1
+vivienda_aljibe-No,h0126c-2
+vivienda_medidor_luz-Sí,h0126d-1
+vivienda_medidor_luz-No,h0126d-2
+vivienda_aire_acondicionado-Sí,h0126e-1
+vivienda_aire_acondicionado-No,h0126e-2
+tiene_otra_propiedad-Sí,h0127a-1
+tiene_otra_propiedad-No,h0127a-2
+tiene_automovil-Sí,h0127b-1
+tiene_automovil-No,h0127b-2
+tiene_camioneta-Sí,h0127c-1
+tiene_camioneta-No,h0127c-2
+tiene_motocicleta-Sí,h0127d-1
+tiene_motocicleta-No,h0127d-2
+tiene_lancha-Sí,h0127e-1
+tiene_lancha-No,h0127e-2
+"ingresos_totales-1- 5,999 pesos",h0327-1
+"ingresos_totales-6,000-9,999 pesos",h0327-2
+"ingresos_totales-10,000-13,999 pesos",h0327-3
+"ingresos_totales-14,000-21,999 pesos",h0327-4
+"ingresos_totales-22,000 o más pesos",h0327-5
+ingresos_totales-No percibieron ingresos,h0327-6
+ingresos_totales-No quiso responder,h0327-8
+ingresos_totales-No sabe,h0327-9
+tienen_television-Sí,h0501a-1
+tienen_television-No,h0501a-2
+tienen_television_paga-Sí,h0501b-1
+tienen_television_paga-No,h0501b-2
+tienen_radio-Sí,h0501c-1
+tienen_radio-No,h0501c-2
+tienen_stereo-Sí,h0501d-1
+tienen_stereo-No,h0501d-2
+tienen_computadora-Sí,h0501e-1
+tienen_computadora-No,h0501e-2
+tienen_celular-Sí,h0501f-1
+tienen_celular-No,h0501f-2
+tienen_internet-Sí,h0501g-1
+tienen_internet-No,h0501g-2
+tienen_telefono_fijo-Sí,h0501h-1
+tienen_telefono_fijo-No,h0501h-2
+tienen_plancha-Sí,h0501i-1
+tienen_plancha-No,h0501i-2
+tienen_licuadora-Sí,h0501j-1
+tienen_licuadora-No,h0501j-2
+tienen_refrigerador-Sí,h0501k-1
+tienen_refrigerador-No,h0501k-2
+tienen_gas-Sí,h0501l-1
+tienen_gas-No,h0501l-2
+tienen_estufa_no_gas-Sí,h0501m-1
+tienen_estufa_no_gas-No,h0501m-2
+tienen_lavadora-Sí,h0501n-1
+tienen_lavadora-No,h0501n-2
+tienen_horno_microondas-Sí,h0501o-1
+tienen_horno_microondas-No,h0501o-2
+falta_alimentos_adultos-Sí,h0701-1
+falta_alimentos_adultos-No,h0701-2
+falta_alimentos_adultos-No responde,h0701-8
+falta_alimentos_adultos-No sabe,h0701-9
+sin_alimentos_adultos-Sí,h0702-1
+sin_alimentos_adultos-No,h0702-2
+sin_alimentos_adultos-No responde,h0702-8
+sin_alimentos_adultos-No sabe,h0702-9
+falta_alimento_nutritivo_adultos-Sí,h0703-1
+falta_alimento_nutritivo_adultos-No,h0703-2
+falta_alimento_nutritivo_adultos-No responde,h0703-8
+falta_alimento_nutritivo_adultos-No sabe,h0703-9
+poca_variedad_alimentos_adulto-Sí,h0704-1
+poca_variedad_alimentos_adulto-No,h0704-2
+poca_variedad_alimentos_adulto-No responde,h0704-8
+poca_variedad_alimentos_adulto-No sabe,h0704-9
+no_comio_alimentos_adulto-Sí,h0705-1
+no_comio_alimentos_adulto-No,h0705-2
+no_comio_alimentos_adulto-No responde,h0705-8
+no_comio_alimentos_adulto-No sabe,h0705-9
+comio_menos_alimentos_adulto-Sí,h0706-1
+comio_menos_alimentos_adulto-No,h0706-2
+comio_menos_alimentos_adulto-No responde,h0706-8
+comio_menos_alimentos_adulto-No sabe,h0706-9
+sintio_hambre_adulto-Sí,h0707-1
+sintio_hambre_adulto-No,h0707-2
+sintio_hambre_adulto-No responde,h0707-8
+sintio_hambre_adulto-No sabe,h0707-9
+una_o no_comida_adulto-Sí,h0708-1
+una_o no_comida_adulto-No,h0708-2
+una_o no_comida_adulto-No responde,h0708-8
+una_o no_comida_adulto-No sabe,h0708-9
+viven_menores_edad-Sí,h0709-1
+viven_menores_edad-No,h0709-2
+falta_alimento_nutritivo_menor-Sí,h0710-1
+falta_alimento_nutritivo_menor-No,h0710-2
+falta_alimento_nutritivo_menor-No responde,h0710-8
+falta_alimento_nutritivo_menor-No sabe,h0710-9
+poca_variedad_alimentos_menor-Sí,h0711-1
+poca_variedad_alimentos_menor-No,h0711-2
+poca_variedad_alimentos_menor-No responde,h0711-8
+poca_variedad_alimentos_menor-No sabe,h0711-9
+no_comio_alimentos_menor-Sí,h0712-1
+no_comio_alimentos_menor-No,h0712-2
+no_comio_alimentos_menor-No responde,h0712-8
+no_comio_alimentos_menor-No sabe,h0712-9
+comio_menos_alimentos_menor-Sí,h0713-1
+comio_menos_alimentos_menor-No,h0713-2
+comio_menos_alimentos_menor-No responde,h0713-8
+comio_menos_alimentos_menor-No sabe,h0713-9
+disminuir_alimento_menor-Sí,h0714-1
+disminuir_alimento_menor-No,h0714-2
+disminuir_alimento_menor-No responde,h0714-8
+disminuir_alimento_menor-No sabe,h0714-9
+sintio_hambre_menor-Sí,h0715-1
+sintio_hambre_menor-No,h0715-2
+sintio_hambre_menor-No responde,h0715-8
+sintio_hambre_menor-No sabe,h0715-9
+una_o no_comida_menor-Sí,h0716-1
+una_o no_comida_menor-No,h0716-2
+una_o no_comida_menor-No responde,h0716-8
+una_o no_comida_menor-No sabe,h0716-9
+preocupacion_acceso_agua-Nunca (0 veces en las últimas 4 semanas),h0801-1
+preocupacion_acceso_agua-Raramente (1-2 veces en las últimas 4 semanas),h0801-2
+preocupacion_acceso_agua-A veces (3-10 veces en las últimas 4 semanas),h0801-3
+preocupacion_acceso_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0801-4
+preocupacion_acceso_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0801-5
+preocupacion_acceso_agua-No aplica,h0801-88
+preocupacion_acceso_agua-No sabe,h0801-99
+disminucion_acceso_agua-Nunca (0 veces en las últimas 4 semanas),h0802-1
+disminucion_acceso_agua-Raramente (1-2 veces en las últimas 4 semanas),h0802-2
+disminucion_acceso_agua-A veces (3-10 veces en las últimas 4 semanas),h0802-3
+disminucion_acceso_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0802-4
+disminucion_acceso_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0802-5
+disminucion_acceso_agua-No aplica,h0802-88
+disminucion_acceso_agua-No sabe,h0802-99
+agua_lavar_ropa-Nunca (0 veces en las últimas 4 semanas),h0803-1
+agua_lavar_ropa-Raramente (1-2 veces en las últimas 4 semanas),h0803-2
+agua_lavar_ropa-A veces (3-10 veces en las últimas 4 semanas),h0803-3
+agua_lavar_ropa-Frecuentemente (11-20 veces en las últimas 4 semana),h0803-4
+agua_lavar_ropa-Siempre (Más de 20 veces en las últimas 4 semanas),h0803-5
+agua_lavar_ropa-No aplica,h0803-88
+agua_lavar_ropa-No sabe,h0803-99
+cambio_planes_falta_agua-Nunca (0 veces en las últimas 4 semanas),h0804-1
+cambio_planes_falta_agua-Raramente (1-2 veces en las últimas 4 semanas),h0804-2
+cambio_planes_falta_agua-A veces (3-10 veces en las últimas 4 semanas),h0804-3
+cambio_planes_falta_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0804-4
+cambio_planes_falta_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0804-5
+cambio_planes_falta_agua-No aplica,h0804-88
+cambio_planes_falta_agua-No sabe,h0804-99
+cambio_comida_falta_agua-Nunca (0 veces en las últimas 4 semanas),h0805-1
+cambio_comida_falta_agua-Raramente (1-2 veces en las últimas 4 semanas),h0805-2
+cambio_comida_falta_agua-A veces (3-10 veces en las últimas 4 semanas),h0805-3
+cambio_comida_falta_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0805-4
+cambio_comida_falta_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0805-5
+cambio_comida_falta_agua-No aplica,h0805-88
+cambio_comida_falta_agua-No sabe,h0805-99
+no_lavado_manos_falta_agua-Nunca (0 veces en las últimas 4 semanas),h0806-1
+no_lavado_manos_falta_agua-Raramente (1-2 veces en las últimas 4 semanas),h0806-2
+no_lavado_manos_falta_agua-A veces (3-10 veces en las últimas 4 semanas),h0806-3
+no_lavado_manos_falta_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0806-4
+no_lavado_manos_falta_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0806-5
+no_lavado_manos_falta_agua-No aplica,h0806-88
+no_lavado_manos_falta_agua-No sabe,h0806-99
+no_banio_falta_agua-Nunca (0 veces en las últimas 4 semanas),h0807-1
+no_banio_falta_agua-Raramente (1-2 veces en las últimas 4 semanas),h0807-2
+no_banio_falta_agua-A veces (3-10 veces en las últimas 4 semanas),h0807-3
+no_banio_falta_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0807-4
+no_banio_falta_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0807-5
+no_banio_falta_agua-No aplica,h0807-88
+no_banio_falta_agua-No sabe,h0807-99
+no_pudo_beber_agua-Nunca (0 veces en las últimas 4 semanas),h0808-1
+no_pudo_beber_agua-Raramente (1-2 veces en las últimas 4 semanas),h0808-2
+no_pudo_beber_agua-A veces (3-10 veces en las últimas 4 semanas),h0808-3
+no_pudo_beber_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0808-4
+no_pudo_beber_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0808-5
+no_pudo_beber_agua-No aplica,h0808-88
+no_pudo_beber_agua-No sabe,h0808-99
+molestias_falta_agua-Nunca (0 veces en las últimas 4 semanas),h0809-1
+molestias_falta_agua-Raramente (1-2 veces en las últimas 4 semanas),h0809-2
+molestias_falta_agua-A veces (3-10 veces en las últimas 4 semanas),h0809-3
+molestias_falta_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0809-4
+molestias_falta_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0809-5
+molestias_falta_agua-No aplica,h0809-88
+molestias_falta_agua-No sabe,h0809-99
+no_durmio_falta_agua-Nunca (0 veces en las últimas 4 semanas),h0810-1
+no_durmio_falta_agua-Raramente (1-2 veces en las últimas 4 semanas),h0810-2
+no_durmio_falta_agua-A veces (3-10 veces en las últimas 4 semanas),h0810-3
+no_durmio_falta_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0810-4
+no_durmio_falta_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0810-5
+no_durmio_falta_agua-No aplica,h0810-88
+no_durmio_falta_agua-No sabe,h0810-99
+frecuencia_uso_agua_no_potable-Nunca (0 veces en las últimas 4 semanas),h0811-1
+frecuencia_uso_agua_no_potable-Raramente (1-2 veces en las últimas 4 semanas),h0811-2
+frecuencia_uso_agua_no_potable-A veces (3-10 veces en las últimas 4 semanas),h0811-3
+frecuencia_uso_agua_no_potable-Frecuentemente (11-20 veces en las últimas 4 semana),h0811-4
+frecuencia_uso_agua_no_potable-Siempre (Más de 20 veces en las últimas 4 semanas),h0811-5
+frecuencia_uso_agua_no_potable-No aplica,h0811-88
+frecuencia_uso_agua_no_potable-No sabe,h0811-99
+sintio_vergüenza_falta_agua-Nunca (0 veces en las últimas 4 semanas),h0812-1
+sintio_vergüenza_falta_agua-Raramente (1-2 veces en las últimas 4 semanas),h0812-2
+sintio_vergüenza_falta_agua-A veces (3-10 veces en las últimas 4 semanas),h0812-3
+sintio_vergüenza_falta_agua-Frecuentemente (11-20 veces en las últimas 4 semana),h0812-4
+sintio_vergüenza_falta_agua-Siempre (Más de 20 veces en las últimas 4 semanas),h0812-5
+sintio_vergüenza_falta_agua-No aplica,h0812-88
+sintio_vergüenza_falta_agua-No sabe,h0812-99
+personas_60_mas-Sí,h0901a-1
+personas_60_mas-No,h0901a-2
+personas_5_menos-Sí,h0901b-1
+personas_5_menos-No,h0901b-2
+personas_embarazadas-Sí,h0901c-1
+personas_embarazadas-No,h0901c-2
+conocimiento_covid-Enfermedad crónica,h1001-1
+conocimiento_covid-Enfermedad infecciosa causada por un virus,h1001-2
+conocimiento_covid-Enfermedad renal,h1001-3
+conocimiento_covid-Enfermedad causada por estrés o ansiedad,h1001-4
+conocimiento_covid-No existe esta enfermedad,h1001-5
+conocimiento_covid-No sabe,h1001-6
+conocimiento_covid-Otro (especifique),h1001-7
+conocimiento_covid-No desea responder,h1001-8
+uso_cubrebocas-Nada,h1002-1
+uso_cubrebocas-Pocas veces,h1002-2
+uso_cubrebocas-A veces,h1002-3
+uso_cubrebocas-Casi siempre,h1002-4
+uso_cubrebocas-Siempre,h1002-5
+quedarse_en_casa-Nada,h1004-1
+quedarse_en_casa-Pocas veces,h1004-2
+quedarse_en_casa-A veces,h1004-3
+quedarse_en_casa-Casi siempre,h1004-4
+quedarse_en_casa-Siempre,h1004-5
+excepciones_quedar_casa_1-Por trabajo,h1005a-1
+excepciones_quedar_casa_1-Comprar insumos indispensables para el hogar,h1005a-2
+excepciones_quedar_casa_1-Necesidad en salud,h1005a-3
+excepciones_quedar_casa_1-No creo estar en riesgo,h1005a-4
+excepciones_quedar_casa_1-Necesidad de contacto humano,h1005a-5
+excepciones_quedar_casa_1-No creo que funcione esta medida,h1005a-6
+excepciones_quedar_casa_1-No me interesa cumplir con esa medida),h1005a-7
+excepciones_quedar_casa_1-Sale a ejercitarse,h1005a-8
+excepciones_quedar_casa_1-Lleva a los niños a la escuela,h1005a-9
+excepciones_quedar_casa_1-Otro especificar,h1005a-10
+excepciones_quedar_casa_2-Por trabajo,h1005b-1
+excepciones_quedar_casa_2-Comprar insumos indispensables para el hogar,h1005b-2
+excepciones_quedar_casa_2-Necesidad en salud,h1005b-3
+excepciones_quedar_casa_2-No creo estar en riesgo,h1005b-4
+excepciones_quedar_casa_2-Necesidad de contacto humano,h1005b-5
+excepciones_quedar_casa_2-No creo que funcione esta medida,h1005b-6
+excepciones_quedar_casa_2-No me interesa cumplir con esa medida),h1005b-7
+excepciones_quedar_casa_2-Sale a ejercitarse,h1005b-8
+excepciones_quedar_casa_2-Lleva a los niños a la escuela,h1005b-9
+excepciones_quedar_casa_2-Otro especificar,h1005b-10
+visita_lugares_concurridos-Nada,h1006-1
+visita_lugares_concurridos-Pocas veces,h1006-2
+visita_lugares_concurridos-A veces,h1006-3
+visita_lugares_concurridos-Casi siempre,h1006-4
+visita_lugares_concurridos-Siempre,h1006-5
+asistio_lugares_concurridos_1-Por trabajo,h1007a-1
+asistio_lugares_concurridos_1-Comprar insumos indispensables para el hogar,h1007a-2
+asistio_lugares_concurridos_1-Necesidad en salud,h1007a-3
+asistio_lugares_concurridos_1-No creo estar en riesgo,h1007a-4
+asistio_lugares_concurridos_1-Necesidad de contacto humano,h1007a-5
+asistio_lugares_concurridos_1-No creo que funcione esta medida,h1007a-6
+asistio_lugares_concurridos_1-No me interesa cumplir con esa medida,h1007a-7
+asistio_lugares_concurridos_1-Por hacer ejercicio en lugares cerrados (como gimnasios),h1007a-8
+asistio_lugares_concurridos_1-Otro especificar,h1007a-9
+asistio_lugares_concurridos_2-Por trabajo,h1007b-1
+asistio_lugares_concurridos_2-Comprar insumos indispensables para el hogar,h1007b-2
+asistio_lugares_concurridos_2-Necesidad en salud,h1007b-3
+asistio_lugares_concurridos_2-No creo estar en riesgo,h1007b-4
+asistio_lugares_concurridos_2-Necesidad de contacto humano,h1007b-5
+asistio_lugares_concurridos_2-No creo que funcione esta medida,h1007b-6
+asistio_lugares_concurridos_2-No me interesa cumplir con esa medida,h1007b-7
+asistio_lugares_concurridos_2-Por hacer ejercicio en lugares cerrados (como gimnasios),h1007b-8
+asistio_lugares_concurridos_2-Otro especificar,h1007b-9
+medidas_seguridad_escuela-Sí,h1103a-1
+medidas_seguridad_escuela-No,h1103a-2
+medidas_seguridad_escuela-No Sabe,h1103a-3
+toman_temperatura_escuela-Sí,h1103b-1
+toman_temperatura_escuela-No,h1103b-2
+toman_temperatura_escuela-No Sabe,h1103b-3
+usan_gel_escuela-Sí,h1103c-1
+usan_gel_escuela-No,h1103c-2
+usan_gel_escuela-No Sabe,h1103c-3
+uso_cubrebocas_escuela-Sí,h1103d-1
+uso_cubrebocas_escuela-No,h1103d-2
+uso_cubrebocas_escuela-No Sabe,h1103d-3
+uso_careta_escuela-Sí,h1103e-1
+uso_careta_escuela-No,h1103e-2
+uso_careta_escuela-No Sabe,h1103e-3
+evitar_saludos_escuela-Sí,h1103f-1
+evitar_saludos_escuela-No,h1103f-2
+evitar_saludos_escuela-No Sabe,h1103f-3
+lavodo_manos_escuela-Sí,h1103g-1
+lavodo_manos_escuela-No,h1103g-2
+lavodo_manos_escuela-No Sabe,h1103g-3
+asisten_gripe_escuela-Sí,h1103h-1
+asisten_gripe_escuela-No,h1103h-2
+asisten_gripe_escuela-No Sabe,h1103h-3
+desinfectan_areas_escuela-Sí,h1103i-1
+desinfectan_areas_escuela-No,h1103i-2
+desinfectan_areas_escuela-No Sabe,h1103i-3
+escaldo_acceso_escuela-Sí,h1103j-1
+escaldo_acceso_escuela-No,h1103j-2
+escaldo_acceso_escuela-No Sabe,h1103j-3
+escalado_recreso_escuela-Sí,h1103k-1
+escalado_recreso_escuela-No,h1103k-2
+escalado_recreso_escuela-No Sabe,h1103k-3
+horarios_banio_escuela-Sí,h1103l-1
+horarios_banio_escuela-No,h1103l-2
+horarios_banio_escuela-No Sabe,h1103l-3
+sana_distancia_escuela-Sí,h1103m-1
+sana_distancia_escuela-No,h1103m-2
+sana_distancia_escuela-No Sabe,h1103m-3
+sana_distancia_asientos_escuela-Sí,h1103n-1
+sana_distancia_asientos_escuela-No,h1103n-2
+sana_distancia_asientos_escuela-No Sabe,h1103n-3
+acceso_exclusivo_maestros-Sí,h1103o-1
+acceso_exclusivo_maestros-No,h1103o-2
+acceso_exclusivo_maestros-No Sabe,h1103o-3
+traen_gel_hogar-Sí,h1104a-1
+traen_gel_hogar-No,h1104a-2
+traen_cubrebocas_hgar-Sí,h1104b-1
+traen_cubrebocas_hgar-No,h1104b-2
+traen_careta_hogar-Sí,h1104c-1
+traen_careta_hogar-No,h1104c-2
+traen_jabon_hogar-Sí,h1104d-1
+traen_jabon_hogar-No,h1104d-2
+consumo_frutas_covid-Aumentó ?,h1301-1
+consumo_frutas_covid-Disminuyó ?,h1301-2
+consumo_frutas_covid-Fue igual ?,h1301-3
+consumo_frutas_covid-No sabe/no responde,h1301-4
+consumo_verduras_covid-Aumentó ?,h1302-1
+consumo_verduras_covid-Disminuyó ?,h1302-2
+consumo_verduras_covid-Fue igual ?,h1302-3
+consumo_verduras_covid-No sabe/no responde,h1302-4
+consumo_legumbres_covid-Aumentó ?,h1303-1
+consumo_legumbres_covid-Disminuyó ?,h1303-2
+consumo_legumbres_covid-Fue igual ?,h1303-3
+consumo_legumbres_covid-No sabe/no responde,h1303-4
+consumo_carnes_covid-Aumentó ?,h1304-1
+consumo_carnes_covid-Disminuyó ?,h1304-2
+consumo_carnes_covid-Fue igual ?,h1304-3
+consumo_carnes_covid-No sabe/no responde,h1304-4
+consumo_leche__covid-Aumentó ?,h1305-1
+consumo_leche__covid-Disminuyó ?,h1305-2
+consumo_leche__covid-Fue igual ?,h1305-3
+consumo_leche__covid-No sabe/no responde,h1305-4
+consumo_tortillas_covid-Aumentó ?,h1306-1
+consumo_tortillas_covid-Disminuyó ?,h1306-2
+consumo_tortillas_covid-Fue igual ?,h1306-3
+consumo_tortillas_covid-No sabe/no responde,h1306-4
+consumo_harina_covid-Aumentó ?,h1307-1
+consumo_harina_covid-Disminuyó ?,h1307-2
+consumo_harina_covid-Fue igual ?,h1307-3
+consumo_harina_covid-No sabe/no responde,h1307-4
+consumo_dulces_covid-Aumentó ?,h1308-1
+consumo_dulces_covid-Disminuyó ?,h1308-2
+consumo_dulces_covid-Fue igual ?,h1308-3
+consumo_dulces_covid-No sabe/no responde,h1308-4
+consumo_botanas_covid-Aumentó ?,h1309-1
+consumo_botanas_covid-Disminuyó ?,h1309-2
+consumo_botanas_covid-Fue igual ?,h1309-3
+consumo_botanas_covid-No sabe/no responde,h1309-4
+consumo_pan_dulce_covid-Aumentó ?,h1310-1
+consumo_pan_dulce_covid-Disminuyó ?,h1310-2
+consumo_pan_dulce_covid-Fue igual ?,h1310-3
+consumo_pan_dulce_covid-No sabe/no responde,h1310-4
+consumo_refrescos_covid-Aumentó ?,h1311-1
+consumo_refrescos_covid-Disminuyó ?,h1311-2
+consumo_refrescos_covid-Fue igual ?,h1311-3
+consumo_refrescos_covid-No sabe/no responde,h1311-4
+cambio_gastos_hogar-más altos?,h1401-1
+cambio_gastos_hogar-iguales?,h1401-2
+cambio_gastos_hogar-más bajos?,h1401-3
+cambio_gastos _alimentos-más altos?,h1402-1
+cambio_gastos _alimentos-iguales?,h1402-2
+cambio_gastos _alimentos-más bajos?,h1402-3
+acude_al_trabajo-Sí,h1501-1
+acude_al_trabajo-No,h1501-2
+acude_al_trabajo-No aplica,h1501-3
+mes_regreso_al_trabajo-Enero,h1502m-1
+mes_regreso_al_trabajo-Febrero,h1502m-2
+mes_regreso_al_trabajo-Marzo,h1502m-3
+mes_regreso_al_trabajo-Abril,h1502m-4
+mes_regreso_al_trabajo-Mayo,h1502m-5
+mes_regreso_al_trabajo-Junio,h1502m-6
+mes_regreso_al_trabajo-Julio,h1502m-7
+mes_regreso_al_trabajo-Agosto,h1502m-8
+mes_regreso_al_trabajo-Septiembre,h1502m-9
+mes_regreso_al_trabajo-Octubre,h1502m-10
+mes_regreso_al_trabajo-Noviembre,h1502m-11
+mes_regreso_al_trabajo-Diciembre,h1502m-12
+mes_regreso_al_trabajo-Nunca dejó de asistir a su trabajo,h1502m-66
+anio_regreso_al_trabajo-2020,h1502a-2020
+anio_regreso_al_trabajo-2021,h1502a-2021
+anio_regreso_al_trabajo-Nunca dejó de asistir a su trabajo,h1502a-6666
+sana_distancia_trabajo-Muy frecuentemente,h1503-1
+sana_distancia_trabajo-Frecuentemente,h1503-2
+sana_distancia_trabajo-Ocasionalmente,h1503-3
+sana_distancia_trabajo-Rara vez,h1503-4
+sana_distancia_trabajo-Nunca,h1503-5
+hay_gel_trabajo-Muy frecuentemente,h1504-1
+hay_gel_trabajo-Frecuentemente,h1504-2
+hay_gel_trabajo-Ocasionalmente,h1504-3
+hay_gel_trabajo-Rara vez,h1504-4
+hay_gel_trabajo-Nunca,h1504-5
+hay_jabon_trabajo-Muy frecuentemente,h1505-1
+hay_jabon_trabajo-Frecuentemente,h1505-2
+hay_jabon_trabajo-Ocasionalmente,h1505-3
+hay_jabon_trabajo-Rara vez,h1505-4
+hay_jabon_trabajo-Nunca,h1505-5
+usan_cubrebocas_trabajo-Muy frecuentemente,h1506-1
+usan_cubrebocas_trabajo-Frecuentemente,h1506-2
+usan_cubrebocas_trabajo-Ocasionalmente,h1506-3
+usan_cubrebocas_trabajo-Rara vez,h1506-4
+usan_cubrebocas_trabajo-Nunca,h1506-5
+potencian_trabajo_distancia-Muy frecuentemente,h1507-1
+potencian_trabajo_distancia-Frecuentemente,h1507-2
+potencian_trabajo_distancia-Ocasionalmente,h1507-3
+potencian_trabajo_distancia-Rara vez,h1507-4
+potencian_trabajo_distancia-Nunca,h1507-5
+trabajan_personas_60_mas-Muy frecuentemente,h1508-1
+trabajan_personas_60_mas-Frecuentemente,h1508-2
+trabajan_personas_60_mas-Ocasionalmente,h1508-3
+trabajan_personas_60_mas-Rara vez,h1508-4
+trabajan_personas_60_mas-Nunca,h1508-5
+acuben_personas_hipertencion-Muy frecuentemente,h1509-1
+acuben_personas_hipertencion-Frecuentemente,h1509-2
+acuben_personas_hipertencion-Ocasionalmente,h1509-3
+acuben_personas_hipertencion-Rara vez,h1509-4
+acuben_personas_hipertencion-Nunca,h1509-5
+acceso_escalonado_trabajo-Sí,h1510-1
+acceso_escalonado_trabajo-No,h1510-2
+cuenta_tiempo_lavado_manos-Sí,h1511-1
+cuenta_tiempo_lavado_manos-No,h1511-2
+hogar_compra_solo_uno-Muy frecuentemente,h1513-1
+hogar_compra_solo_uno-Frecuentemente,h1513-2
+hogar_compra_solo_uno-Ocasionalmente,h1513-3
+hogar_compra_solo_uno-Rara vez,h1513-4
+hogar_compra_solo_uno-Nunca,h1513-5
+sanitizan_compras_casa-Muy frecuentemente,h1514-1
+sanitizan_compras_casa-Frecuentemente,h1514-2
+sanitizan_compras_casa-Ocasionalmente,h1514-3
+sanitizan_compras_casa-Rara vez,h1514-4
+sanitizan_compras_casa-Nunca,h1514-5
+fines_semana_casa-Muy frecuentemente,h1515-1
+fines_semana_casa-Frecuentemente,h1515-2
+fines_semana_casa-Ocasionalmente,h1515-3
+fines_semana_casa-Rara vez,h1515-4
+fines_semana_casa-Nunca,h1515-5
+recibido_visita_hogar-Muy frecuentemente,h1516-1
+recibido_visita_hogar-Frecuentemente,h1516-2
+recibido_visita_hogar-Ocasionalmente,h1516-3
+recibido_visita_hogar-Rara vez,h1516-4
+recibido_visita_hogar-Nunca,h1516-5
+tenido_reuniones_externos-Muy frecuentemente,h1517-1
+tenido_reuniones_externos-Frecuentemente,h1517-2
+tenido_reuniones_externos-Ocasionalmente,h1517-3
+tenido_reuniones_externos-Rara vez,h1517-4
+tenido_reuniones_externos-Nunca,h1517-5
+estudiante_continuan_virtual-Sí,h1518-1
+estudiante_continuan_virtual-No,h1518-2
+estudiante_continuan_virtual-No aplica,h1518-9
+sexo-Hombre,h0302-1
+sexo-Mujer,h0302-2
+dia_nacimiento-01,h0304d-1
+dia_nacimiento-02,h0304d-2
+dia_nacimiento-03,h0304d-3
+dia_nacimiento-04,h0304d-4
+dia_nacimiento-05,h0304d-5
+dia_nacimiento-06,h0304d-6
+dia_nacimiento-07,h0304d-7
+dia_nacimiento-08,h0304d-8
+dia_nacimiento-09,h0304d-9
+dia_nacimiento-10,h0304d-10
+dia_nacimiento-11,h0304d-11
+dia_nacimiento-12,h0304d-12
+dia_nacimiento-13,h0304d-13
+dia_nacimiento-14,h0304d-14
+dia_nacimiento-15,h0304d-15
+dia_nacimiento-16,h0304d-16
+dia_nacimiento-17,h0304d-17
+dia_nacimiento-18,h0304d-18
+dia_nacimiento-19,h0304d-19
+dia_nacimiento-20,h0304d-20
+dia_nacimiento-21,h0304d-21
+dia_nacimiento-22,h0304d-22
+dia_nacimiento-23,h0304d-23
+dia_nacimiento-24,h0304d-24
+dia_nacimiento-25,h0304d-25
+dia_nacimiento-26,h0304d-26
+dia_nacimiento-27,h0304d-27
+dia_nacimiento-28,h0304d-28
+dia_nacimiento-29,h0304d-29
+dia_nacimiento-30,h0304d-30
+dia_nacimiento-31,h0304d-31
+dia_nacimiento-No sabe,h0304d-99
+mes_nacimiento-Enero,h0304m-1
+mes_nacimiento-Febrero,h0304m-2
+mes_nacimiento-Marzo,h0304m-3
+mes_nacimiento-Abril,h0304m-4
+mes_nacimiento-Mayo,h0304m-5
+mes_nacimiento-Junio,h0304m-6
+mes_nacimiento-Julio,h0304m-7
+mes_nacimiento-Agosto,h0304m-8
+mes_nacimiento-Septiembre,h0304m-9
+mes_nacimiento-Octubre,h0304m-10
+mes_nacimiento-Noviembre,h0304m-11
+mes_nacimiento-Diciembre,h0304m-12
+mes_nacimiento-No sabe,h0304m-99
+parentezco-Jefa(e),h0305-1
+parentezco-Esposa(o) o pareja,h0305-2
+parentezco-Hija(o),h0305-3
+parentezco-Nieta(o),h0305-4
+parentezco-Nuera o yerno,h0305-5
+parentezco-Madre o Padre,h0305-6
+parentezco-Suegra(o),h0305-7
+parentezco-Otro,h0305-8
+parentezco-Sin parentesco,h0305-9
+vive_con_alguien-Sí,int_nuevo-1
+vive_con_alguien-No,int_nuevo-2
+"lugar_nacimiento-Aquí, en este estado",h0306-1
+lugar_nacimiento-En otro estado,h0306-2
+lugar_nacimiento-En Estados Unidos de América,h0306-3
+lugar_nacimiento-En otro país,h0306-4
+estado_nacimiento-01 AGUASCALIENTES,h0306e-1
+estado_nacimiento-02 BAJA CALIFORNIA,h0306e-2
+estado_nacimiento-03 BAJA CALIFORNIA SUR,h0306e-3
+estado_nacimiento-04 CAMPECHE,h0306e-4
+estado_nacimiento-05 COAHUILA DE ZARAGOZA,h0306e-5
+estado_nacimiento-06 COLIMA,h0306e-6
+estado_nacimiento-07 CHIAPAS,h0306e-7
+estado_nacimiento-08 CHIHUAHUA,h0306e-8
+estado_nacimiento-09 CIUDAD DE MÉXICO,h0306e-9
+estado_nacimiento-10 DURANGO,h0306e-10
+estado_nacimiento-11 GUANAJUATO,h0306e-11
+estado_nacimiento-12 GUERRERO,h0306e-12
+estado_nacimiento-13 HIDALGO,h0306e-13
+estado_nacimiento-14 JALISCO,h0306e-14
+estado_nacimiento-15 MÉXICO,h0306e-15
+estado_nacimiento-16 MICHOACÁN DE OCAMPO,h0306e-16
+estado_nacimiento-17 MORELOS,h0306e-17
+estado_nacimiento-18 NAYARIT,h0306e-18
+estado_nacimiento-19 NUEVO LEÓN,h0306e-19
+estado_nacimiento-20 OAXACA,h0306e-20
+estado_nacimiento-21 PUEBLA,h0306e-21
+estado_nacimiento-22 QUERÉTARO,h0306e-22
+estado_nacimiento-23 QUINTANA ROO,h0306e-23
+estado_nacimiento-24 SAN LUIS POTOSÍ,h0306e-24
+estado_nacimiento-25 SINALOA,h0306e-25
+estado_nacimiento-26 SONORA,h0306e-26
+estado_nacimiento-27 TABASCO,h0306e-27
+estado_nacimiento-28 TAMAULIPAS,h0306e-28
+estado_nacimiento-29 TLAXCALA,h0306e-29
+estado_nacimiento-30 VERACRUZ DE IGNACIO DE LA LLAVE,h0306e-30
+estado_nacimiento-31 YUCATÁN,h0306e-31
+estado_nacimiento-32 ZACATECAS,h0306e-32
+vive_aqui-Sí,h0307-1
+"vive_aqui-No, vive en otro lugar",h0307-2
+"vive_aqui-No, ya falleció",h0307-3
+vive_aqui-Matrimonio igualitario,h0307-8
+vive_aqui-NS/NR,h0307-9
+vive_aqui_padre-Sí,h0308-1
+"vive_aqui_padre-No, vive en otro lugar",h0308-2
+"vive_aqui_padre-No, ya falleció",h0308-3
+vive_aqui_padre-Matrimonio igualitario,h0308-8
+vive_aqui_padre-NS/NR,h0308-9
+servicio_salud-Instituto Mexicano del Seguro Social (IMSS),h0309-1
+servicio_salud-ISSSTE/ ISSSTE Estatal,h0309-2
+servicio_salud-PEMEX,h0309-3
+servicio_salud-Defensa,h0309-4
+servicio_salud-Marina,h0309-5
+servicio_salud-Centros de Salud u Hospital de la SSA,h0309-6
+servicio_salud-IMSS BIENESTAR (antes Oportunidades),h0309-7
+"servicio_salud-DIF federal, estatal o municipal",h0309-8
+servicio_salud-Cruz Roja/ Cruz Verde,h0309-9
+servicio_salud-Instituto Nacional de Salud,h0309-10
+servicio_salud-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,h0309-11
+servicio_salud-Consultorios pertenecientes a farmacias/Farmacias con consul,h0309-12
+servicio_salud-Consultorio dentro de hospital privado,h0309-13
+servicio_salud-Área de urgencias/hospitalización dentro de hospital privado,h0309-14
+servicio_salud-Atención privada en torre de consultorios médicos o en una c,h0309-15
+servicio_salud-Consultorio en domicilio particular de médico privado,h0309-16
+servicio_salud-Atención privada en mi domicilio,h0309-17
+"servicio_salud-Atención privada vía remota (teléfono, mensajes de texto, te",h0309-18
+servicio_salud-Médico laboral (médico de la empresa),h0309-19
+"servicio_salud-Curandero, hierbero, naturista",h0309-20
+"servicio_salud-Homeópata, partera, acupunturista",h0309-21
+servicio_salud-Otro (especifique),h0309-22
+servicio_salud-No sabe / No recuerda,h0309-23
+servicio_salud_1-del Seguro Social (IMSS)?,h0310a-1
+servicio_salud_1-del  ISSSTE?,h0310a-2
+servicio_salud_1-del ISSSTE Estatal?,h0310a-3
+servicio_salud_1-de Pemex?,h0310a-4
+servicio_salud_1-de Defensa?,h0310a-5
+servicio_salud_1-de Marina?,h0310a-6
+servicio_salud_1-de IMSS BIENESTAR (antes Oportunidades)?,h0310a-7
+servicio_salud_1-de un seguro privado de gastos médicos?,h0310a-8
+servicio_salud_1-de otra institución? (especifique),h0310a-9
+servicio_salud_1-No está afiliado o inscrito  a servicios médicos? (Incluya I,h0310a-10
+servicio_salud_1-Tenía Seguro Popular durante el 2018,h0310a-11
+servicio_salud_1-NS/NR,h0310a-99
+servicio_salud_2-del Seguro Social (IMSS)?,h0310b-1
+servicio_salud_2-del  ISSSTE?,h0310b-2
+servicio_salud_2-del ISSSTE Estatal?,h0310b-3
+servicio_salud_2-de Pemex?,h0310b-4
+servicio_salud_2-de Defensa?,h0310b-5
+servicio_salud_2-de Marina?,h0310b-6
+servicio_salud_2-de IMSS BIENESTAR (antes Oportunidades)?,h0310b-7
+servicio_salud_2-de un seguro privado de gastos médicos?,h0310b-8
+servicio_salud_2-de otra institución? (especifique),h0310b-9
+servicio_salud_2-No está afiliado o inscrito  a servicios médicos? (Incluya I,h0310b-10
+servicio_salud_2-Tenía Seguro Popular durante el 2018,h0310b-11
+servicio_salud_2-NS/NR,h0310b-99
+lengua_indigena-Sí,h0311-1
+lengua_indigena-No,h0311-2
+lengua_espaniol-Sí,h0312-1
+lengua_espaniol-No,h0312-2
+asiste_escuela-Sí,h0313-1
+asiste_escuela-No,h0313-2
+tipo_escuela-pública?,h0314-1
+tipo_escuela-privada?,h0314-2
+turno_clases-Matutino,h0315-1
+turno_clases-Vespertino,h0315-2
+turno_clases-Turno completo o mixto,h0315-3
+turno_clases-Turno sabatino o flexible,h0315-4
+razon_no_asiste_clases-Se embarazó o tuvo un hijo,h0316-1
+razon_no_asiste_clases-Se casó o unió,h0316-2
+razon_no_asiste_clases-No había escuela o no había cupo,h0316-3
+razon_no_asiste_clases-Problemas personales o académicos en la escuela,h0316-4
+razon_no_asiste_clases-Por enfermedad y/o discapacidad,h0316-5
+razon_no_asiste_clases-No tenía la edad cumplida,h0316-6
+razon_no_asiste_clases-Por falta de dinero o trabajo,h0316-7
+razon_no_asiste_clases-No quiso o no le gustó estudiar,h0316-8
+razon_no_asiste_clases-Logró su meta educativa,h0316-9
+razon_no_asiste_clases-Nunca ha ido a la escuela,h0316-10
+razon_no_asiste_clases-Otro motivo,h0316-11
+ultimo_nivel_estudios-Preescolar,h0317a-1
+ultimo_nivel_estudios-Primaria,h0317a-2
+ultimo_nivel_estudios-Secundaria,h0317a-3
+ultimo_nivel_estudios-Preparatoria o Bachillerato,h0317a-4
+ultimo_nivel_estudios-Normal básica,h0317a-5
+ultimo_nivel_estudios-Estudios técnicos o comerciales con primaria terminada,h0317a-6
+ultimo_nivel_estudios-Estudios técnicos o comerciales con secundaria terminada,h0317a-7
+ultimo_nivel_estudios-Estudios técnicos o comerciales con preparatoria terminada,h0317a-8
+ultimo_nivel_estudios-Normal de licenciatura,h0317a-9
+ultimo_nivel_estudios-Licenciatura o profesional,h0317a-10
+ultimo_nivel_estudios-Maestría,h0317a-11
+ultimo_nivel_estudios-Doctorado,h0317a-12
+ultimo_grado_estudios-1° Grado,h0317g-1
+ultimo_grado_estudios-2° Grado,h0317g-2
+ultimo_grado_estudios-3° Grado,h0317g-3
+ultimo_grado_estudios-4° Grado,h0317g-4
+ultimo_grado_estudios-5° Grado,h0317g-5
+ultimo_grado_estudios-6° Grado,h0317g-6
+leer_escribir_recado-Sí,h0318-1
+leer_escribir_recado-No,h0318-2
+estado_civil-vive con su pareja en unión libre?,h0319-1
+estado_civil-está separada(o) de una union libre?,h0319-2
+estado_civil-está separada(o) de un matrimonio?,h0319-3
+estado_civil-está divorciada(o)?,h0319-4
+estado_civil-está viuda(o)?,h0319-5
+estado_civil-está casada(o) civil o religiosamente?,h0319-6
+estado_civil-está soltera(o)?,h0319-7
+vive_conyuge-Sí,h0320-1
+"vive_conyuge-No, vive en otro lugar",h0320-2
+"vive_conyuge-No, ya falleció",h0320-3
+vive_conyuge-Matrimonio igualitario,h0320-8
+vive_conyuge-No sabe,h0320-9
+trabajo_semana_anterior-Sí,h0321-1
+trabajo_semana_anterior-No,h0321-2
+otro_trabajo_semana_pasada-ayudó en un negocio familiar?,h0322-1
+otro_trabajo_semana_pasada-vendió o hizo algún producto para vender?,h0322-2
+otro_trabajo_semana_pasada-ayudó en las labores del campo o en la cría de animales?,h0322-3
+"otro_trabajo_semana_pasada-a cambio de un pago, realizó otro tipo de actividad? (cortar",h0322-4
+"otro_trabajo_semana_pasada-tenia trabajo, pero estuvo ausente?",h0322-5
+"otro_trabajo_semana_pasada-no ayudó, ni trabajo?",h0322-6
+semana_pasada_hizo-busco trabajo?,h0323-1
+semana_pasada_hizo-se dedicó a los quehaceres del hogar?,h0323-2
+semana_pasada_hizo-es estudiante?,h0323-3
+semana_pasada_hizo-es pensionada(o) o jubilada(o)?,h0323-4
+semana_pasada_hizo-tiene discapacidad permenente que le impida trabajar?,h0323-5
+semana_pasada_hizo-¿Otra situación?,h0323-6
+puesto-empleada(o)?,h0324-1
+puesto-obrera(o)?,h0324-2
+puesto-jornalera(o) o peona (ón)?,h0324-3
+puesto-Trabajador(a) por su cuenta? (no contrata trabajadores),h0324-4
+puesto-patrón(a) o empleador(a)? (contrata trabajadores),h0324-5
+puesto-trabajador(a) sin pago? (en un negocio familiar o no familia,h0324-6
+puesto-¿Otra situación?,h0324-7
+"contacto_con_personas-Sí, soy (es) personal de salud",h0325-1
+"contacto_con_personas-Sí, soy (es) maestro, docente",h0325-2
+"contacto_con_personas-Sí, tengo (tiene) contacto con gente",h0325-3
+contacto_con_personas-No tengo (tiene) contacto con gente,h0325-4
+trab_beneficio_salud-Sí,h0326a-1
+trab_beneficio_salud-No,h0326a-2
+trab_beneficio_salud-No sabe,h0326a-3
+trab_beneficio_aguinaldo-Sí,h0326b-1
+trab_beneficio_aguinaldo-No,h0326b-2
+trab_beneficio_aguinaldo-No sabe,h0326b-3
+trab_beneficio_vacaciones-Sí,h0326c-1
+trab_beneficio_vacaciones-No,h0326c-2
+trab_beneficio_vacaciones-No sabe,h0326c-3
+trab_beneficio_prima-Sí,h0326d-1
+trab_beneficio_prima-No,h0326d-2
+trab_beneficio_prima-No sabe,h0326d-3
+trab_beneficio_afore-Sí,h0326e-1
+trab_beneficio_afore-No,h0326e-2
+trab_beneficio_afore-No sabe,h0326e-3
+trab_beneficio_vivienda-Sí,h0326f-1
+trab_beneficio_vivienda-No,h0326f-2
+trab_beneficio_vivienda-No sabe,h0326f-3
+trab_beneficio_guarderia-Sí,h0326g-1
+trab_beneficio_guarderia-No,h0326g-2
+trab_beneficio_guarderia-No sabe,h0326g-3
+trab_beneficio_cuidados-Sí,h0326h-1
+trab_beneficio_cuidados-No,h0326h-2
+trab_beneficio_cuidados-No sabe,h0326h-3
+trab_beneficio_seguro-Sí,h0326i-1
+trab_beneficio_seguro-No,h0326i-2
+trab_beneficio_seguro-No sabe,h0326i-3
+trab_beneficio_gmsm-Sí,h0326j-1
+trab_beneficio_gmsm-No,h0326j-2
+trab_beneficio_gmsm-No sabe,h0326j-3
+trab_beneficio_prestamos-Sí,h0326k-1
+trab_beneficio_prestamos-No,h0326k-2
+trab_beneficio_prestamos-No sabe,h0326k-3
+necesidad_salud-Sí,h0401-1
+necesidad_salud-No,h0401-2
+"ultima_necesidad_salud-Infecciones respiratorias (gripe, catarro, dolor de garganta",h0402-1
+ultima_necesidad_salud-Diarrea o empacho (infección estomacal o intestinal por algu,h0402-2
+ultima_necesidad_salud-Infecciones de vías urinarias (dolor o ardor al orinar),h0402-3
+"ultima_necesidad_salud-Infección de oído (comezón, ardor, dolor, sangrado o salida",h0402-4
+"ultima_necesidad_salud-Infección en los ojos (conjuntivitis, orzuelo-perrilla del o",h0402-5
+ultima_necesidad_salud-Infección vaginal,h0402-6
+ultima_necesidad_salud-Caries,h0402-7
+ultima_necesidad_salud-Otra enfermedad de la boca diferente a caries,h0402-8
+ultima_necesidad_salud-Infección del riñón (dolor en riñón),h0402-9
+ultima_necesidad_salud-Neumonía (pulmonía),h0402-10
+ultima_necesidad_salud-Infección de transmisión sexual,h0402-11
+ultima_necesidad_salud-Infección en genitales,h0402-12
+ultima_necesidad_salud-Parasitosis intestinal (lombrices),h0402-13
+"ultima_necesidad_salud-Infecciones transmitidas por vector-insectos- (Zika, Dengue,",h0402-14
+ultima_necesidad_salud-COVID-19 (coronavirus),h0402-15
+"ultima_necesidad_salud-Control, seguimiento o diagnóstico de diabetes (azúcar alta)",h0402-16
+"ultima_necesidad_salud-Control, seguimiento o diagnóstico de hipertensión arterial",h0402-17
+"ultima_necesidad_salud-Control de peso (diagnóstico, tratamiento o control de sobre",h0402-18
+ultima_necesidad_salud-Enfermedades renales,h0402-19
+"ultima_necesidad_salud-Gastritis, úlcera gástrica o duodenitis (reflujo)",h0402-20
+ultima_necesidad_salud-Piedra o cálculo en el riñón,h0402-21
+ultima_necesidad_salud-Insuficiencia renal aguda o crónica (pérdida de la función d,h0402-22
+ultima_necesidad_salud-Asma,h0402-23
+ultima_necesidad_salud-Bronquitis o enfisema pulmonar (EPOC),h0402-24
+"ultima_necesidad_salud-Alergias (en piel, ojos o nariz)",h0402-25
+"ultima_necesidad_salud-Enfermedades reumatológicas (artritis, lupus)",h0402-26
+ultima_necesidad_salud-Cáncer o tumores,h0402-27
+ultima_necesidad_salud-Vacunación,h0402-28
+ultima_necesidad_salud-Planificación familiar,h0402-29
+ultima_necesidad_salud-Chequeo o consulta médico,h0402-30
+ultima_necesidad_salud-Chequeo o consulta dental,h0402-31
+ultima_necesidad_salud-Control prenatal (embarazo),h0402-32
+ultima_necesidad_salud-Antígeno prostático y/o examen prostático (tacto rectal),h0402-33
+ultima_necesidad_salud-Mamografía o mastografía,h0402-34
+ultima_necesidad_salud-Papanicolaou o colposcopía,h0402-35
+ultima_necesidad_salud-Certificado médico,h0402-36
+"ultima_necesidad_salud-Otro estudio médico (resonancia, tomografía, electrocardiogr",h0402-37
+"ultima_necesidad_salud-Lesión física por accidente (vehículo, fracturas,golpes, etc",h0402-38
+"ultima_necesidad_salud-Lesión física por agresión de animal, picadura de insecto a",h0402-39
+ultima_necesidad_salud-Dolor de cabeza,h0402-40
+ultima_necesidad_salud-Fiebre,h0402-41
+"ultima_necesidad_salud-Dolor, inflamación o infección de órganos (Páncreas, vesícul",h0402-42
+ultima_necesidad_salud-Atención de parto o cesárea,h0402-43
+"ultima_necesidad_salud-Dolor de músculos, huesos y/o articulaciones",h0402-44
+"ultima_necesidad_salud-Dolor de nervios (hernia lumbar, ciática, sensación de ardor",h0402-45
+ultima_necesidad_salud-Cirugía u operación de cualquier órgano o parte del cuerpo,h0402-46
+ultima_necesidad_salud-Depresión,h0402-47
+ultima_necesidad_salud-Ansiedad,h0402-48
+ultima_necesidad_salud-Insomnio,h0402-49
+ultima_necesidad_salud-Estrés,h0402-50
+ultima_necesidad_salud-Cualquier otra condición mental,h0402-51
+ultima_necesidad_salud-Otra causa no enlistada en las anteriores (especifique),h0402-52
+ultima_necesidad_salud-No sabe,h0402-99
+ultimas_dos_semanas-Sí,h0403-1
+ultimas_dos_semanas-No,h0403-2
+busco_atencion_salud-Sí,h0404-1
+busco_atencion_salud-No,h0404-2
+motivo_1_no_atencion-Decidió que no era necesario buscar atención porque no era t,h0405a-1
+motivo_1_no_atencion-No hay dónde atenderse,h0405a-2
+motivo_1_no_atencion-Está muy lejos el lugar más cercano donde se brinda atención,h0405a-3
+motivo_1_no_atencion-Es caro / No tenía dinero,h0405a-4
+motivo_1_no_atencion-No había servicio en el horario en que lo necesitaba,h0405a-5
+motivo_1_no_atencion-No tuvo tiempo,h0405a-6
+motivo_1_no_atencion-No tuvo quién lo(a) llevara o acompañara,h0405a-7
+motivo_1_no_atencion-Quien brinda la atención no me inspira confianza / no es ama,h0405a-8
+motivo_1_no_atencion-Los trámites son muy tardados,h0405a-9
+"motivo_1_no_atencion-El tiempo de espera para pasar a consulta, por lo común, es",h0405a-10
+motivo_1_no_atencion-Miedo a contraer COVID-19/miedo a salir de casa,h0405a-11
+motivo_1_no_atencion-Me reprogramaron la cita,h0405a-12
+motivo_1_no_atencion-Otro (especifica),h0405a-13
+motivo_1_no_atencion-No sabe,h0405a-99
+necesidad_atendida-Sí,h0406-1
+necesidad_atendida-No,h0406-2
+servicio_salud_acudio-Instituto Mexicano del Seguro Social (IMSS),h0408-1
+servicio_salud_acudio-ISSSTE/ISSSTE Estatal,h0408-2
+servicio_salud_acudio-PEMEX,h0408-3
+servicio_salud_acudio-Defensa,h0408-4
+servicio_salud_acudio-Marina,h0408-5
+servicio_salud_acudio-Centro de salud u Hospital de la SSA,h0408-6
+servicio_salud_acudio-IMSS Bienestar (antes Oportunidades)?,h0408-7
+"servicio_salud_acudio-DIF federal, estatal o municipal",h0408-8
+servicio_salud_acudio-Cruz Roja / Cruz Verde,h0408-9
+servicio_salud_acudio-Instituto Nacional de Salud,h0408-10
+servicio_salud_acudio-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,h0408-11
+servicio_salud_acudio-Consultorios pertenecientes a farmacias / Farmacia con consu,h0408-12
+servicio_salud_acudio-Consultorio dentro de hospital privado,h0408-13
+servicio_salud_acudio-Área de urgencias/hospitalización dentro de hospital privado,h0408-14
+servicio_salud_acudio-Atención privada en torre de consultorios médicos o en una c,h0408-15
+servicio_salud_acudio-Consultorio en domicilio particular de médico privado,h0408-16
+servicio_salud_acudio-Atención privada en mi domicilio,h0408-17
+"servicio_salud_acudio-Atención privada vía remota (teléfono, mensajes de texto, te",h0408-18
+servicio_salud_acudio-Médico laboral (médico de la empresa),h0408-19
+"servicio_salud_acudio-Curandero, hierbero, naturista",h0408-20
+"servicio_salud_acudio-Homeópata, partera, acupunturista",h0408-21
+servicio_salud_acudio-Otro (especifique),h0408-22
+servicio_salud_acudio-No sabe / No recuerda,h0408-23
+atencion_salud_requirio_1-ir a consulta externa?,h0409a-1
+atencion_salud_requirio_1-hospitalización (internamiento)?,h0409a-2
+atencion_salud_requirio_1-ir a consulta de urgencias? (ser atendido en una área de urg,h0409a-3
+"atencion_salud_requirio_1-Otros (vía remota, domicilio, etc.)",h0409a-4
+apoyo_liconsa-Sí,h0601a-1
+apoyo_liconsa-No,h0601a-2
+apoyo_liconsa-No Sabe,h0601a-9
+apoyo_pam-Sí,h0601b-1
+apoyo_pam-No,h0601b-2
+apoyo_pam-No Sabe,h0601b-9
+apoyo_dif_dispensas-Sí,h0601c-1
+apoyo_dif_dispensas-No,h0601c-2
+apoyo_dif_dispensas-No Sabe,h0601c-9
+apoyo_dif_escolares-Sí,h0601d-1
+apoyo_dif_escolares-No,h0601d-2
+apoyo_dif_escolares-No Sabe,h0601d-9
+apoyo_dif_pde-Sí,h0601e-1
+apoyo_dif_pde-No,h0601e-2
+apoyo_dif_pde-No Sabe,h0601e-9
+apoyo_dif_p_escuela_nuestra-Sí,h0601f-1
+apoyo_dif_p_escuela_nuestra-No,h0601f-2
+apoyo_dif_p_escuela_nuestra-No Sabe,h0601f-9
+apoyo_comedor_indigena-Sí,h0601i-1
+apoyo_comedor_indigena-No,h0601i-2
+apoyo_comedor_indigena-No Sabe,h0601i-9
+apoyo_comedor_jcf-Sí,h0601j-1
+apoyo_comedor_jcf-No,h0601j-2
+apoyo_comedor_jcf-No Sabe,h0601j-9
+apoyo_benito_juarez-Sí,h0601k-1
+apoyo_benito_juarez-No,h0601k-2
+apoyo_benito_juarez-No Sabe,h0601k-9
+apoyo_pension_bienestar-Sí,h0601l-1
+apoyo_pension_bienestar-No,h0601l-2
+apoyo_pension_bienestar-No Sabe,h0601l-9
+apoyo_pension_bienestar_ninios-Sí,h0601m-1
+apoyo_pension_bienestar_ninios-No,h0601m-2
+apoyo_pension_bienestar_ninios-No Sabe,h0601m-9
+apoyo_vacunas_dosis_1-1,h16041d-1
+apoyo_vacunas_dosis_1-2,h16041d-2
+apoyo_vacunas_dosis_1-3,h16041d-3
+apoyo_vacunas_dosis_1-4,h16041d-4
+apoyo_vacunas_dosis_1-5,h16041d-5
+apoyo_vacunas_dosis_1-6,h16041d-6
+apoyo_vacunas_dosis_1-7,h16041d-7
+apoyo_vacunas_dosis_1-8,h16041d-8
+apoyo_vacunas_dosis_1-9,h16041d-9
+apoyo_vacunas_dosis_1-10,h16041d-10
+apoyo_vacunas_dosis_1-11,h16041d-11
+apoyo_vacunas_dosis_1-12,h16041d-12
+apoyo_vacunas_dosis_1-13,h16041d-13
+apoyo_vacunas_dosis_1-14,h16041d-14
+apoyo_vacunas_dosis_1-15,h16041d-15
+apoyo_vacunas_dosis_1-16,h16041d-16
+apoyo_vacunas_dosis_1-17,h16041d-17
+apoyo_vacunas_dosis_1-18,h16041d-18
+apoyo_vacunas_dosis_1-19,h16041d-19
+apoyo_vacunas_dosis_1-20,h16041d-20
+apoyo_vacunas_dosis_1-21,h16041d-21
+apoyo_vacunas_dosis_1-22,h16041d-22
+apoyo_vacunas_dosis_1-23,h16041d-23
+apoyo_vacunas_dosis_1-24,h16041d-24
+apoyo_vacunas_dosis_1-25,h16041d-25
+apoyo_vacunas_dosis_1-26,h16041d-26
+apoyo_vacunas_dosis_1-27,h16041d-27
+apoyo_vacunas_dosis_1-28,h16041d-28
+apoyo_vacunas_dosis_1-29,h16041d-29
+apoyo_vacunas_dosis_1-30,h16041d-30
+apoyo_vacunas_dosis_1-31,h16041d-31
+apoyo_vacunas_dosis_1-No recuerda,h16041d-99
+apoyo_asa-Sí,h0601n-1
+apoyo_asa-No,h0601n-2
+apoyo_asa-No Sabe,h0601n-9
+otro_apoyo-Sí,h0601p-1
+otro_apoyo-No,h0601p-2
+otro_apoyo-No Sabe,h0601p-9
+apoyo_seguro_popular-Sí,h0605-1
+apoyo_seguro_popular-No,h0605-2
+apoyo_seguro_popular-No Sabe,h0605-9
+beneficio_1_recibido-Acciones de detección y prevención para toda la familia,h0607a-1
+beneficio_1_recibido-Medicina Ambulatoria,h0607a-2
+beneficio_1_recibido-Odontología,h0607a-3
+beneficio_1_recibido-Salud Reproductiva,h0607a-4
+"beneficio_1_recibido-Embarazo, parto y recién nacido",h0607a-5
+beneficio_1_recibido-Rehabilitación,h0607a-6
+beneficio_1_recibido-Hospitalización,h0607a-7
+beneficio_1_recibido-Urgencias,h0607a-8
+beneficio_1_recibido-Cirugía,h0607a-9
+beneficio_1_recibido-No sabe/No responde,h0607a-99
+beneficio_2_recibido-Acciones de detección y prevención para toda la familia,h0607b-1
+beneficio_2_recibido-Medicina Ambulatoria,h0607b-2
+beneficio_2_recibido-Odontología,h0607b-3
+beneficio_2_recibido-Salud Reproductiva,h0607b-4
+"beneficio_2_recibido-Embarazo, parto y recién nacido",h0607b-5
+beneficio_2_recibido-Rehabilitación,h0607b-6
+beneficio_2_recibido-Hospitalización,h0607b-7
+beneficio_2_recibido-Urgencias,h0607b-8
+beneficio_2_recibido-Cirugía,h0607b-9
+beneficio_2_recibido-No sabe/No responde,h0607b-99
+beneficio_3_recibido-Acciones de detección y prevención para toda la familia,h0607c-1
+beneficio_3_recibido-Medicina Ambulatoria,h0607c-2
+beneficio_3_recibido-Odontología,h0607c-3
+beneficio_3_recibido-Salud Reproductiva,h0607c-4
+"beneficio_3_recibido-Embarazo, parto y recién nacido",h0607c-5
+beneficio_3_recibido-Rehabilitación,h0607c-6
+beneficio_3_recibido-Hospitalización,h0607c-7
+beneficio_3_recibido-Urgencias,h0607c-8
+beneficio_3_recibido-Cirugía,h0607c-9
+beneficio_3_recibido-No sabe/No responde,h0607c-99
+beneficio_4_recibido-Acciones de detección y prevención para toda la familia,h0607d-1
+beneficio_4_recibido-Medicina Ambulatoria,h0607d-2
+beneficio_4_recibido-Odontología,h0607d-3
+beneficio_4_recibido-Salud Reproductiva,h0607d-4
+"beneficio_4_recibido-Embarazo, parto y recién nacido",h0607d-5
+beneficio_4_recibido-Rehabilitación,h0607d-6
+beneficio_4_recibido-Hospitalización,h0607d-7
+beneficio_4_recibido-Urgencias,h0607d-8
+beneficio_4_recibido-Cirugía,h0607d-9
+beneficio_4_recibido-No sabe/No responde,h0607d-99
+beneficio_5_recibido-Acciones de detección y prevención para toda la familia,h0607e-1
+beneficio_5_recibido-Medicina Ambulatoria,h0607e-2
+beneficio_5_recibido-Odontología,h0607e-3
+beneficio_5_recibido-Salud Reproductiva,h0607e-4
+"beneficio_5_recibido-Embarazo, parto y recién nacido",h0607e-5
+beneficio_5_recibido-Rehabilitación,h0607e-6
+beneficio_5_recibido-Hospitalización,h0607e-7
+beneficio_5_recibido-Urgencias,h0607e-8
+beneficio_5_recibido-Cirugía,h0607e-9
+beneficio_5_recibido-No sabe/No responde,h0607e-99
+deporte_en_covid-Sí,h0903-1
+deporte_en_covid-No,h0903-2
+deporte_en_covid-NS/NR,h0903-9
+cambio_deporte_pandemia-aumentó?,h0904-1
+cambio_deporte_pandemia-disminuyó?,h0904-2
+cambio_deporte_pandemia-fue igual?,h0904-3
+cambio_peso_pandemia-aumentó?,h0906-1
+cambio_peso_pandemia-disminuyó?,h0906-2
+cambio_peso_pandemia-fue igual?,h0906-3
+"realizo_prueba_covid-SÍ tuve(o) la intención, pero no fui (e) y no me (se) la hic",h1201-1
+"realizo_prueba_covid-Sí fui (e), pero no me (se) la hice (hicieron)",h1201-2
+realizo_prueba_covid-SÍ me hice la prueba,h1201-3
+realizo_prueba_covid-No,h1201-4
+realizo_prueba_covid-NS/NR,h1201-5
+lugar_prueba_covid-Laboratorio o unidad de atención privada,h1203-1
+lugar_prueba_covid-Kiosko o unidad de salud pública,h1203-2
+lugar_prueba_covid-Prueba-auto-aplicada,h1203-3
+lugar_prueba_covid-N/S/NR,h1203-9
+"obtuvo_resultado_covid-Sí, positivo",h1204-1
+"obtuvo_resultado_covid-Sí, negativo",h1204-2
+obtuvo_resultado_covid-No me entregaron el resultado,h1204-3
+fue_diagnosticado_covid-Sí,h1205-1
+fue_diagnosticado_covid-No,h1205-2
+fue_diagnosticado_covid-NS/NR,h1205-9
+como_diagnostico-Con prueba,h1206-1
+como_diagnostico-Con síntomas,h1206-2
+como_diagnostico-Ambas,h1206-3
+como_diagnostico-NS/NR,h1206-9
+mes_diagnostico-Enero,h1207-1
+mes_diagnostico-Febrero,h1207-2
+mes_diagnostico-Marzo,h1207-3
+mes_diagnostico-Abril,h1207-4
+mes_diagnostico-Mayo,h1207-5
+mes_diagnostico-Junio,h1207-6
+mes_diagnostico-Julio,h1207-7
+mes_diagnostico-Agosto,h1207-8
+mes_diagnostico-Septiembre,h1207-9
+mes_diagnostico-Octubre,h1207-10
+mes_diagnostico-Noviembre,h1207-11
+mes_diagnostico-Diciembre,h1207-12
+mes_diagnostico-NS/NR,h1207-99
+covid_busco_atencion-Sí,h1208-1
+covid_busco_atencion-No,h1208-2
+covid_busco_atencion-NS/NR,h1208-9
+covid_lugar_busco_atencion-Instituto Mexicano del Seguro Social (IMSS),h1210-1
+covid_lugar_busco_atencion-ISSSTE/ISSSTE Estatal,h1210-2
+covid_lugar_busco_atencion-PEMEX,h1210-3
+covid_lugar_busco_atencion-Defensa,h1210-4
+covid_lugar_busco_atencion-Marina,h1210-5
+covid_lugar_busco_atencion-Centro de Salud u Hospital de la SSA,h1210-6
+covid_lugar_busco_atencion-IMSS Bienestar (antes Oportunidades),h1210-7
+"covid_lugar_busco_atencion-DIF federal, estatal o municipal",h1210-8
+covid_lugar_busco_atencion-Cruz Roja/Cruz Verde,h1210-9
+covid_lugar_busco_atencion-Instituto Nacional de Salud,h1210-10
+covid_lugar_busco_atencion-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,h1210-11
+covid_lugar_busco_atencion-Consultorios pertenecientes a farmacias/Farmacias con consul,h1210-12
+covid_lugar_busco_atencion-Consultorio dentro de hospital privado,h1210-13
+covid_lugar_busco_atencion-Área de urgencias/hospitalización dentro de hospital privado,h1210-14
+covid_lugar_busco_atencion-Atención privada en torre de consultorios médicos o en una c,h1210-15
+covid_lugar_busco_atencion-Consultorio en domicilio particular de médico privado,h1210-16
+covid_lugar_busco_atencion-Atención privada en mi domicilio,h1210-17
+"covid_lugar_busco_atencion-Atención privada vía remota (teléfono, mensajes de texto, te",h1210-18
+covid_lugar_busco_atencion-Médico laboral (médico de la empresa),h1210-19
+"covid_lugar_busco_atencion-Curandero, hierbero, naturista",h1210-20
+"covid_lugar_busco_atencion-Homeópata, partera, acupunturista",h1210-21
+covid_lugar_busco_atencion-Otro (especifique),h1210-22
+covid_lugar_busco_atencion-No sabe / No recuerda,h1210-23
+covid_fue_atendido-Sí,h1211-1
+covid_fue_atendido-No,h1211-2
+covid_fue_atendido-NS/NR,h1211-9
+secuelas_post_covid_1-Tos,h1213a-A
+secuelas_post_covid_1-Fatiga,h1213a-B
+secuelas_post_covid_1-Ansiedad,h1213a-C
+secuelas_post_covid_1-Depresión,h1213a-D
+secuelas_post_covid_1-Fiebre,h1213a-E
+secuelas_post_covid_1-Dificultad para dormir,h1213a-F
+secuelas_post_covid_1-Complicaciones en el riñón,h1213a-G
+secuelas_post_covid_1-Falta de hambre,h1213a-H
+secuelas_post_covid_1-Pérdida de peso,h1213a-I
+secuelas_post_covid_1-Dolor de cabeza,h1213a-J
+secuelas_post_covid_1-Mareo,h1213a-K
+secuelas_post_covid_1-Dolores en músculos o articulaciones,h1213a-L
+secuelas_post_covid_1-Dificultad para respirar,h1213a-M
+secuelas_post_covid_1-Falta de aire,h1213a-N
+secuelas_post_covid_1-Dolor en el pecho,h1213a-O
+secuelas_post_covid_1-Vómito o diarrea,h1213a-P
+secuelas_post_covid_1-Pérdida o disminución del olfato,h1213a-Q
+secuelas_post_covid_1-Pérdida o disminución del gusto,h1213a-R
+secuelas_post_covid_1-Dificultad para pensar o concentrarse,h1213a-S
+secuelas_post_covid_1-Otro (especifique),h1213a-T
+secuelas_post_covid_1-No tuve síntomas / secuelas,h1213a-U
+secuelas_post_covid_1-NS/NR,h1213a-X
+secuelas_post_covid_2-Tos,h1213b-A
+secuelas_post_covid_2-Fatiga,h1213b-B
+secuelas_post_covid_2-Ansiedad,h1213b-C
+secuelas_post_covid_2-Depresión,h1213b-D
+secuelas_post_covid_2-Fiebre,h1213b-E
+secuelas_post_covid_2-Dificultad para dormir,h1213b-F
+secuelas_post_covid_2-Complicaciones en el riñón,h1213b-G
+secuelas_post_covid_2-Falta de hambre,h1213b-H
+secuelas_post_covid_2-Pérdida de peso,h1213b-I
+secuelas_post_covid_2-Dolor de cabeza,h1213b-J
+secuelas_post_covid_2-Mareo,h1213b-K
+secuelas_post_covid_2-Dolores en músculos o articulaciones,h1213b-L
+secuelas_post_covid_2-Dificultad para respirar,h1213b-M
+secuelas_post_covid_2-Falta de aire,h1213b-N
+secuelas_post_covid_2-Dolor en el pecho,h1213b-O
+secuelas_post_covid_2-Vómito o diarrea,h1213b-P
+secuelas_post_covid_2-Pérdida o disminución del olfato,h1213b-Q
+secuelas_post_covid_2-Pérdida o disminución del gusto,h1213b-R
+secuelas_post_covid_2-Dificultad para pensar o concentrarse,h1213b-S
+secuelas_post_covid_2-Otro (especifique),h1213b-T
+secuelas_post_covid_2-No tuve síntomas / secuelas,h1213b-U
+secuelas_post_covid_2-NS/NR,h1213b-X
+secuelas_post_covid_3-Tos,h1213c-A
+secuelas_post_covid_3-Fatiga,h1213c-B
+secuelas_post_covid_3-Ansiedad,h1213c-C
+secuelas_post_covid_3-Depresión,h1213c-D
+secuelas_post_covid_3-Fiebre,h1213c-E
+secuelas_post_covid_3-Dificultad para dormir,h1213c-F
+secuelas_post_covid_3-Complicaciones en el riñón,h1213c-G
+secuelas_post_covid_3-Falta de hambre,h1213c-H
+secuelas_post_covid_3-Pérdida de peso,h1213c-I
+secuelas_post_covid_3-Dolor de cabeza,h1213c-J
+secuelas_post_covid_3-Mareo,h1213c-K
+secuelas_post_covid_3-Dolores en músculos o articulaciones,h1213c-L
+secuelas_post_covid_3-Dificultad para respirar,h1213c-M
+secuelas_post_covid_3-Falta de aire,h1213c-N
+secuelas_post_covid_3-Dolor en el pecho,h1213c-O
+secuelas_post_covid_3-Vómito o diarrea,h1213c-P
+secuelas_post_covid_3-Pérdida o disminución del olfato,h1213c-Q
+secuelas_post_covid_3-Pérdida o disminución del gusto,h1213c-R
+secuelas_post_covid_3-Dificultad para pensar o concentrarse,h1213c-S
+secuelas_post_covid_3-Otro (especifique),h1213c-T
+secuelas_post_covid_3-No tuve síntomas / secuelas,h1213c-U
+secuelas_post_covid_3-NS/NR,h1213c-X
+secuelas_mantenidas-Sí,h1214-1
+secuelas_mantenidas-No,h1214-2
+secuelas_mantenidas-NS/NR,h1214-9
+tiempo_sintomas_post_covid-Menos de un mes,h1215-1
+tiempo_sintomas_post_covid-De uno a tres meses,h1215-2
+tiempo_sintomas_post_covid-Tres a seis meses,h1215-3
+tiempo_sintomas_post_covid-Más de 6 meses,h1215-4
+secuela_limita_banio-Sí,h1216-1
+secuela_limita_banio-No,h1216-2
+secuela_limita_banio-NS/NR,h1216-9
+secuela_limita_salir-Sí,h1217-1
+secuela_limita_salir-No,h1217-2
+secuela_limita_salir-NS/NR,h1217-9
+"elegible_vacuna-Sí, soy (es) personal de salud",h1601-1
+"elegible_vacuna-Sí, tengo (tiene) más de 60 años",h1601-2
+"elegible_vacuna-Sí, tengo (tiene) entre 50 y 59 años",h1601-3
+"elegible_vacuna-Sí, tengo (tiene) entre 40 y 49 años",h1601-4
+"elegible_vacuna-Sí, soy (es) maestro/docente",h1601-5
+"elegible_vacuna-Sí, estoy (está) o estuve (estuvo) embarazada",h1601-6
+elegible_vacuna-Otro (especificar),h1601-7
+elegible_vacuna-No soy (es) elegible,h1601-8
+elegible_vacuna-No sé,h1601-9
+"vacuna_aplicada-Sí, una dosis",h1602-1
+"vacuna_aplicada-Sí, dos dosis",h1602-2
+"vacuna_aplicada-Sí, dosis única",h1602-3
+vacuna_aplicada-No,h1602-4
+municipio_aplicacion-En el municipio donde actualmente vivo,h1603-1
+municipio_aplicacion-En otro lugar (especificar),h1603-2
+mes_vacuna_primera_dosis-Enero,h16041m-1
+mes_vacuna_primera_dosis-Febrero,h16041m-2
+mes_vacuna_primera_dosis-Marzo,h16041m-3
+mes_vacuna_primera_dosis-Abril,h16041m-4
+mes_vacuna_primera_dosis-Mayo,h16041m-5
+mes_vacuna_primera_dosis-Junio,h16041m-6
+mes_vacuna_primera_dosis-Julio,h16041m-7
+mes_vacuna_primera_dosis-Agosto,h16041m-8
+mes_vacuna_primera_dosis-Septiembre,h16041m-9
+mes_vacuna_primera_dosis-Octubre,h16041m-10
+mes_vacuna_primera_dosis-Noviembre,h16041m-11
+mes_vacuna_primera_dosis-Diciembre,h16041m-12
+mes_vacuna_primera_dosis-No recuerda,h16041m-99
+anio_vacuna_primera_dosis-2020,h16041a-2020
+anio_vacuna_primera_dosis-2021,h16041a-2021
+anio_vacuna_primera_dosis-No recuerda,h16041a-9999
+dia_vacuna_segunda_dosis-1,h16042d-1
+dia_vacuna_segunda_dosis-2,h16042d-2
+dia_vacuna_segunda_dosis-3,h16042d-3
+dia_vacuna_segunda_dosis-4,h16042d-4
+dia_vacuna_segunda_dosis-5,h16042d-5
+dia_vacuna_segunda_dosis-6,h16042d-6
+dia_vacuna_segunda_dosis-7,h16042d-7
+dia_vacuna_segunda_dosis-8,h16042d-8
+dia_vacuna_segunda_dosis-9,h16042d-9
+dia_vacuna_segunda_dosis-10,h16042d-10
+dia_vacuna_segunda_dosis-11,h16042d-11
+dia_vacuna_segunda_dosis-12,h16042d-12
+dia_vacuna_segunda_dosis-13,h16042d-13
+dia_vacuna_segunda_dosis-14,h16042d-14
+dia_vacuna_segunda_dosis-15,h16042d-15
+dia_vacuna_segunda_dosis-16,h16042d-16
+dia_vacuna_segunda_dosis-17,h16042d-17
+dia_vacuna_segunda_dosis-18,h16042d-18
+dia_vacuna_segunda_dosis-19,h16042d-19
+dia_vacuna_segunda_dosis-20,h16042d-20
+dia_vacuna_segunda_dosis-21,h16042d-21
+dia_vacuna_segunda_dosis-22,h16042d-22
+dia_vacuna_segunda_dosis-23,h16042d-23
+dia_vacuna_segunda_dosis-24,h16042d-24
+dia_vacuna_segunda_dosis-25,h16042d-25
+dia_vacuna_segunda_dosis-26,h16042d-26
+dia_vacuna_segunda_dosis-27,h16042d-27
+dia_vacuna_segunda_dosis-28,h16042d-28
+dia_vacuna_segunda_dosis-29,h16042d-29
+dia_vacuna_segunda_dosis-30,h16042d-30
+dia_vacuna_segunda_dosis-31,h16042d-31
+dia_vacuna_segunda_dosis-No recuerda,h16042d-99
+mes_vacuna_segunda_dosis-Enero,h16042m-1
+mes_vacuna_segunda_dosis-Febrero,h16042m-2
+mes_vacuna_segunda_dosis-Marzo,h16042m-3
+mes_vacuna_segunda_dosis-Abril,h16042m-4
+mes_vacuna_segunda_dosis-Mayo,h16042m-5
+mes_vacuna_segunda_dosis-Junio,h16042m-6
+mes_vacuna_segunda_dosis-Julio,h16042m-7
+mes_vacuna_segunda_dosis-Agosto,h16042m-8
+mes_vacuna_segunda_dosis-Septiembre,h16042m-9
+mes_vacuna_segunda_dosis-Octubre,h16042m-10
+mes_vacuna_segunda_dosis-Noviembre,h16042m-11
+mes_vacuna_segunda_dosis-Diciembre,h16042m-12
+mes_vacuna_segunda_dosis-No recuerda,h16042m-99
+anio_vacuna_segunda_dosis-2020,h16042a-2020
+anio_vacuna_segunda_dosis-2021,h16042a-2021
+anio_vacuna_segunda_dosis-No recuerda,h16042a-9999
+dia_vacuna_unica_dosis-1,h1604ud-1
+dia_vacuna_unica_dosis-2,h1604ud-2
+dia_vacuna_unica_dosis-3,h1604ud-3
+dia_vacuna_unica_dosis-4,h1604ud-4
+dia_vacuna_unica_dosis-5,h1604ud-5
+dia_vacuna_unica_dosis-6,h1604ud-6
+dia_vacuna_unica_dosis-7,h1604ud-7
+dia_vacuna_unica_dosis-8,h1604ud-8
+dia_vacuna_unica_dosis-9,h1604ud-9
+dia_vacuna_unica_dosis-10,h1604ud-10
+dia_vacuna_unica_dosis-11,h1604ud-11
+dia_vacuna_unica_dosis-12,h1604ud-12
+dia_vacuna_unica_dosis-13,h1604ud-13
+dia_vacuna_unica_dosis-14,h1604ud-14
+dia_vacuna_unica_dosis-15,h1604ud-15
+dia_vacuna_unica_dosis-16,h1604ud-16
+dia_vacuna_unica_dosis-17,h1604ud-17
+dia_vacuna_unica_dosis-18,h1604ud-18
+dia_vacuna_unica_dosis-19,h1604ud-19
+dia_vacuna_unica_dosis-20,h1604ud-20
+dia_vacuna_unica_dosis-21,h1604ud-21
+dia_vacuna_unica_dosis-22,h1604ud-22
+dia_vacuna_unica_dosis-23,h1604ud-23
+dia_vacuna_unica_dosis-24,h1604ud-24
+dia_vacuna_unica_dosis-25,h1604ud-25
+dia_vacuna_unica_dosis-26,h1604ud-26
+dia_vacuna_unica_dosis-27,h1604ud-27
+dia_vacuna_unica_dosis-28,h1604ud-28
+dia_vacuna_unica_dosis-29,h1604ud-29
+dia_vacuna_unica_dosis-30,h1604ud-30
+dia_vacuna_unica_dosis-31,h1604ud-31
+dia_vacuna_unica_dosis-No recuerda,h1604ud-99
+mes_vacuna_unica_dosis-Enero,h1604um-1
+mes_vacuna_unica_dosis-Febrero,h1604um-2
+mes_vacuna_unica_dosis-Marzo,h1604um-3
+mes_vacuna_unica_dosis-Abril,h1604um-4
+mes_vacuna_unica_dosis-Mayo,h1604um-5
+mes_vacuna_unica_dosis-Junio,h1604um-6
+mes_vacuna_unica_dosis-Julio,h1604um-7
+mes_vacuna_unica_dosis-Agosto,h1604um-8
+mes_vacuna_unica_dosis-Septiembre,h1604um-9
+mes_vacuna_unica_dosis-Octubre,h1604um-10
+mes_vacuna_unica_dosis-Noviembre,h1604um-11
+mes_vacuna_unica_dosis-Diciembre,h1604um-12
+mes_vacuna_unica_dosis-No recuerda,h1604um-99
+anio_vacuna_unica_dosis-2020,h1604ua-2020
+anio_vacuna_unica_dosis-2021,h1604ua-2021
+anio_vacuna_unica_dosis-No recuerda,h1604ua-9999
+vacuna_puesta-Pfizer,h1605-1
+vacuna_puesta-Sputnik,h1605-2
+vacuna_puesta-Sinovac,h1605-3
+vacuna_puesta-Astra Zeneca,h1605-4
+vacuna_puesta-CanSino,h1605-5
+vacuna_puesta-Otra (especificar),h1605-6
+vacuna_puesta-NS/NR,h1605-9
+molestia_1_post_vacuna-Dolor en el brazo,h1606a-1
+molestia_1_post_vacuna-Dolor de cabeza,h1606a-2
+molestia_1_post_vacuna-Fiebre,h1606a-3
+molestia_1_post_vacuna-Cansancio,h1606a-4
+molestia_1_post_vacuna-Dolor de cuerpo,h1606a-5
+molestia_1_post_vacuna-Otro (especificar),h1606a-6
+molestia_1_post_vacuna-No tuve ninguna molestia,h1606a-7
+molestia_1_post_vacuna-NS/NR,h1606a-8
+molestia_2_post_vacuna-Dolor en el brazo,h1606b-1
+molestia_2_post_vacuna-Dolor de cabeza,h1606b-2
+molestia_2_post_vacuna-Fiebre,h1606b-3
+molestia_2_post_vacuna-Cansancio,h1606b-4
+molestia_2_post_vacuna-Dolor de cuerpo,h1606b-5
+molestia_2_post_vacuna-Otro (especificar),h1606b-6
+molestia_2_post_vacuna-No tuve ninguna molestia,h1606b-7
+molestia_2_post_vacuna-NS/NR,h1606b-8
+molestia_3_post_vacuna-Dolor en el brazo,h1606c-1
+molestia_3_post_vacuna-Dolor de cabeza,h1606c-2
+molestia_3_post_vacuna-Fiebre,h1606c-3
+molestia_3_post_vacuna-Cansancio,h1606c-4
+molestia_3_post_vacuna-Dolor de cuerpo,h1606c-5
+molestia_3_post_vacuna-Otro (especificar),h1606c-6
+molestia_3_post_vacuna-No tuve ninguna molestia,h1606c-7
+molestia_3_post_vacuna-NS/NR,h1606c-8
+molestia_4_post_vacuna-Dolor en el brazo,h1606d-1
+molestia_4_post_vacuna-Dolor de cabeza,h1606d-2
+molestia_4_post_vacuna-Fiebre,h1606d-3
+molestia_4_post_vacuna-Cansancio,h1606d-4
+molestia_4_post_vacuna-Dolor de cuerpo,h1606d-5
+molestia_4_post_vacuna-Otro (especificar),h1606d-6
+molestia_4_post_vacuna-No tuve ninguna molestia,h1606d-7
+molestia_4_post_vacuna-NS/NR,h1606d-8
+molestia_5_post_vacuna-Dolor en el brazo,h1606e1-1
+molestia_5_post_vacuna-Dolor de cabeza,h1606e1-2
+molestia_5_post_vacuna-Fiebre,h1606e1-3
+molestia_5_post_vacuna-Cansancio,h1606e1-4
+molestia_5_post_vacuna-Dolor de cuerpo,h1606e1-5
+molestia_5_post_vacuna-Otro (especificar),h1606e1-6
+molestia_5_post_vacuna-No tuve ninguna molestia,h1606e1-7
+molestia_5_post_vacuna-NS/NR,h1606e1-8
+motivo_no_vacunacion-No he (ha) sido elegible,h1607-1
+motivo_no_vacunacion-Sí me (le) toca/soy (es) elegible pero no ha llegado la vacu,h1607-2
+motivo_no_vacunacion-Creo(e) que la vacuna no sirve,h1607-3
+motivo_no_vacunacion-Creo(e) que la vacuna tiene efectos adversos/consecuencias n,h1607-4
+motivo_no_vacunacion-Me (Le) quedaba muy lejos,h1607-5
+motivo_no_vacunacion-La fila era muy larga,h1607-6
+"motivo_no_vacunacion-COVID no es un problema, no existe",h1607-7
+"motivo_no_vacunacion-Prefiero(e) esperar, ver cómo avanza esto",h1607-8
+"motivo_no_vacunacion-No confío(a) en el sistema, en el gobierno",h1607-9
+motivo_no_vacunacion-Porque no me(le) dejaron salir en mi(su) trabajo,h1607-10
+motivo_no_vacunacion-Porque tengo (tiene) una discapacidad,h1607-11
+motivo_no_vacunacion-Porque no tuve(o) quién me(le) acompañara,h1607-12
+motivo_no_vacunacion-Otro (especificar),h1607-88
+acepta_vacunarse-Sí,h1608-1
+acepta_vacunarse-No,h1608-2
+acepta_vacunarse-Quizás (indeciso(a)),h1608-3
+acepta_vacunarse-No responde,h1608-4
+por_que_no_vacunarse-Creo(e) que la vacuna no sirve,h1609-1
+por_que_no_vacunarse-Creo(e) que la vacuna tiene efectos adversos/consecuencias n,h1609-2
+por_que_no_vacunarse-Me(Le) quedaría muy lejos el lugar donde las aplican,h1609-3
+por_que_no_vacunarse-Las filas son muy largas,h1609-4
+"por_que_no_vacunarse-COVID no es un problema, no existe",h1609-5
+"por_que_no_vacunarse-Prefiero(e) esperar, ver cómo avanza esto",h1609-6
+"por_que_no_vacunarse-No confío(a) en el sistema, en el gobierno",h1609-7
+por_que_no_vacunarse-Porque no me(le) dejarían salir en mi(su) trabajo,h1609-8
+por_que_no_vacunarse-Porque tengo (tiene) una discapacidad,h1609-9
+por_que_no_vacunarse-Porque no tengo (tiene) quién me(le) acompañe,h1609-10
+por_que_no_vacunarse-Otro (especificar),h1609-88
+considera_seguras_vacunas-Sí,h1610-1
+considera_seguras_vacunas-No,h1610-2
+considera_seguras_vacunas-NS,h1610-3
+considera_seguras_vacunas-NR,h1610-9
+ropa_puesta-Ligera,an02-1
+ropa_puesta-Gruesa,an02-2
+ropa_puesta-Sin ropa,an02-3
+ropa_puesta-No se pesó,an02-4
+resultado_medicion_peso-Sin problema,an03-1
+resultado_medicion_peso-Problema físico,an03-2
+resultado_medicion_peso-No cooperó,an03-3
+resultado_medicion_peso-Se negó,an03-4
+resultado_medicion_peso-No se encontró,an03-5
+resultado_medicion_peso-No puede mantenerse de pie,an03-6
+resultado_medicion_estatura-Sin problema,an05-1
+resultado_medicion_estatura-Problema físico,an05-2
+resultado_medicion_estatura-No cooperó,an05-3
+resultado_medicion_estatura-Se negó,an05-4
+resultado_medicion_estatura-No se encontró,an05-5
+resultado_medicion_estatura-No puede mantenerse de pie,an05-6
+condicion_maternal-Está embarazada?,an06-1
+condicion_maternal-Está dando pecho?,an06-2
+condicion_maternal-Está embarazada y dando pecho?,an06-3
+condicion_maternal-Ninguna de las anteriores,an06-4
+condicion_maternal-No sabe,an06-9
+meses_embarazo-No sabe,an07-99
+resultado_medicion_cintura-Sin problema,an09-1
+resultado_medicion_cintura-Problema físico,an09-2
+resultado_medicion_cintura-No cooperó,an09-3
+perdio_peso-No ha habido pérdida de peso,an10-1
+perdio_peso-Pérdida de peso entre 1 y 3 kg,an10-2
+perdio_peso-Pérdida de peso mayor a 3 kg,an10-3
+perdio_peso-No responde,an10-8
+perdio_peso-No sabe,an10-9
+"tiene_amputacion-Sí, de extremidades superiores y camina",an11-1
+"tiene_amputacion-Sí, de extremidades superiores y no camina",an11-2
+"tiene_amputacion-Sí, de extremidades inferiores",an11-3
+tiene_amputacion-No y puede mantenerse de pie,an11-4
+tiene_amputacion-No y solo puede mantenerse sentado,an11-5
+tiene_amputacion-No y está confinado a una cama,an11-6
+imc_clase-Bajo peso,imc_clase-0
+imc_clase-Peso normal,imc_clase-1
+imc_clase-Sobrepeso,imc_clase-2
+imc_clase-Obeso,imc_clase-3
+bajo_peso-SÍ.,bajo_peso-1
+bajo_peso-NO.,bajo_peso-0
+peso_normal-SÍ.,peso_normal-1
+peso_normal-NO.,peso_normal-0
+sobrepeso-SÍ.,sobrepeso-1
+sobrepeso-NO.,sobrepeso-0
+obesidad-SÍ.,obesidad-1
+obesidad-NO.,obesidad-0
+resultado_medicion_talon_rodilla-Sin problema,an18-1
+resultado_medicion_talon_rodilla-Problema físico,an18-2
+resultado_medicion_talon_rodilla-No cooperó,an18-3
+reusltado_medicion_circunf_pantorrilla-Sin problema,an20-1
+reusltado_medicion_circunf_pantorrilla-Problema físico,an20-2
+reusltado_medicion_circunf_pantorrilla-No cooperó,an20-3
+resultado_pecho_dedo_medicion-Sin problema,an24-1
+resultado_pecho_dedo_medicion-Problema físico,an24-2
+resultado_pecho_dedo_medicion-No cooperó,an24-3
+resultado_circunferencia_brazo-Sin problema,an26-1
+resultado_circunferencia_brazo-Problema físico,an26-2
+resultado_circunferencia_brazo-No cooperó,an26-3
+brazo_toma_presion-Brazo derecho,an29-1
+brazo_toma_presion-Brazo izquierdo,an29-2
+brazo_toma_presion-No se tomó,an29-3
+resultado_medicion_presion-Sin problema,an30-1
+resultado_medicion_presion-Problema físico,an30-2
+resultado_medicion_presion-No cooperó,an30-3
+resultado_medicion_presion-Se negó,an30-4
+salud_tiene_obesidad-SÍ.,a0101-1
+salud_tiene_obesidad-NO.,a0101-2
+tx_control_azucar_1-SÍ.,a0103-1
+tx_control_azucar_1-NO.,a0103-2
+como_considera_peso-mayor al saludable?,a0106-1
+como_considera_peso-saludable?,a0106-2
+como_considera_peso-menor al saludable?,a0106-3
+como_considera_peso-No responde.,a0106-8
+como_considera_peso-No sabe,a0106-9
+cambio_peso_ultimo_anio-Ganó peso.,a0107-1
+cambio_peso_ultimo_anio-Perdió peso.,a0107-2
+cambio_peso_ultimo_anio-No ha experimentado cambios en su Peso.,a0107-3
+cambio_peso_ultimo_anio-Ganó o perdió peso porque está embarazada.,a0107-4
+cambio_peso_ultimo_anio-No sabe.,a0107-9
+perdion_peso_intensional-SI.,a0109-1
+perdion_peso_intensional-NO.,a0109-2
+acciones_perder_peso_1-disminuir el tamaño de las porciones?,a0110a-1
+acciones_perder_peso_1-aumentar la actividad física?,a0110a-2
+acciones_perder_peso_1-seguir las recomendaciones de un profesional de la salud?,a0110a-3
+acciones_perder_peso_1-tomar medicamentos para perder peso?,a0110a-4
+acciones_perder_peso_1-eliminar el consumo de refrescos?,a0110a-5
+acciones_perder_peso_1-aumentar el consumo de vegetales y alimentos ricos en fibra,a0110a-6
+acciones_perder_peso_1-realizar algún tipo de ejercicio?,a0110a-7
+acciones_perder_peso_1-tomar mucha agua?,a0110a-8
+acciones_perder_peso_1-Otra forma (especifica).,a0110a-9
+acciones_perder_peso_2-disminuir el tamaño de las porciones?,a0110b-1
+acciones_perder_peso_2-aumentar la actividad física?,a0110b-2
+acciones_perder_peso_2-seguir las recomendaciones de un profesional de la salud?,a0110b-3
+acciones_perder_peso_2-tomar medicamentos para perder peso?,a0110b-4
+acciones_perder_peso_2-eliminar el consumo de refrescos?,a0110b-5
+acciones_perder_peso_2-aumentar el consumo de vegetales y alimentos ricos en fibra,a0110b-6
+acciones_perder_peso_2-realizar algún tipo de ejercicio?,a0110b-7
+acciones_perder_peso_2-tomar mucha agua?,a0110b-8
+acciones_perder_peso_2-Otra forma (especifica).,a0110b-9
+acciones_perder_peso_3-disminuir el tamaño de las porciones?,a0110c-1
+acciones_perder_peso_3-aumentar la actividad física?,a0110c-2
+acciones_perder_peso_3-seguir las recomendaciones de un profesional de la salud?,a0110c-3
+acciones_perder_peso_3-tomar medicamentos para perder peso?,a0110c-4
+acciones_perder_peso_3-eliminar el consumo de refrescos?,a0110c-5
+acciones_perder_peso_3-aumentar el consumo de vegetales y alimentos ricos en fibra,a0110c-6
+acciones_perder_peso_3-realizar algún tipo de ejercicio?,a0110c-7
+acciones_perder_peso_3-tomar mucha agua?,a0110c-8
+acciones_perder_peso_3-Otra forma (especifica).,a0110c-9
+ultima_semana_tristeza-Rara vez o nunca (menos de un día).,a0211-1
+ultima_semana_tristeza-Pocas veces o alguna vez (1-2 días).,a0211-2
+ultima_semana_tristeza-Un número de veces conside-rable (3-4 dias).,a0211-3
+ultima_semana_tristeza-Todo el tiempo o la mayoría del tiempo    (5-7 días).,a0211-4
+ultima_semana_concentrarse-Rara vez o nunca (menos de un día).,a0212-1
+ultima_semana_concentrarse-Pocas veces o alguna vez (1-2 días).,a0212-2
+ultima_semana_concentrarse-Un número de veces conside-rable (3-4 dias).,a0212-3
+ultima_semana_concentrarse-Todo el tiempo o la mayoría del tiempo    (5-7 días).,a0212-4
+ultima_semana_deprimido-Rara vez o nunca (menos de un día).,a0213-1
+ultima_semana_deprimido-Pocas veces o alguna vez (1-2 días).,a0213-2
+ultima_semana_deprimido-Un número de veces conside-rable (3-4 dias).,a0213-3
+ultima_semana_deprimido-Todo el tiempo o la mayoría del tiempo    (5-7 días).,a0213-4
+ultima_semana_esfuerzo-Rara vez o nunca (menos de un día).,a0214-1
+ultima_semana_esfuerzo-Pocas veces o alguna vez (1-2 días).,a0214-2
+ultima_semana_esfuerzo-Un número de veces conside-rable (3-4 dias).,a0214-3
+ultima_semana_esfuerzo-Todo el tiempo o la mayoría del tiempo    (5-7 días).,a0214-4
+ultima_semana_durmio_bien-Rara vez o nunca (menos de un día).,a0215-1
+ultima_semana_durmio_bien-Pocas veces o alguna vez (1-2 días).,a0215-2
+ultima_semana_durmio_bien-Un número de veces conside-rable (3-4 dias).,a0215-3
+ultima_semana_durmio_bien-Todo el tiempo o la mayoría del tiempo    (5-7 días).,a0215-4
+ultima_semana_disfrute-Rara vez o nunca (menos de un día).,a0216-1
+ultima_semana_disfrute-Pocas veces o alguna vez (1-2 días).,a0216-2
+ultima_semana_disfrute-Un número de veces conside-rable (3-4 dias).,a0216-3
+ultima_semana_disfrute-Todo el tiempo o la mayoría del tiempo    (5-7 días).,a0216-4
+ultima_semana_triste-Rara vez o nunca (menos de un día).,a0217-1
+ultima_semana_triste-Pocas veces o alguna vez (1-2 días).,a0217-2
+ultima_semana_triste-Un número de veces conside-rable (3-4 dias).,a0217-3
+ultima_semana_triste-Todo el tiempo o la mayoría del tiempo    (5-7 días).,a0217-4
+medico_dicho_depresion-Sí,a0202-1
+medico_dicho_depresion-No,a0202-2
+tx_para_depresion-Sí,a0203-1
+tx_para_depresion-No,a0203-2
+tx_para_depresion-No responde,a0203-8
+toma_medicamento_depretion-Sí,a0204-1
+toma_medicamento_depretion-No,a0204-2
+toma_medicamento_depretion-No responde,a0204-8
+medico_dicho_diabetes-SÍ.,a0301-1
+"medico_dicho_diabetes-Sí, durante el embarazo  (solo mujeres, diabetes gestacional",a0301-2
+medico_dicho_diabetes-NO.,a0301-3
+visita_medico_diabetes-Ninguna.,a0303cod-1
+visita_medico_diabetes-Diario.,a0303cod-2
+visita_medico_diabetes-Semanal.,a0303cod-3
+visita_medico_diabetes-Mensual.,a0303cod-4
+visita_medico_diabetes-Anual.,a0303cod-5
+servicio_control_diabetes-Instituto Mexicano del Seguro Social (IMSS).,a0305-1
+servicio_control_diabetes-ISSSTE/ISSSTE Estatal.,a0305-2
+servicio_control_diabetes-PEMEX.,a0305-3
+servicio_control_diabetes-Defensa.,a0305-4
+servicio_control_diabetes-Marina.,a0305-5
+servicio_control_diabetes-Centro de Salud u Hospital de la SSA.,a0305-6
+servicio_control_diabetes-IMSS Bienestar (antes Oportunidades).,a0305-7
+"servicio_control_diabetes-DIF federal, estatal o municipal.",a0305-8
+servicio_control_diabetes-Cruz Roja/Cruz Verde.,a0305-9
+servicio_control_diabetes-Instituto Nacional de Salud.,a0305-10
+servicio_control_diabetes-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,a0305-11
+servicio_control_diabetes-Consultorios pertenecientes a farmacias/Farmacias con consul,a0305-12
+servicio_control_diabetes-Consultorio dentro de hospital privado.,a0305-13
+servicio_control_diabetes-Área de urgencias/hospitalización dentro de hospital privado,a0305-14
+servicio_control_diabetes-Atención privada en torre de consultorios médicos o en una c,a0305-15
+servicio_control_diabetes-Consultorio en domicilio particular de médico privado.,a0305-16
+servicio_control_diabetes-Atención privada en mi domicilio.,a0305-17
+"servicio_control_diabetes-Atención privada vía remota (teléfono, mensajes de texto, te",a0305-18
+servicio_control_diabetes-Médico laboral (médico de la empresa).,a0305-19
+"servicio_control_diabetes-Curandero, hierbero, naturista.",a0305-20
+"servicio_control_diabetes-Homeópata, partera, acupunturista.",a0305-21
+servicio_control_diabetes-Otro (especifique).,a0305-22
+servicio_control_diabetes-No sabe / No recuerda.,a0305-23
+servicio_control_diabetes-Ninguna.,a0305-24
+scd_medicion_glucosa-Si.,a0306a-1
+scd_medicion_glucosa-No.,a0306a-2
+scd_medicion_glucosa-No Sabe/No responde.,a0306a-9
+scd_medicion_presion-Si.,a0306b-1
+scd_medicion_presion-No.,a0306b-2
+scd_medicion_presion-No Sabe/No responde.,a0306b-9
+scd_medicion_peso-Si.,a0306c-1
+scd_medicion_peso-No.,a0306c-2
+scd_medicion_peso-No Sabe/No responde.,a0306c-9
+scd_medicion_reviso_pies-Si.,a0306d-1
+scd_medicion_reviso_pies-No.,a0306d-2
+scd_medicion_reviso_pies-No Sabe/No responde.,a0306d-9
+scd_sugerencia_alimentaria-Si.,a0306e-1
+scd_sugerencia_alimentaria-No.,a0306e-2
+scd_sugerencia_alimentaria-No Sabe/No responde.,a0306e-9
+scd_sugerencia_act_fisica-Si.,a0306f-1
+scd_sugerencia_act_fisica-No.,a0306f-2
+scd_sugerencia_act_fisica-No Sabe/No responde.,a0306f-9
+scd_sugerencia_control_diab-Si.,a0306g-1
+scd_sugerencia_control_diab-No.,a0306g-2
+scd_sugerencia_control_diab-No Sabe/No responde.,a0306g-9
+scd_medicion_vista-Si.,a0306h-1
+scd_medicion_vista-No.,a0306h-2
+scd_medicion_vista-No Sabe/No responde.,a0306h-9
+scd_revision_dental-Si.,a0306i-1
+scd_revision_dental-No.,a0306i-2
+scd_revision_dental-No Sabe/No responde.,a0306i-9
+scd_quimica_sanguinea-Si.,a0306j-1
+scd_quimica_sanguinea-No.,a0306j-2
+scd_quimica_sanguinea-No Sabe/No responde.,a0306j-9
+scd_medicion_orina-Si.,a0306k-1
+scd_medicion_orina-No.,a0306k-2
+scd_medicion_orina-No Sabe/No responde.,a0306k-9
+scd_explico_medicamentos-Si.,a0306l-1
+scd_explico_medicamentos-No.,a0306l-2
+scd_explico_medicamentos-No Sabe/No responde.,a0306l-9
+"medicado_insulina_control_azucar-Sí, solo insulina.",a0307-1
+"medicado_insulina_control_azucar-Sí, solo pastillas.",a0307-2
+"medicado_insulina_control_azucar-Sí, ambas.",a0307-3
+medicado_insulina_control_azucar-Ninguno.,a0307-4
+insulina_todos_dias-SÍ.,a0310-1
+insulina_todos_dias-NO.,a0310-2
+insulina_todos_dias-No responde.,a0310-8
+tx_control_azucar_otro_1-Plan de alimentación (dieta recomendada por personal de salu,a0312a-1
+tx_control_azucar_otro_1-Plan de ejercicio físico.,a0312a-2
+tx_control_azucar_otro_1-Medicina alternativa.,a0312a-3
+tx_control_azucar_otro_1-Otros.,a0312a-4
+tx_control_azucar_otro_1-Ninguno.,a0312a-5
+tx_control_azucar_otro_2-Plan de alimentación (dieta recomendada por personal de salu,a0312b-1
+tx_control_azucar_otro_2-Plan de ejercicio físico.,a0312b-2
+tx_control_azucar_otro_2-Medicina alternativa.,a0312b-3
+tx_control_azucar_otro_2-Otros.,a0312b-4
+tx_control_azucar_otro_2-Ninguno.,a0312b-5
+tx_ultimos_6meses_suspendido-Sí.,a0313-1
+tx_ultimos_6meses_suspendido-No.,a0313-2
+tx_ultimos_6meses_suspendido-No sabe.,a0313-9
+tx_ultimos_suspendido_causa-Se le olvidó tomar los medicamentos.,a0314-1
+tx_ultimos_suspendido_causa-Consideró que no lo necesitaba.,a0314-2
+tx_ultimos_suspendido_causa-Tuvo miedo a la hipoglucemia.,a0314-3
+tx_ultimos_suspendido_causa-Tuvo temor sobre la seguridad del medicamento.,a0314-4
+tx_ultimos_suspendido_causa-No le surtieron los medicamentos en la unidad  Médica.,a0314-5
+tx_ultimos_suspendido_causa-No encontró el medicamento en la farmacia.,a0314-6
+tx_ultimos_suspendido_causa-No tuvo dinero para comprarlo(s).,a0314-7
+tx_ultimos_suspendido_causa-Otro.,a0314-8
+ult_anio_evitar_comp_diab_medida_1-Revisión de la vista.,a0315a-1
+ult_anio_evitar_comp_diab_medida_1-Toma una aspirina diaria.,a0315a-2
+ult_anio_evitar_comp_diab_medida_1-Revisión de pies.,a0315a-3
+ult_anio_evitar_comp_diab_medida_1-Examen general de orina.,a0315a-4
+ult_anio_evitar_comp_diab_medida_1-Microalbuminuria (con recolección de orina de 24 horas).,a0315a-5
+ult_anio_evitar_comp_diab_medida_1-Medición de la presión arterial.,a0315a-6
+ult_anio_evitar_comp_diab_medida_1-Aplicación de vacuna contra influenza.,a0315a-7
+ult_anio_evitar_comp_diab_medida_1-Aplicación de vacuna contra neumococo.,a0315a-8
+ult_anio_evitar_comp_diab_medida_1-Medición del colesterol y los triglicéridos.,a0315a-9
+ult_anio_evitar_comp_diab_medida_1-Toma un medicamento para disminuir la concentración de coles,a0315a-10
+ult_anio_evitar_comp_diab_medida_1-Toma un medicamento para el control de su presión arterial (,a0315a-11
+ult_anio_evitar_comp_diab_medida_1-Dejó de fumar.,a0315a-12
+ult_anio_evitar_comp_diab_medida_1-Revisión dental.,a0315a-13
+ult_anio_evitar_comp_diab_medida_1-Recibió educación sobre su enfermedad.,a0315a-14
+ult_anio_evitar_comp_diab_medida_1-Electrocardiograma.,a0315a-15
+ult_anio_evitar_comp_diab_medida_1-Evita calzado que pueda lesionar   sus pies.,a0315a-16
+ult_anio_evitar_comp_diab_medida_1-Acude a algún grupo de ayuda mutua.,a0315a-17
+ult_anio_evitar_comp_diab_medida_1-Otro (especifica).,a0315a-18
+ult_anio_evitar_comp_diab_medida_1-No realiza ninguna medida preventiva.,a0315a-19
+ult_anio_evitar_comp_diab_medida_1-Medición de glucosa en sangre capilar en casa.,a0315a-20
+ult_anio_evitar_comp_diab_medida_1-Determinación de glucosa en sangre venosa.,a0315a-21
+ult_anio_evitar_comp_diab_medida_1-Determinación de hemoglobina glucosilada.,a0315a-22
+ult_anio_evitar_comp_diab_medida_2-Revisión de la vista.,a0315b-1
+ult_anio_evitar_comp_diab_medida_2-Toma una aspirina diaria.,a0315b-2
+ult_anio_evitar_comp_diab_medida_2-Revisión de pies.,a0315b-3
+ult_anio_evitar_comp_diab_medida_2-Examen general de orina.,a0315b-4
+ult_anio_evitar_comp_diab_medida_2-Microalbuminuria (con recolección de orina de 24 horas).,a0315b-5
+ult_anio_evitar_comp_diab_medida_2-Medición de la presión arterial.,a0315b-6
+ult_anio_evitar_comp_diab_medida_2-Aplicación de vacuna contra influenza.,a0315b-7
+ult_anio_evitar_comp_diab_medida_2-Aplicación de vacuna contra neumococo.,a0315b-8
+ult_anio_evitar_comp_diab_medida_2-Medición del colesterol y los triglicéridos.,a0315b-9
+ult_anio_evitar_comp_diab_medida_2-Toma un medicamento para disminuir la concentración de coles,a0315b-10
+ult_anio_evitar_comp_diab_medida_2-Toma un medicamento para el control de su presión arterial (,a0315b-11
+ult_anio_evitar_comp_diab_medida_2-Dejó de fumar.,a0315b-12
+ult_anio_evitar_comp_diab_medida_2-Revisión dental.,a0315b-13
+ult_anio_evitar_comp_diab_medida_2-Recibió educación sobre su enfermedad.,a0315b-14
+ult_anio_evitar_comp_diab_medida_2-Electrocardiograma.,a0315b-15
+ult_anio_evitar_comp_diab_medida_2-Evita calzado que pueda lesionar   sus pies.,a0315b-16
+ult_anio_evitar_comp_diab_medida_2-Acude a algún grupo de ayuda mutua.,a0315b-17
+ult_anio_evitar_comp_diab_medida_2-Otro (especifica).,a0315b-18
+ult_anio_evitar_comp_diab_medida_2-No realiza ninguna medida preventiva.,a0315b-19
+ult_anio_evitar_comp_diab_medida_2-Medición de glucosa en sangre capilar en casa.,a0315b-20
+ult_anio_evitar_comp_diab_medida_2-Determinación de glucosa en sangre venosa.,a0315b-21
+ult_anio_evitar_comp_diab_medida_2-Determinación de hemoglobina glucosilada.,a0315b-22
+ult_anio_evitar_comp_diab_medida_3-Revisión de la vista.,a0315c-1
+ult_anio_evitar_comp_diab_medida_3-Toma una aspirina diaria.,a0315c-2
+ult_anio_evitar_comp_diab_medida_3-Revisión de pies.,a0315c-3
+ult_anio_evitar_comp_diab_medida_3-Examen general de orina.,a0315c-4
+ult_anio_evitar_comp_diab_medida_3-Microalbuminuria (con recolección de orina de 24 horas).,a0315c-5
+ult_anio_evitar_comp_diab_medida_3-Medición de la presión arterial.,a0315c-6
+ult_anio_evitar_comp_diab_medida_3-Aplicación de vacuna contra influenza.,a0315c-7
+ult_anio_evitar_comp_diab_medida_3-Aplicación de vacuna contra neumococo.,a0315c-8
+ult_anio_evitar_comp_diab_medida_3-Medición del colesterol y los triglicéridos.,a0315c-9
+ult_anio_evitar_comp_diab_medida_3-Toma un medicamento para disminuir la concentración de coles,a0315c-10
+ult_anio_evitar_comp_diab_medida_3-Toma un medicamento para el control de su presión arterial (,a0315c-11
+ult_anio_evitar_comp_diab_medida_3-Dejó de fumar.,a0315c-12
+ult_anio_evitar_comp_diab_medida_3-Revisión dental.,a0315c-13
+ult_anio_evitar_comp_diab_medida_3-Recibió educación sobre su enfermedad.,a0315c-14
+ult_anio_evitar_comp_diab_medida_3-Electrocardiograma.,a0315c-15
+ult_anio_evitar_comp_diab_medida_3-Evita calzado que pueda lesionar   sus pies.,a0315c-16
+ult_anio_evitar_comp_diab_medida_3-Acude a algún grupo de ayuda mutua.,a0315c-17
+ult_anio_evitar_comp_diab_medida_3-Otro (especifica).,a0315c-18
+ult_anio_evitar_comp_diab_medida_3-No realiza ninguna medida preventiva.,a0315c-19
+ult_anio_evitar_comp_diab_medida_3-Medición de glucosa en sangre capilar en casa.,a0315c-20
+ult_anio_evitar_comp_diab_medida_3-Determinación de glucosa en sangre venosa.,a0315c-21
+ult_anio_evitar_comp_diab_medida_3-Determinación de hemoglobina glucosilada.,a0315c-22
+ult_anio_evitar_comp_diab_medida_4-Revisión de la vista.,a0315d-1
+ult_anio_evitar_comp_diab_medida_4-Toma una aspirina diaria.,a0315d-2
+ult_anio_evitar_comp_diab_medida_4-Revisión de pies.,a0315d-3
+ult_anio_evitar_comp_diab_medida_4-Examen general de orina.,a0315d-4
+ult_anio_evitar_comp_diab_medida_4-Microalbuminuria (con recolección de orina de 24 horas).,a0315d-5
+ult_anio_evitar_comp_diab_medida_4-Medición de la presión arterial.,a0315d-6
+ult_anio_evitar_comp_diab_medida_4-Aplicación de vacuna contra influenza.,a0315d-7
+ult_anio_evitar_comp_diab_medida_4-Aplicación de vacuna contra neumococo.,a0315d-8
+ult_anio_evitar_comp_diab_medida_4-Medición del colesterol y los triglicéridos.,a0315d-9
+ult_anio_evitar_comp_diab_medida_4-Toma un medicamento para disminuir la concentración de coles,a0315d-10
+ult_anio_evitar_comp_diab_medida_4-Toma un medicamento para el control de su presión arterial (,a0315d-11
+ult_anio_evitar_comp_diab_medida_4-Dejó de fumar.,a0315d-12
+ult_anio_evitar_comp_diab_medida_4-Revisión dental.,a0315d-13
+ult_anio_evitar_comp_diab_medida_4-Recibió educación sobre su enfermedad.,a0315d-14
+ult_anio_evitar_comp_diab_medida_4-Electrocardiograma.,a0315d-15
+ult_anio_evitar_comp_diab_medida_4-Evita calzado que pueda lesionar   sus pies.,a0315d-16
+ult_anio_evitar_comp_diab_medida_4-Acude a algún grupo de ayuda mutua.,a0315d-17
+ult_anio_evitar_comp_diab_medida_4-Otro (especifica).,a0315d-18
+ult_anio_evitar_comp_diab_medida_4-No realiza ninguna medida preventiva.,a0315d-19
+ult_anio_evitar_comp_diab_medida_4-Medición de glucosa en sangre capilar en casa.,a0315d-20
+ult_anio_evitar_comp_diab_medida_4-Determinación de glucosa en sangre venosa.,a0315d-21
+ult_anio_evitar_comp_diab_medida_4-Determinación de hemoglobina glucosilada.,a0315d-22
+x_diab_ulceras-SI,a0316a-1
+x_diab_ulceras-NO,a0316a-2
+x_diab_amputacion-SI,a0316b-1
+x_diab_amputacion-NO,a0316b-2
+x_diab_disminuido_vision-SI,a0316c-1
+x_diab_disminuido_vision-NO,a0316c-2
+x_diab_perdida_vision-SI,a0316d-1
+x_diab_perdida_vision-NO,a0316d-2
+x_diab_dialisis-SI,a0316e-1
+x_diab_dialisis-NO,a0316e-2
+x_diab_infarto_corazon-SI,a0316f-1
+x_diab_infarto_corazon-NO,a0316f-2
+x_diab_infarto_cerebral-SI,a0316g-1
+x_diab_infarto_cerebral-NO,a0316g-2
+x_diab_pie_diabetico-SI,a0316h-1
+x_diab_pie_diabetico-NO,a0316h-2
+x_diab_coma_diabetico-SI,a0316i-1
+x_diab_coma_diabetico-NO,a0316i-2
+x_diab_episodio_diverso-SI,a0316j-1
+x_diab_episodio_diverso-NO,a0316j-2
+dx_presion_alta-SÍ.,a0401-1
+"dx_presion_alta-SÍ, durante el embarazo.",a0401-2
+dx_presion_alta-NO.,a0401-3
+dx_presion_alta_embarazada-SÍ.,a0403-1
+dx_presion_alta_embarazada-NO.,a0403-2
+tx_control_presion_alta-SÍ.,a0404-1
+tx_control_presion_alta-NO.,a0404-2
+lugar_atiende_presion-Instituto Mexicano del Seguro Social (IMSS).,a0407-1
+lugar_atiende_presion-ISSSTE/ISSSTE Estatal.,a0407-2
+lugar_atiende_presion-PEMEX.,a0407-3
+lugar_atiende_presion-Defensa.,a0407-4
+lugar_atiende_presion-Marina.,a0407-5
+lugar_atiende_presion-Centro de Salud u Hospital de la SSA.,a0407-6
+lugar_atiende_presion-IMSS Bienestar (antes Oportunidades).,a0407-7
+"lugar_atiende_presion-DIF federal, estatal o municipal.",a0407-8
+lugar_atiende_presion-Cruz Roja/Cruz Verde.,a0407-9
+lugar_atiende_presion-Instituto Nacional de Salud.,a0407-10
+lugar_atiende_presion-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,a0407-11
+lugar_atiende_presion-Consultorios pertenecientes a farmacias/Farmacias con consul,a0407-12
+lugar_atiende_presion-Consultorio dentro de hospital privado.,a0407-13
+lugar_atiende_presion-Área de urgencias/hospitalización dentro de hospital privado,a0407-14
+lugar_atiende_presion-Atención privada en torre de consultorios médicos o en una c,a0407-15
+lugar_atiende_presion-Consultorio en domicilio particular de médico privado.,a0407-16
+lugar_atiende_presion-Atención privada en mi domicilio.,a0407-17
+"lugar_atiende_presion-Atención privada vía remota (teléfono, mensajes de texto, te",a0407-18
+lugar_atiende_presion-Médico laboral (médico de la empresa).,a0407-19
+"lugar_atiende_presion-Curandero, hierbero, naturista.",a0407-20
+"lugar_atiende_presion-Homeópata, partera, acupunturista.",a0407-21
+lugar_atiende_presion-Otro (especifique).,a0407-22
+lugar_atiende_presion-No sabe / No recuerda.,a0407-23
+lugar_atiende_presion-Ninguna.,a0407-24
+tx_adicional_control_presion_1-Plan de alimentación (dieta recomendada por personal de salu,a0408a-1
+tx_adicional_control_presion_1-Realiza algún ejercicio físico.,a0408a-2
+tx_adicional_control_presion_1-Disminución en el consumo de sal.,a0408a-3
+tx_adicional_control_presion_1-Medicina alternativa.,a0408a-4
+tx_adicional_control_presion_1-Ninguno.,a0408a-5
+tx_adicional_control_presion_2-Plan de alimentación (dieta recomendada por personal de salu,a0408b-1
+tx_adicional_control_presion_2-Realiza algún ejercicio físico.,a0408b-2
+tx_adicional_control_presion_2-Disminución en el consumo de sal.,a0408b-3
+tx_adicional_control_presion_2-Medicina alternativa.,a0408b-4
+tx_adicional_control_presion_2-Ninguno.,a0408b-5
+ult_anio_frec_medir_presion-Diario.,a0409-1
+ult_anio_frec_medir_presion-Semanal.,a0409-2
+ult_anio_frec_medir_presion-Mensual.,a0409-3
+ult_anio_frec_medir_presion-Anual.,a0409-4
+ult_anio_frec_medir_presion-No se la toman,a0409-5
+x_hpt_danio_retina-SI.,a04010a-1
+x_hpt_danio_retina-NO.,a04010a-2
+x_hpt_dialisis-SI.,a04010b-1
+x_hpt_dialisis-NO.,a04010b-2
+x_hpt_infarto_corazon-SI.,a04010c-1
+x_hpt_infarto_corazon-NO.,a04010c-2
+x_hpt_infarto_cerebral-SI.,a04010d-1
+x_hpt_infarto_cerebral-NO.,a04010d-2
+x_hpt_urgencias_ult_anio-SI.,a04010e-1
+x_hpt_urgencias_ult_anio-NO.,a04010e-2
+x_hpt_hospitalizado_ult_dos_anios-SI.,a04010f-1
+x_hpt_hospitalizado_ult_dos_anios-NO.,a04010f-2
+x_hpt_episodio_diverso-SÍ.,a0501-1
+x_hpt_episodio_diverso-NO.,a0501-2
+dich_medico_tuvo_infarto-SÍ.,a0502a-1
+dich_medico_tuvo_infarto-NO.,a0502a-2
+dich_medico_tuvo_angina-SÍ.,a0502b-1
+dich_medico_tuvo_angina-NO.,a0502b-2
+dich_medico_tuvo_insuf_card-SÍ.,a0502c-1
+dich_medico_tuvo_insuf_card-NO.,a0502c-2
+dich_medico_tuvo_infarto_cereb-SÍ.,a0506-1
+dich_medico_tuvo_infarto_cereb-NO.,a0506-2
+dich_medico_tuvo_infarto_cereb-No sabe.,a0506-9
+dich_medico_padece_enf_renal-SI.,a0601a-1
+dich_medico_padece_enf_renal-NO.,a0601a-2
+dich_medico_padece_calculo_renal-SI.,a0601b-1
+dich_medico_padece_calculo_renal-NO.,a0601b-2
+tx_enf_renal_dieta_sin_sal-SI.,a0602a-1
+tx_enf_renal_dieta_sin_sal-NO.,a0602a-2
+tx_enf_renal_medicamentos-SI.,a0602b-1
+tx_enf_renal_medicamentos-NO.,a0602b-2
+tx_enf_renal_dialisis-SI.,a0602c-1
+tx_enf_renal_dialisis-NO.,a0602c-2
+tx_enf_renal_hemodialisis-SI.,a0602d-1
+tx_enf_renal_hemodialisis-NO.,a0602d-2
+tx_enf_renal_medic_alterna-SI.,a0602e-1
+tx_enf_renal_medic_alterna-NO.,a0602e-2
+tx_enf_renal_otro-SI.,a0602f-1
+tx_enf_renal_otro-NO.,a0602f-2
+tx_enf_renal_ninguno-SI.,a0602g-1
+tx_enf_renal_ninguno-NO.,a0602g-2
+medicion_col_trig-SÍ.,a0603-1
+medicion_col_trig-NO.,a0603-2
+medicion_col_trig-No sabe.,a0603-9
+dich_medico_col_alto-SI.,a0604-1
+dich_medico_col_alto-NO.,a0604-2
+accion_control_col_alto_1-Medicamento.,a0605a-1
+accion_control_col_alto_1-Dieta.,a0605a-2
+accion_control_col_alto_1-Aumento de actividad física.,a0605a-3
+accion_control_col_alto_1-Medicina Alternativa,a0605a-4
+accion_control_col_alto_1-Ninguna.,a0605a-5
+accion_control_col_alto_2-Medicamento.,a0605b-1
+accion_control_col_alto_2-Dieta.,a0605b-2
+accion_control_col_alto_2-Aumento de actividad física.,a0605b-3
+accion_control_col_alto_2-Medicina Alternativa,a0605b-4
+accion_control_col_alto_2-Ninguna.,a0605b-5
+dich_medico_trig_alto-SI.,a0606-1
+dich_medico_trig_alto-NO.,a0606-2
+accion_control_trig_alto_1-Medicamento.,a0607a-1
+accion_control_trig_alto_1-Dieta.,a0607a-2
+accion_control_trig_alto_1-Aumento de actividad física.,a0607a-3
+accion_control_trig_alto_1-Medicina Alternativa,a0607a-4
+accion_control_trig_alto_1-Ninguna.,a0607a-5
+accion_control_trig_alto_2-Medicamento.,a0607b-1
+accion_control_trig_alto_2-Dieta.,a0607b-2
+accion_control_trig_alto_2-Aumento de actividad física.,a0607b-3
+accion_control_trig_alto_2-Medicina Alternativa,a0607b-4
+accion_control_trig_alto_2-Ninguna.,a0607b-5
+"accion_control_trig_col_alto_1-Pravastatina, atorvastatina simvastatina, rosuvastatina, pit",a0608a-1
+"accion_control_trig_col_alto_1-Bezafibrato, fenofibrato, gemfibrozil, ciprofibrato.",a0608a-2
+accion_control_trig_col_alto_1-Otros.,a0608a-3
+accion_control_trig_col_alto_1-Ninguna,a0608a-4
+"accion_control_trig_col_alto_2-Pravastatina, atorvastatina simvastatina, rosuvastatina, pit",a0608b-1
+"accion_control_trig_col_alto_2-Bezafibrato, fenofibrato, gemfibrozil, ciprofibrato.",a0608b-2
+accion_control_trig_col_alto_2-Otros.,a0608b-3
+accion_control_trig_col_alto_2-Ninguna,a0608b-4
+tiene_tuvo_hermanos-SI,a07her-1
+tiene_tuvo_hermanos-NO,a07her-2
+padre_presion_alta-SI.,a0701p-1
+padre_presion_alta-NO.,a0701p-2
+padre_presion_alta-NO SABE.,a0701p-9
+padre_diab_azucar_alta-SI.,a0702p-1
+padre_diab_azucar_alta-NO.,a0702p-2
+padre_diab_azucar_alta-NO SABE.,a0702p-9
+padre_tuvo_infarto-SI.,a0703p-1
+padre_tuvo_infarto-NO.,a0703p-2
+padre_tuvo_infarto-NO SABE.,a0703p-9
+edad_padre_infarto_1-<50.,a0704p-1
+edad_padre_infarto_1->=50.,a0704p-2
+edad_padre_infarto_1-NO SABE.,a0704p-9
+padre_col_trig_alto-SI.,a0705p-1
+padre_col_trig_alto-NO.,a0705p-2
+padre_col_trig_alto-NO SABE.,a0705p-9
+madre_diab_azucar_alta-SI.,a0701m-1
+madre_diab_azucar_alta-NO.,a0701m-2
+madre_diab_azucar_alta-NO SABE.,a0701m-9
+madre_presion_alta-SI.,a0702m-1
+madre_presion_alta-NO.,a0702m-2
+madre_presion_alta-NO SABE.,a0702m-9
+madre_tuvo_infarto-SI.,a0703m-1
+madre_tuvo_infarto-NO.,a0703m-2
+madre_tuvo_infarto-NO SABE.,a0703m-9
+edad_madre_infarto_1-<50.,a0704m-1
+edad_madre_infarto_1->=50.,a0704m-2
+edad_madre_infarto_1-NO SABE.,a0704m-9
+madre_col_trig_alto-SI.,a0705m-1
+madre_col_trig_alto-NO.,a0705m-2
+madre_col_trig_alto-NO SABE.,a0705m-9
+hmno_diab_azucar_alta-SI.,a0701h-1
+hmno_diab_azucar_alta-NO.,a0701h-2
+hmno_diab_azucar_alta-NO SABE.,a0701h-9
+hmno_presion_alta-SI.,a0702h-1
+hmno_presion_alta-NO.,a0702h-2
+hmno_presion_alta-NO SABE.,a0702h-9
+hmno_tuvo_infarto-SI.,a0703h-1
+hmno_tuvo_infarto-NO.,a0703h-2
+hmno_tuvo_infarto-NO SABE.,a0703h-9
+edad_hmno_infarto_1-<50.,a0704h-1
+edad_hmno_infarto_1->=50.,a0704h-2
+edad_hmno_infarto_1-NO SABE.,a0704h-9
+hmno_col_trig_alto-SI.,a0705h-1
+hmno_col_trig_alto-NO.,a0705h-2
+hmno_col_trig_alto-NO SABE.,a0705h-9
+primera_rel_sex_evita_enf_1-Condón o preservativo masculino.,a0803a-1
+primera_rel_sex_evita_enf_1-Condón femenino.,a0803a-2
+primera_rel_sex_evita_enf_1-Pastillas de anticoncepción de emergencia o del día siguient,a0803a-3
+primera_rel_sex_evita_enf_1-Pastillas o píldoras.,a0803a-4
+primera_rel_sex_evita_enf_1-Inyecciones.,a0803a-5
+primera_rel_sex_evita_enf_1-Parche anticonceptivo.,a0803a-6
+"primera_rel_sex_evita_enf_1-Dispositivo, DIU o aparato.",a0803a-7
+"primera_rel_sex_evita_enf_1-Implantes, tubos o norplant.",a0803a-8
+"primera_rel_sex_evita_enf_1-Óvulos, jaleas, espuma o diafragma.",a0803a-9
+"primera_rel_sex_evita_enf_1-Ritmo, calendario, termómetro, Billings.",a0803a-10
+primera_rel_sex_evita_enf_1-Retiro o coito interrumpido.,a0803a-11
+primera_rel_sex_evita_enf_1-Nada.,a0803a-14
+primera_rel_sex_evita_enf_1-Otro (especifique).,a0803a-77
+primera_rel_sex_evita_enf_1-No recuerda.,a0803a-88
+primera_rel_sex_evita_enf_1-NS/NR.,a0803a-99
+primera_rel_sex_evita_enf_2-Condón o preservativo masculino.,a0803b-1
+primera_rel_sex_evita_enf_2-Condón femenino.,a0803b-2
+primera_rel_sex_evita_enf_2-Pastillas de anticoncepción de emergencia o del día siguient,a0803b-3
+primera_rel_sex_evita_enf_2-Pastillas o píldoras.,a0803b-4
+primera_rel_sex_evita_enf_2-Inyecciones.,a0803b-5
+primera_rel_sex_evita_enf_2-Parche anticonceptivo.,a0803b-6
+"primera_rel_sex_evita_enf_2-Dispositivo, DIU o aparato.",a0803b-7
+"primera_rel_sex_evita_enf_2-Implantes, tubos o norplant.",a0803b-8
+"primera_rel_sex_evita_enf_2-Óvulos, jaleas, espuma o diafragma.",a0803b-9
+"primera_rel_sex_evita_enf_2-Ritmo, calendario, termómetro, Billings.",a0803b-10
+primera_rel_sex_evita_enf_2-Retiro o coito interrumpido.,a0803b-11
+primera_rel_sex_evita_enf_2-Nada.,a0803b-14
+primera_rel_sex_evita_enf_2-Otro (especifique).,a0803b-77
+primera_rel_sex_evita_enf_2-No recuerda.,a0803b-88
+primera_rel_sex_evita_enf_2-NS/NR.,a0803b-99
+ultima_rel_sex_evita_enf_1-Condón o preservativo masculino.,a0804a-1
+ultima_rel_sex_evita_enf_1-Condón femenino.,a0804a-2
+ultima_rel_sex_evita_enf_1-Pastillas de anticoncepción de emergencia o del día siguient,a0804a-3
+ultima_rel_sex_evita_enf_1-Pastillas o píldoras.,a0804a-4
+ultima_rel_sex_evita_enf_1-Inyecciones.,a0804a-5
+ultima_rel_sex_evita_enf_1-Parche anticonceptivo.,a0804a-6
+"ultima_rel_sex_evita_enf_1-Dispositivo, DIU o aparato.",a0804a-7
+"ultima_rel_sex_evita_enf_1-Implantes, tubos o norplant.",a0804a-8
+"ultima_rel_sex_evita_enf_1-Óvulos, jaleas, espuma o diafragma.",a0804a-9
+"ultima_rel_sex_evita_enf_1-Operación femenina, OTB o ligadura de trompas",a0804a-10
+ultima_rel_sex_evita_enf_1-Operación masculina o vasectomía.,a0804a-11
+"ultima_rel_sex_evita_enf_1-Ritmo, calendario, abstinencia periódica, termómetro, billin",a0804a-12
+ultima_rel_sex_evita_enf_1-Retiro o coito interrumpido.,a0804a-13
+ultima_rel_sex_evita_enf_1-Nada.,a0804a-14
+ultima_rel_sex_evita_enf_1-Otro (especifique).,a0804a-77
+ultima_rel_sex_evita_enf_1-No recuerda.,a0804a-88
+ultima_rel_sex_evita_enf_1-NS/NR.,a0804a-99
+ultima_rel_sex_evita_enf_2-Condón o preservativo masculino.,a0804b-1
+ultima_rel_sex_evita_enf_2-Condón femenino.,a0804b-2
+ultima_rel_sex_evita_enf_2-Pastillas de anticoncepción de emergencia o del día siguient,a0804b-3
+ultima_rel_sex_evita_enf_2-Pastillas o píldoras.,a0804b-4
+ultima_rel_sex_evita_enf_2-Inyecciones.,a0804b-5
+ultima_rel_sex_evita_enf_2-Parche anticonceptivo.,a0804b-6
+"ultima_rel_sex_evita_enf_2-Dispositivo, DIU o aparato.",a0804b-7
+"ultima_rel_sex_evita_enf_2-Implantes, tubos o norplant.",a0804b-8
+"ultima_rel_sex_evita_enf_2-Óvulos, jaleas, espuma o diafragma.",a0804b-9
+"ultima_rel_sex_evita_enf_2-Operación femenina, OTB o ligadura de trompas",a0804b-10
+ultima_rel_sex_evita_enf_2-Operación masculina o vasectomía.,a0804b-11
+"ultima_rel_sex_evita_enf_2-Ritmo, calendario, abstinencia periódica, termómetro, billin",a0804b-12
+ultima_rel_sex_evita_enf_2-Retiro o coito interrumpido.,a0804b-13
+ultima_rel_sex_evita_enf_2-Nada.,a0804b-14
+ultima_rel_sex_evita_enf_2-Otro (especifique).,a0804b-77
+ultima_rel_sex_evita_enf_2-No recuerda.,a0804b-88
+ultima_rel_sex_evita_enf_2-NS/NR.,a0804b-99
+usanron_condon_masculino-Sí.,a0805-1
+usanron_condon_masculino-No.,a0805-2
+usanron_condon_masculino-NS/NR.,a0805-9
+algun_embarazo-Si.,a0807-1
+algun_embarazo-No.,a0807-2
+algun_embarazo-No responde.,a0807-9
+actualmente_embarazada-Sí.,a0808-1
+actualmente_embarazada-No.,a0808-2
+actualmente_embarazada-No sabe.,a0808-8
+actualmente_embarazada-No responde.,a0808-9
+durante_embarazo_midieron-Sí.,a0815a-1
+durante_embarazo_midieron-No.,a0815a-2
+durante_embarazo_midieron-NS/NR.,a0815a-9
+durante_embarazo_pesaron-Sí.,a0815b-1
+durante_embarazo_pesaron-No.,a0815b-2
+durante_embarazo_pesaron-NS/NR.,a0815b-9
+durante_embarazo_midieron_presion-Sí.,a0815c-1
+durante_embarazo_midieron_presion-No.,a0815c-2
+durante_embarazo_midieron_presion-NS/NR.,a0815c-9
+durante_embarazo_examen_orina-Sí.,a0815d-1
+durante_embarazo_examen_orina-No.,a0815d-2
+durante_embarazo_examen_orina-NS/NR.,a0815d-9
+durante_embarazo_quimica_sanguinea-Sí.,a0815e-1
+durante_embarazo_quimica_sanguinea-No.,a0815e-2
+durante_embarazo_quimica_sanguinea-NS/NR.,a0815e-9
+durante_embarazo_midieron_azucar-Sí.,a0815f-1
+durante_embarazo_midieron_azucar-No.,a0815f-2
+durante_embarazo_midieron_azucar-NS/NR.,a0815f-9
+durante_embarazo_prueba_vrdl-Sí.,a0815g-1
+durante_embarazo_prueba_vrdl-No.,a0815g-2
+durante_embarazo_prueba_vrdl-NS/NR.,a0815g-9
+durante_embarazo_prueba_vih-Sí.,a0815h-1
+durante_embarazo_prueba_vih-No.,a0815h-2
+durante_embarazo_prueba_vih-NS/NR.,a0815h-9
+durante_embarazo_ultrasonido-Sí.,a0815i-1
+durante_embarazo_ultrasonido-No.,a0815i-2
+durante_embarazo_ultrasonido-NS/NR.,a0815i-9
+durante_embarazo_vacunacion_tetanos-Sí.,a0815j-1
+durante_embarazo_vacunacion_tetanos-No.,a0815j-2
+durante_embarazo_vacunacion_tetanos-NS/NR.,a0815j-9
+durante_embarazo_acido_folico-Sí.,a0815k-1
+durante_embarazo_acido_folico-No.,a0815k-2
+durante_embarazo_acido_folico-NS/NR.,a0815k-9
+durante_embarazo_sup_alimenticio-Sí.,a0815l-1
+durante_embarazo_sup_alimenticio-No.,a0815l-2
+durante_embarazo_sup_alimenticio-NS/NR.,a0815l-9
+durante_embarazo_salud_mental-Sí.,a0815m-1
+durante_embarazo_salud_mental-No.,a0815m-2
+durante_embarazo_salud_mental-NS/NR.,a0815m-9
+durante_embarazo_anticonceptivo-Sí.,a0815n-1
+durante_embarazo_anticonceptivo-No.,a0815n-2
+durante_embarazo_anticonceptivo-NS/NR.,a0815n-9
+durante_embarazo_leche_materna-Sí.,a0815o-1
+durante_embarazo_leche_materna-No.,a0815o-2
+durante_embarazo_leche_materna-NS/NR.,a0815o-9
+durante_embarazo_midieron_panza-Sí.,a0815p-1
+durante_embarazo_midieron_panza-No.,a0815p-2
+durante_embarazo_midieron_panza-NS/NR.,a0815p-9
+atencion_ultimo_parto-Instituto Mexicano del Seguro Social (IMSS).,a0816-1
+atencion_ultimo_parto-ISSSTE/ISSSTE Estatal.,a0816-2
+atencion_ultimo_parto-PEMEX.,a0816-3
+atencion_ultimo_parto-Defensa.,a0816-4
+atencion_ultimo_parto-Marina.,a0816-5
+atencion_ultimo_parto-Centro de Salud u Hospital de la SSA.,a0816-6
+atencion_ultimo_parto-IMSS Bienestar (antes Oportunidades).,a0816-7
+"atencion_ultimo_parto-DIF federal, estatal o municipal.",a0816-8
+atencion_ultimo_parto-Cruz Roja/Cruz Verde.,a0816-9
+atencion_ultimo_parto-Instituto Nacional de Salud.,a0816-10
+atencion_ultimo_parto-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,a0816-11
+atencion_ultimo_parto-Consultorios pertenecientes a farmacias/Farmacias con consul,a0816-12
+atencion_ultimo_parto-Consultorio dentro de hospital privado.,a0816-13
+atencion_ultimo_parto-Área de urgencias/hospitalización dentro de hospital privado,a0816-14
+atencion_ultimo_parto-Atención privada en torre de consultorios médicos o en una c,a0816-15
+atencion_ultimo_parto-Consultorio en domicilio particular de médico privado.,a0816-16
+atencion_ultimo_parto-Atención privada en mi domicilio.,a0816-17
+"atencion_ultimo_parto-Atención privada vía remota (teléfono, mensajes de texto, te",a0816-18
+atencion_ultimo_parto-Médico laboral (médico de la empresa).,a0816-19
+"atencion_ultimo_parto-Curandero, hierbero, naturista.",a0816-20
+"atencion_ultimo_parto-Homeópata, acupunturista.",a0816-21
+atencion_ultimo_parto-Casa de la partera.,a0816-22
+atencion_ultimo_parto-Casa de la entrevistada.,a0816-23
+atencion_ultimo_parto-Otro (especifique).,a0816-24
+atencion_ultimo_parto-No sabe / No recuerda.,a0816-25
+atencion_ultimo_parto-No responde.,a0816-26
+atencion_ultimo_parto-Ninguna.,a0816-27
+ultimo_parto-normal (vaginal)?,a0817-1
+ultimo_parto-cesárea por urgencias?,a0817-2
+ultimo_parto-cesárea programada?,a0817-3
+ultimo_parto-NS/NR.,a0817-9
+ultimo_hijo_piel_c_piel-Sí.,a0818-1
+ultimo_hijo_piel_c_piel-No.,a0818-2
+ultimo_hijo_piel_c_piel-No recuerda.,a0818-8
+ultimo_hijo_piel_c_piel-NS/NR.,a0818-9
+ultimo_hijo_peso_nacer_inf-De la cartilla del niño o de otro documento.,a0819f-1
+"ultimo_hijo_peso_nacer_inf-Del recuerdo de su mamá, cuidadora o informante.",a0819f-2
+ultimo_hijo_peso_nacer_inf-NS/NR.,a0819f-9
+ultimo_hijo_amamanto_periodo-Días.,a0820p-1
+ultimo_hijo_amamanto_periodo-Meses.,a0820p-2
+ultimo_hijo_amamanto_periodo-Aún le da pecho.,a0820p-7
+ultimo_hijo_amamanto_periodo-No recuerda.,a0820p-8
+ultimo_hijo_amamanto_periodo-NS/NR.,a0820p-9
+pos_parto_hemorragia-Si.,a0821a-1
+pos_parto_hemorragia-No.,a0821a-2
+pos_parto_hemorragia-NS/NR.,a0821a-9
+pos_parto_presion_alta-Si.,a0821b-1
+pos_parto_presion_alta-No.,a0821b-2
+pos_parto_presion_alta-NS/NR.,a0821b-9
+pos_parto_infecciones-Si.,a0821c-1
+pos_parto_infecciones-No.,a0821c-2
+pos_parto_infecciones-NS/NR.,a0821c-9
+pos_parto_coagulos-Si.,a0821d-1
+pos_parto_coagulos-No.,a0821d-2
+pos_parto_coagulos-NS/NR.,a0821d-9
+pos_parto_nutricion-Si.,a0821e-1
+pos_parto_nutricion-No.,a0821e-2
+pos_parto_nutricion-NS/NR.,a0821e-9
+pos_parto_inf_lactancia-Si.,a0821f-1
+pos_parto_inf_lactancia-No.,a0821f-2
+pos_parto_inf_lactancia-NS/NR.,a0821f-9
+pos_parto_higiene_manos-Si.,a0821g-1
+pos_parto_higiene_manos-No.,a0821g-2
+pos_parto_higiene_manos-NS/NR.,a0821g-9
+pos_parto_anticoncepcion-Si.,a0821h-1
+pos_parto_anticoncepcion-No.,a0821h-2
+pos_parto_anticoncepcion-NS/NR.,a0821h-9
+pos_parto_depresion-Si.,a0821i-1
+pos_parto_depresion-No.,a0821i-2
+pos_parto_depresion-NS/NR.,a0821i-9
+pos_parto_inf_dormir_bebe-Si.,a0821j-1
+pos_parto_inf_dormir_bebe-No.,a0821j-2
+pos_parto_inf_dormir_bebe-NS/NR.,a0821j-9
+pos_parto_anticonceptivo-Antes de salir del hospital.,a0822-1
+pos_parto_anticonceptivo-Durante el primer mes después de haber salido del hospital.,a0822-2
+pos_parto_anticonceptivo-Después del primer mes.,a0822-3
+pos_parto_anticonceptivo-No recuerda en qué momento.,a0822-8
+pos_parto_anticonceptivo-NS/NR.,a0822-9
+pos_parto_cual_anticonceptivo-Condón o preservativo masculino.,a0823-1
+pos_parto_cual_anticonceptivo-Condón femenino.,a0823-2
+pos_parto_cual_anticonceptivo-Pastillas o píldoras.,a0823-3
+pos_parto_cual_anticonceptivo-Inyecciones.,a0823-4
+pos_parto_cual_anticonceptivo-Parche anticonceptivo.,a0823-5
+"pos_parto_cual_anticonceptivo-Dispositivo, DIU o aparato.",a0823-6
+"pos_parto_cual_anticonceptivo-Implantes, tubos o norplant.",a0823-7
+"pos_parto_cual_anticonceptivo-Óvulos, jaleas, espuma o diafragma.",a0823-8
+"pos_parto_cual_anticonceptivo-Operación femenina, OTB o ligadura de trompas.",a0823-9
+pos_parto_cual_anticonceptivo-Operación masculina o vasectomía.,a0823-10
+pos_parto_cual_anticonceptivo-Otro (especifique).,a0823-77
+pos_parto_cual_anticonceptivo-No recuerda.,a0823-88
+pos_parto_cual_anticonceptivo-NS/NR.,a0823-99
+"prueba_vih-Sí, en los últimos 12 meses.",a0824-1
+"prueba_vih-Sí, hace más de un año.",a0824-2
+prueba_vih-No recuerda.,a0824-8
+prueba_vih-No responde.,a0824-9
+recibio_resultado_vih-Sí.,a0825-1
+recibio_resultado_vih-No.,a0825-2
+recibio_resultado_vih-NS/NR.,a0825-9
+ult_anio_acido_folico-Sí.,a0826-1
+ult_anio_acido_folico-No.,a0826-2
+ult_anio_acido_folico-NS/NR,a0826-9
+puede_mostrar_cart_vacunacion-Sí mostró la Cartilla Nacional de Salud(Hombres o Mujeres de,a0901-1
+puede_mostrar_cart_vacunacion-Tiene documento probatorio o comprobante.,a0901-2
+"puede_mostrar_cart_vacunacion-Sí la tiene, pero no la mostró.",a0901-3
+puede_mostrar_cart_vacunacion-No tiene cartilla.,a0901-4
+"puede_mostrar_cart_vacunacion-Sí mostró la cartilla, pero no tiene información.",a0901-5
+pq_no_tiene_cartilla-No se la han dado.,a0902-1
+pq_no_tiene_cartilla-La extravió.,a0902-2
+pq_no_tiene_cartilla-No le han dado la reposición.,a0902-3
+pq_no_tiene_cartilla-No la tiene disponible en este momento.,a0902-4
+pq_no_tiene_cartilla-Vivienda afectada por sismo u otro desastre Natural.,a0902-5
+pq_no_tiene_cartilla-Otra.,a0902-6
+pq_no_tiene_cartilla-No  sabe.,a0902-9
+pq_no_tiene_infor_cartilla-No se ha vacunado.,a0903-1
+"pq_no_tiene_infor_cartilla-Se vacunó, tiene documento probatorio o comprobante, pero no",a0903-2
+pq_no_tiene_infor_cartilla-No sabe / No responde.,a0903-3
+vaucnado_sarampion_rub-SÍ.,a0904-1
+vaucnado_sarampion_rub-NO.,a0904-2
+vaucnado_sarampion_rub-No sabe / No recuerda.,a0904-9
+vacuna_vs_tetano_10anios-SÍ.,a0906-1
+vacuna_vs_tetano_10anios-NO.,a0906-2
+vacuna_vs_tetano_10anios-No sabe / No recuerda.,a0906-9
+vacuna_vs_influenza-SÍ.,a0908-1
+vacuna_vs_influenza-NO.,a0908-2
+vacuna_vs_influenza-No sabe / No recuerda.,a0908-9
+sr_primera_dosis-Sí.,a09091a-1
+sr_primera_dosis-NO.,a09091a-2
+sr_primera_dosis_institucion-Seguro Social (IMSS).,a09091c-1
+sr_primera_dosis_institucion-ISSSTE.,a09091c-2
+sr_primera_dosis_institucion-ISSSTE Estatal.,a09091c-3
+sr_primera_dosis_institucion-Pemex.,a09091c-4
+sr_primera_dosis_institucion-Defensa.,a09091c-5
+sr_primera_dosis_institucion-Marina.,a09091c-6
+sr_primera_dosis_institucion-Centro de Salud u Hospital de la SSA.,a09091c-7
+sr_primera_dosis_institucion-IMSS Bienestar (antes Prospera).,a09091c-8
+sr_primera_dosis_institucion-Consultorios dependientes de farmacias.,a09091c-9
+"sr_primera_dosis_institucion-Consultorio, clínica u hospital privado.",a09091c-10
+sr_primera_dosis_institucion-Escuela.,a09091c-11
+sr_primera_dosis_institucion-Otro lugar (especifica).,a09091c-12
+sr_primera_dosis_institucion-No sabe / No recuerda.,a09091c-99
+sr_segunda_dosis-Sí.,a09092a-1
+sr_segunda_dosis-NO.,a09092a-2
+sr_tercera_dosis-Sí.,a09093a-1
+sr_tercera_dosis-NO.,a09093a-2
+td_refuerzo-Sí.,a09101a-1
+td_refuerzo-NO.,a09101a-2
+td_refuerzo_institucion-Seguro Social (IMSS).,a09101c-1
+td_refuerzo_institucion-ISSSTE.,a09101c-2
+td_refuerzo_institucion-ISSSTE Estatal.,a09101c-3
+td_refuerzo_institucion-Pemex.,a09101c-4
+td_refuerzo_institucion-Defensa.,a09101c-5
+td_refuerzo_institucion-Marina.,a09101c-6
+td_refuerzo_institucion-Centro de Salud u Hospital de la SSA.,a09101c-7
+td_refuerzo_institucion-IMSS Bienestar (antes Prospera).,a09101c-8
+td_refuerzo_institucion-Consultorios dependientes de farmacias.,a09101c-9
+"td_refuerzo_institucion-Consultorio, clínica u hospital privado.",a09101c-10
+td_refuerzo_institucion-Escuela.,a09101c-11
+td_refuerzo_institucion-Otro lugar (especifica).,a09101c-12
+td_refuerzo_institucion-No sabe / No recuerda.,a09101c-99
+td_primera_dosis-Sí.,a09102a-1
+td_primera_dosis-NO.,a09102a-2
+td_primera_dosis_institucion-Seguro Social (IMSS).,a09102c-1
+td_primera_dosis_institucion-ISSSTE.,a09102c-2
+td_primera_dosis_institucion-ISSSTE Estatal.,a09102c-3
+td_primera_dosis_institucion-Pemex.,a09102c-4
+td_primera_dosis_institucion-Defensa.,a09102c-5
+td_primera_dosis_institucion-Marina.,a09102c-6
+td_primera_dosis_institucion-Centro de Salud u Hospital de la SSA.,a09102c-7
+td_primera_dosis_institucion-IMSS Bienestar (antes Prospera).,a09102c-8
+td_primera_dosis_institucion-Consultorios dependientes de farmacias.,a09102c-9
+"td_primera_dosis_institucion-Consultorio, clínica u hospital privado.",a09102c-10
+td_primera_dosis_institucion-Escuela.,a09102c-11
+td_primera_dosis_institucion-Otro lugar (especifica).,a09102c-12
+td_primera_dosis_institucion-No sabe / No recuerda.,a09102c-99
+td_segunda_dosis-Sí.,a09103a-1
+td_segunda_dosis-NO.,a09103a-2
+td_segunda_dosis_aplicacion-Seguro Social (IMSS).,a09103c-1
+td_segunda_dosis_aplicacion-ISSSTE.,a09103c-2
+td_segunda_dosis_aplicacion-ISSSTE Estatal.,a09103c-3
+td_segunda_dosis_aplicacion-Pemex.,a09103c-4
+td_segunda_dosis_aplicacion-Defensa.,a09103c-5
+td_segunda_dosis_aplicacion-Marina.,a09103c-6
+td_segunda_dosis_aplicacion-Centro de Salud u Hospital de la SSA.,a09103c-7
+td_segunda_dosis_aplicacion-IMSS Bienestar (antes Prospera).,a09103c-8
+td_segunda_dosis_aplicacion-Consultorios dependientes de farmacias.,a09103c-9
+"td_segunda_dosis_aplicacion-Consultorio, clínica u hospital privado.",a09103c-10
+td_segunda_dosis_aplicacion-Escuela.,a09103c-11
+td_segunda_dosis_aplicacion-Otro lugar (especifica).,a09103c-12
+td_segunda_dosis_aplicacion-No sabe / No recuerda.,a09103c-99
+td_tercera_dosis-Sí.,a09104a-1
+td_tercera_dosis-NO.,a09104a-2
+td_tercera_dosis_institucion-Seguro Social (IMSS).,a09104c-1
+td_tercera_dosis_institucion-ISSSTE.,a09104c-2
+td_tercera_dosis_institucion-ISSSTE Estatal.,a09104c-3
+td_tercera_dosis_institucion-Pemex.,a09104c-4
+td_tercera_dosis_institucion-Defensa.,a09104c-5
+td_tercera_dosis_institucion-Marina.,a09104c-6
+td_tercera_dosis_institucion-Centro de Salud u Hospital de la SSA.,a09104c-7
+td_tercera_dosis_institucion-IMSS Bienestar (antes Prospera).,a09104c-8
+td_tercera_dosis_institucion-Consultorios dependientes de farmacias.,a09104c-9
+"td_tercera_dosis_institucion-Consultorio, clínica u hospital privado.",a09104c-10
+td_tercera_dosis_institucion-Escuela.,a09104c-11
+td_tercera_dosis_institucion-Otro lugar (especifica).,a09104c-12
+td_tercera_dosis_institucion-No sabe / No recuerda.,a09104c-99
+tdpa_unica_dosis-Sí.,a09111a-1
+tdpa_unica_dosis-NO.,a09111a-2
+inf_estacional_dosis-Sí.,a09121a-1
+inf_estacional_dosis-NO.,a09121a-2
+inf_estacional_dosis_institucion-Seguro Social (IMSS).,a09121c-1
+inf_estacional_dosis_institucion-ISSSTE.,a09121c-2
+inf_estacional_dosis_institucion-ISSSTE Estatal.,a09121c-3
+inf_estacional_dosis_institucion-Pemex.,a09121c-4
+inf_estacional_dosis_institucion-Defensa.,a09121c-5
+inf_estacional_dosis_institucion-Marina.,a09121c-6
+inf_estacional_dosis_institucion-Centro de Salud u Hospital de la SSA.,a09121c-7
+inf_estacional_dosis_institucion-IMSS Bienestar (antes Prospera).,a09121c-8
+inf_estacional_dosis_institucion-Consultorios dependientes de farmacias.,a09121c-9
+"inf_estacional_dosis_institucion-Consultorio, clínica u hospital privado.",a09121c-10
+inf_estacional_dosis_institucion-Escuela.,a09121c-11
+inf_estacional_dosis_institucion-Otro lugar (especifica).,a09121c-12
+inf_estacional_dosis_institucion-No sabe / No recuerda.,a09121c-99
+inf_estacional_dosis_embarazada-Sí.,a09122a-1
+inf_estacional_dosis_embarazada-NO.,a09122a-2
+otras_vacunas-Sí,o_vac1-1
+otras_vacunas-No,o_vac1-2
+mostrar_cartilla_vacunacion-Sí mostró la Cartilla Nacional de Salud (Adultos mayores de,a0914-1
+mostrar_cartilla_vacunacion-Sí mostró documento probatorio o comprobante.,a0914-2
+"mostrar_cartilla_vacunacion-Sí la tiene, pero no la mostró.",a0914-3
+mostrar_cartilla_vacunacion-No tiene cartilla.,a0914-4
+"mostrar_cartilla_vacunacion-Sí mostró la Cartilla, pero no tiene información.",a0914-5
+motivo_no_mostrar_cartilla-No se la han dado.,a0915-1
+motivo_no_mostrar_cartilla-La extravió.,a0915-2
+motivo_no_mostrar_cartilla-No le han dado la reposición.,a0915-3
+motivo_no_mostrar_cartilla-No la tiene disponible en este momento.,a0915-4
+motivo_no_mostrar_cartilla-Vivienda afectada por sismo u otro desastre natural.,a0915-5
+motivo_no_mostrar_cartilla-Otra.,a0915-6
+motivo_no_mostrar_cartilla-No sabe.,a0915-9
+vacunado_neumococo-SÍ.,a0917-1
+vacunado_neumococo-NO.,a0917-2
+vacunado_neumococo-No sabe / No recuerda.,a0917-9
+vacunado_tet-SÍ.,a0919-1
+vacunado_tet-NO.,a0919-2
+vacunado_tet-No sabe / No recuerda.,a0919-9
+vacunado_influenza-SÍ.,a0921-1
+vacunado_influenza-NO.,a0921-2
+vacunado_influenza-No sabe / No recuerda.,a0921-9
+neumo_unica_dosis-Sí.,a09221a-1
+neumo_unica_dosis-NO.,a09221a-2
+neumo_unica_dosis_institucion-Seguro Social (IMSS).,a09221c-1
+neumo_unica_dosis_institucion-ISSSTE.,a09221c-2
+neumo_unica_dosis_institucion-ISSSTE Estatal.,a09221c-3
+neumo_unica_dosis_institucion-Pemex.,a09221c-4
+neumo_unica_dosis_institucion-Defensa.,a09221c-5
+neumo_unica_dosis_institucion-Marina.,a09221c-6
+neumo_unica_dosis_institucion-Centro de Salud u Hospital de la SSA.,a09221c-7
+neumo_unica_dosis_institucion-IMSS Bienestar (antes Prospera).,a09221c-8
+neumo_unica_dosis_institucion-Consultorios dependientes de farmacias.,a09221c-9
+"neumo_unica_dosis_institucion-Consultorio, clínica u hospital privado.",a09221c-10
+neumo_unica_dosis_institucion-Escuela.,a09221c-11
+neumo_unica_dosis_institucion-Otro lugar (especifica).,a09221c-12
+neumo_unica_dosis_institucion-No sabe / No recuerda.,a09221c-99
+neumo_unica_dosis_administrada-Sí.,a09222a-1
+neumo_unica_dosis_administrada-NO.,a09222a-2
+neumo_revacuna_dosis_administrada-Sí.,a09223a-1
+neumo_revacuna_dosis_administrada-NO.,a09223a-2
+td_refuerzo_dosis-Sí.,a09231a-1
+td_refuerzo_dosis-NO.,a09231a-2
+td_refuerzo_dosis_institucion-Seguro Social (IMSS).,a09231c-1
+td_refuerzo_dosis_institucion-ISSSTE.,a09231c-2
+td_refuerzo_dosis_institucion-ISSSTE Estatal.,a09231c-3
+td_refuerzo_dosis_institucion-Pemex.,a09231c-4
+td_refuerzo_dosis_institucion-Defensa.,a09231c-5
+td_refuerzo_dosis_institucion-Marina.,a09231c-6
+td_refuerzo_dosis_institucion-Centro de Salud u Hospital de la SSA.,a09231c-7
+td_refuerzo_dosis_institucion-IMSS Bienestar (antes Prospera).,a09231c-8
+td_refuerzo_dosis_institucion-Consultorios dependientes de farmacias.,a09231c-9
+"td_refuerzo_dosis_institucion-Consultorio, clínica u hospital privado.",a09231c-10
+td_refuerzo_dosis_institucion-Escuela.,a09231c-11
+td_refuerzo_dosis_institucion-Otro lugar (especifica).,a09231c-12
+td_refuerzo_dosis_institucion-No sabe / No recuerda.,a09231c-99
+td_primera_dosis_2-Sí.,a09232a-1
+td_primera_dosis_2-NO.,a09232a-2
+td_primera_dosis_2_institucion-Seguro Social (IMSS).,a09232c-1
+td_primera_dosis_2_institucion-ISSSTE.,a09232c-2
+td_primera_dosis_2_institucion-ISSSTE Estatal.,a09232c-3
+td_primera_dosis_2_institucion-Pemex.,a09232c-4
+td_primera_dosis_2_institucion-Defensa.,a09232c-5
+td_primera_dosis_2_institucion-Marina.,a09232c-6
+td_primera_dosis_2_institucion-Centro de Salud u Hospital de la SSA.,a09232c-7
+td_primera_dosis_2_institucion-IMSS Bienestar (antes Prospera).,a09232c-8
+td_primera_dosis_2_institucion-Consultorios dependientes de farmacias.,a09232c-9
+"td_primera_dosis_2_institucion-Consultorio, clínica u hospital privado.",a09232c-10
+td_primera_dosis_2_institucion-Escuela.,a09232c-11
+td_primera_dosis_2_institucion-Otro lugar (especifica).,a09232c-12
+td_primera_dosis_2_institucion-No sabe / No recuerda.,a09232c-99
+td_segunda_dosis_2-Sí.,a09233a-1
+td_segunda_dosis_2-NO.,a09233a-2
+td_tercera_dosis_2-Sí.,a09234a-1
+td_tercera_dosis_2-NO.,a09234a-2
+inf_estacional_unica_dosis-Sí.,a09241a-1
+inf_estacional_unica_dosis-NO.,a09241a-2
+inf_estacional_unica_dosis_aplicacion-Seguro Social (IMSS).,a09241c-1
+inf_estacional_unica_dosis_aplicacion-ISSSTE.,a09241c-2
+inf_estacional_unica_dosis_aplicacion-ISSSTE Estatal.,a09241c-3
+inf_estacional_unica_dosis_aplicacion-Pemex.,a09241c-4
+inf_estacional_unica_dosis_aplicacion-Defensa.,a09241c-5
+inf_estacional_unica_dosis_aplicacion-Marina.,a09241c-6
+inf_estacional_unica_dosis_aplicacion-Centro de Salud u Hospital de la SSA.,a09241c-7
+inf_estacional_unica_dosis_aplicacion-IMSS Bienestar (antes Prospera).,a09241c-8
+inf_estacional_unica_dosis_aplicacion-Consultorios dependientes de farmacias.,a09241c-9
+"inf_estacional_unica_dosis_aplicacion-Consultorio, clínica u hospital privado.",a09241c-10
+inf_estacional_unica_dosis_aplicacion-Escuela.,a09241c-11
+inf_estacional_unica_dosis_aplicacion-Otro lugar (especifica).,a09241c-12
+inf_estacional_unica_dosis_aplicacion-No sabe / No recuerda.,a09241c-99
+otras_vacunas_2-Sí,o_vac11-1
+otras_vacunas_2-No,o_vac11-2
+prueba_papanicolaou-Sí,a1001a-1
+prueba_papanicolaou-No,a1001a-2
+prueba_pap_institucion-IMSS Prospera,a1002a-1
+prueba_pap_institucion-IMSS,a1002a-2
+prueba_pap_institucion-Secretaria de Salud,a1002a-3
+prueba_pap_institucion-Seguro Popular (SSA),a1002a-4
+"prueba_pap_institucion-DIF, Cruz Roja, INI",a1002a-5
+"prueba_pap_institucion-ISSSTE, ISSSTE Estatal",a1002a-6
+"prueba_pap_institucion-Marina, Defensa, Pemex",a1002a-7
+"prueba_pap_institucion-Consultorio, clinica u hospital privado",a1002a-8
+prueba_pap_institucion-Hospital Civil,a1002a-9
+prueba_pap_institucion-Instituciones nacionales,a1002a-10
+prueba_pap_institucion-Consultorios dependientes de farmacias,a1002a-11
+prueba_pap_institucion-Otra institución,a1002a-12
+prueba_pap_institucion-Nos sabe,a1002a-99
+prueba_pap_algun_sintoma-Sí,a1003a-1
+prueba_pap_algun_sintoma-No,a1003a-2
+prueba_pap_resultado-Sí,a1004a-1
+prueba_pap_resultado-No,a1004a-2
+prueba_pap_diagnostico-Positivo,a1005a-1
+prueba_pap_diagnostico-Bien o Negativo,a1005a-2
+prueba_pap_diagnostico-No responde,a1005a-8
+prueba_pap_diagnostico-No sabe,a1005a-9
+prueba_vph-Sí,a1001b-1
+prueba_vph-No,a1001b-2
+prueba_vph_institucion-IMSS Prospera,a1002b-1
+prueba_vph_institucion-IMSS,a1002b-2
+prueba_vph_institucion-Secretaria de Salud,a1002b-3
+prueba_vph_institucion-Seguro Popular (SSA),a1002b-4
+"prueba_vph_institucion-DIF, Cruz Roja, INI",a1002b-5
+"prueba_vph_institucion-ISSSTE, ISSSTE Estatal",a1002b-6
+"prueba_vph_institucion-Marina, Defensa, Pemex",a1002b-7
+"prueba_vph_institucion-Consultorio, clinica u hospital privado",a1002b-8
+prueba_vph_institucion-Hospital Civil,a1002b-9
+prueba_vph_institucion-Instituciones nacionales,a1002b-10
+prueba_vph_institucion-Consultorios dependientes de farmacias,a1002b-11
+prueba_vph_institucion-Otra institución,a1002b-12
+prueba_vph_institucion-Nos sabe,a1002b-99
+prueba_vph_algun_sintoma-Sí,a1003b-1
+prueba_vph_algun_sintoma-No,a1003b-2
+prueba_vph_resultado-Sí,a1004b-1
+prueba_vph_resultado-No,a1004b-2
+prueba_vph_diagnostico-Positivo,a1005b-1
+prueba_vph_diagnostico-Bien o Negativo,a1005b-2
+prueba_vph_diagnostico-No responde,a1005b-8
+prueba_vph_diagnostico-No sabe,a1005b-9
+prueba_exploracion_clinica-Sí,a1001c-1
+prueba_exploracion_clinica-No,a1001c-2
+prueba_exploracion_clinica_institucion-IMSS Prospera,a1002c-1
+prueba_exploracion_clinica_institucion-IMSS,a1002c-2
+prueba_exploracion_clinica_institucion-Secretaria de Salud,a1002c-3
+prueba_exploracion_clinica_institucion-Seguro Popular (SSA),a1002c-4
+"prueba_exploracion_clinica_institucion-DIF, Cruz Roja, INI",a1002c-5
+"prueba_exploracion_clinica_institucion-ISSSTE, ISSSTE Estatal",a1002c-6
+"prueba_exploracion_clinica_institucion-Marina, Defensa, Pemex",a1002c-7
+"prueba_exploracion_clinica_institucion-Consultorio, clinica u hospital privado",a1002c-8
+prueba_exploracion_clinica_institucion-Hospital Civil,a1002c-9
+prueba_exploracion_clinica_institucion-Instituciones nacionales,a1002c-10
+prueba_exploracion_clinica_institucion-Consultorios dependientes de farmacias,a1002c-11
+prueba_exploracion_clinica_institucion-Otra institución,a1002c-12
+prueba_exploracion_clinica_institucion-Nos sabe,a1002c-99
+prueba_exploracion_clinica_sintoma-Sí,a1003c-1
+prueba_exploracion_clinica_sintoma-No,a1003c-2
+prueba_exploracion_clinica_resultados-Sí,a1004c-1
+prueba_exploracion_clinica_resultados-No,a1004c-2
+prueba_exploracion_clinica_diagnostico-Positivo,a1005c-1
+prueba_exploracion_clinica_diagnostico-Bien o Negativo,a1005c-2
+prueba_exploracion_clinica_diagnostico-No responde,a1005c-8
+prueba_exploracion_clinica_diagnostico-No sabe,a1005c-9
+prueba_cancer-Sí,a1001d-1
+prueba_cancer-No,a1001d-2
+prueba_cancer_institucion-IMSS Prospera,a1002d-1
+prueba_cancer_institucion-IMSS,a1002d-2
+prueba_cancer_institucion-Secretaria de Salud,a1002d-3
+prueba_cancer_institucion-Seguro Popular (SSA),a1002d-4
+"prueba_cancer_institucion-DIF, Cruz Roja, INI",a1002d-5
+"prueba_cancer_institucion-ISSSTE, ISSSTE Estatal",a1002d-6
+"prueba_cancer_institucion-Marina, Defensa, Pemex",a1002d-7
+"prueba_cancer_institucion-Consultorio, clinica u hospital privado",a1002d-8
+prueba_cancer_institucion-Hospital Civil,a1002d-9
+prueba_cancer_institucion-Instituciones nacionales,a1002d-10
+prueba_cancer_institucion-Consultorios dependientes de farmacias,a1002d-11
+prueba_cancer_institucion-Otra institución,a1002d-12
+prueba_cancer_institucion-Nos sabe,a1002d-99
+prueba_cancer_algun_sintoma-Sí,a1003d-1
+prueba_cancer_algun_sintoma-No,a1003d-2
+prueba_cancer_resultados-Sí,a1004d-1
+prueba_cancer_resultados-No,a1004d-2
+prueba_cancer_diagnostico-Positivo,a1005d-1
+prueba_cancer_diagnostico-Bien o Negativo,a1005d-2
+prueba_cancer_diagnostico-No responde,a1005d-8
+prueba_cancer_diagnostico-No sabe,a1005d-9
+prueba_tuberculosis-Sí,a1001e-1
+prueba_tuberculosis-No,a1001e-2
+prueba_tuberculosis_institucion-IMSS Prospera,a1002e-1
+prueba_tuberculosis_institucion-IMSS,a1002e-2
+prueba_tuberculosis_institucion-Secretaria de Salud,a1002e-3
+prueba_tuberculosis_institucion-Seguro Popular (SSA),a1002e-4
+"prueba_tuberculosis_institucion-DIF, Cruz Roja, INI",a1002e-5
+"prueba_tuberculosis_institucion-ISSSTE, ISSSTE Estatal",a1002e-6
+"prueba_tuberculosis_institucion-Marina, Defensa, Pemex",a1002e-7
+"prueba_tuberculosis_institucion-Consultorio, clinica u hospital privado",a1002e-8
+prueba_tuberculosis_institucion-Hospital Civil,a1002e-9
+prueba_tuberculosis_institucion-Instituciones nacionales,a1002e-10
+prueba_tuberculosis_institucion-Consultorios dependientes de farmacias,a1002e-11
+prueba_tuberculosis_institucion-Otra institución,a1002e-12
+prueba_tuberculosis_institucion-Nos sabe,a1002e-99
+prueba_tuberculosis_sintoma-Sí,a1003e-1
+prueba_tuberculosis_sintoma-No,a1003e-2
+prueba_tuberculosis_resultado-Sí,a1004e-1
+prueba_tuberculosis_resultado-No,a1004e-2
+prueba_tuberculosis_diagnostico-Positivo,a1005e-1
+prueba_tuberculosis_diagnostico-Bien o Negativo,a1005e-2
+prueba_tuberculosis_diagnostico-No responde,a1005e-8
+prueba_tuberculosis_diagnostico-No sabe,a1005e-9
+prueba_sobrepeso_obes-Sí,a1001f-1
+prueba_sobrepeso_obes-No,a1001f-2
+prueba_sobrepeso_obes_institucion-IMSS Prospera,a1002f-1
+prueba_sobrepeso_obes_institucion-IMSS,a1002f-2
+prueba_sobrepeso_obes_institucion-Secretaria de Salud,a1002f-3
+prueba_sobrepeso_obes_institucion-Seguro Popular (SSA),a1002f-4
+"prueba_sobrepeso_obes_institucion-DIF, Cruz Roja, INI",a1002f-5
+"prueba_sobrepeso_obes_institucion-ISSSTE, ISSSTE Estatal",a1002f-6
+"prueba_sobrepeso_obes_institucion-Marina, Defensa, Pemex",a1002f-7
+"prueba_sobrepeso_obes_institucion-Consultorio, clinica u hospital privado",a1002f-8
+prueba_sobrepeso_obes_institucion-Hospital Civil,a1002f-9
+prueba_sobrepeso_obes_institucion-Instituciones nacionales,a1002f-10
+prueba_sobrepeso_obes_institucion-Consultorios dependientes de farmacias,a1002f-11
+prueba_sobrepeso_obes_institucion-Otra institución,a1002f-12
+prueba_sobrepeso_obes_institucion-Nos sabe,a1002f-99
+prueba_sobrepeso_obes_sintoma-Sí,a1003f-1
+prueba_sobrepeso_obes_sintoma-No,a1003f-2
+prueba_sobrepeso_obes_resultado-Sí,a1004f-1
+prueba_sobrepeso_obes_resultado-No,a1004f-2
+prueba_sobrepeso_obes_diagnostico-Positivo,a1005f-1
+prueba_sobrepeso_obes_diagnostico-Bien o Negativo,a1005f-2
+prueba_sobrepeso_obes_diagnostico-No responde,a1005f-8
+prueba_sobrepeso_obes_diagnostico-No sabe,a1005f-9
+prueba_sobrepeso_obes_tratamiento-Sí,a1006f-1
+prueba_sobrepeso_obes_tratamiento-No,a1006f-2
+prueba_diabetes-Sí,a1001g-1
+prueba_diabetes-No,a1001g-2
+prueba_diabetes_institucion-IMSS Prospera,a1002g-1
+prueba_diabetes_institucion-IMSS,a1002g-2
+prueba_diabetes_institucion-Secretaria de Salud,a1002g-3
+prueba_diabetes_institucion-Seguro Popular (SSA),a1002g-4
+"prueba_diabetes_institucion-DIF, Cruz Roja, INI",a1002g-5
+"prueba_diabetes_institucion-ISSSTE, ISSSTE Estatal",a1002g-6
+"prueba_diabetes_institucion-Marina, Defensa, Pemex",a1002g-7
+"prueba_diabetes_institucion-Consultorio, clinica u hospital privado",a1002g-8
+prueba_diabetes_institucion-Hospital Civil,a1002g-9
+prueba_diabetes_institucion-Instituciones nacionales,a1002g-10
+prueba_diabetes_institucion-Consultorios dependientes de farmacias,a1002g-11
+prueba_diabetes_institucion-Otra institución,a1002g-12
+prueba_diabetes_institucion-Nos sabe,a1002g-99
+prueba_diabetes_intoma-Sí,a1003g-1
+prueba_diabetes_intoma-No,a1003g-2
+prueba_diabetes_resultado-Sí,a1004g-1
+prueba_diabetes_resultado-No,a1004g-2
+prueba_diabetes_diagnostico-Positivo,a1005g-1
+prueba_diabetes_diagnostico-Bien o Negativo,a1005g-2
+prueba_diabetes_diagnostico-No responde,a1005g-8
+prueba_diabetes_diagnostico-No sabe,a1005g-9
+prueba_hipertension-Sí,a1001h-1
+prueba_hipertension-No,a1001h-2
+prueba_hipertension_institucion-IMSS Prospera,a1002h-1
+prueba_hipertension_institucion-IMSS,a1002h-2
+prueba_hipertension_institucion-Secretaria de Salud,a1002h-3
+prueba_hipertension_institucion-Seguro Popular (SSA),a1002h-4
+"prueba_hipertension_institucion-DIF, Cruz Roja, INI",a1002h-5
+"prueba_hipertension_institucion-ISSSTE, ISSSTE Estatal",a1002h-6
+"prueba_hipertension_institucion-Marina, Defensa, Pemex",a1002h-7
+"prueba_hipertension_institucion-Consultorio, clinica u hospital privado",a1002h-8
+prueba_hipertension_institucion-Hospital Civil,a1002h-9
+prueba_hipertension_institucion-Instituciones nacionales,a1002h-10
+prueba_hipertension_institucion-Consultorios dependientes de farmacias,a1002h-11
+prueba_hipertension_institucion-Otra institución,a1002h-12
+prueba_hipertension_institucion-Nos sabe,a1002h-99
+prueba_hipertension_sintoma-Sí,a1003h-1
+prueba_hipertension_sintoma-No,a1003h-2
+prueba_hipertension_resultado-Sí,a1004h-1
+prueba_hipertension_resultado-No,a1004h-2
+prueba_hipertension_diagnostico-Positivo,a1005h-1
+prueba_hipertension_diagnostico-Bien o Negativo,a1005h-2
+prueba_hipertension_diagnostico-No responde,a1005h-8
+prueba_hipertension_diagnostico-No sabe,a1005h-9
+prueba_col_trig-Sí,a1001i-1
+prueba_col_trig-No,a1001i-2
+prueba_col_trig_institucion-IMSS Prospera,a1002i-1
+prueba_col_trig_institucion-IMSS,a1002i-2
+prueba_col_trig_institucion-Secretaria de Salud,a1002i-3
+prueba_col_trig_institucion-Seguro Popular (SSA),a1002i-4
+"prueba_col_trig_institucion-DIF, Cruz Roja, INI",a1002i-5
+"prueba_col_trig_institucion-ISSSTE, ISSSTE Estatal",a1002i-6
+"prueba_col_trig_institucion-Marina, Defensa, Pemex",a1002i-7
+"prueba_col_trig_institucion-Consultorio, clinica u hospital privado",a1002i-8
+prueba_col_trig_institucion-Hospital Civil,a1002i-9
+prueba_col_trig_institucion-Instituciones nacionales,a1002i-10
+prueba_col_trig_institucion-Consultorios dependientes de farmacias,a1002i-11
+prueba_col_trig_institucion-Otra institución,a1002i-12
+prueba_col_trig_institucion-Nos sabe,a1002i-99
+prueba_col_trig_sintoma-Sí,a1003i-1
+prueba_col_trig_sintoma-No,a1003i-2
+prueba_col_trig_resultado-Sí,a1004i-1
+prueba_col_trig_resultado-No,a1004i-2
+prueba_col_trig_diagnostico-Positivo,a1005i-1
+prueba_col_trig_diagnostico-Bien o Negativo,a1005i-2
+prueba_col_trig_diagnostico-No responde,a1005i-8
+prueba_col_trig_diagnostico-No sabe,a1005i-9
+prueba_cancer_prostata-Sí,a1001j-1
+prueba_cancer_prostata-No,a1001j-2
+prueba_cancer_prostata_institucion-IMSS Prospera,a1002j-1
+prueba_cancer_prostata_institucion-IMSS,a1002j-2
+prueba_cancer_prostata_institucion-Secretaria de Salud,a1002j-3
+prueba_cancer_prostata_institucion-Seguro Popular (SSA),a1002j-4
+"prueba_cancer_prostata_institucion-DIF, Cruz Roja, INI",a1002j-5
+"prueba_cancer_prostata_institucion-ISSSTE, ISSSTE Estatal",a1002j-6
+"prueba_cancer_prostata_institucion-Marina, Defensa, Pemex",a1002j-7
+"prueba_cancer_prostata_institucion-Consultorio, clinica u hospital privado",a1002j-8
+prueba_cancer_prostata_institucion-Hospital Civil,a1002j-9
+prueba_cancer_prostata_institucion-Instituciones nacionales,a1002j-10
+prueba_cancer_prostata_institucion-Consultorios dependientes de farmacias,a1002j-11
+prueba_cancer_prostata_institucion-Otra institución,a1002j-12
+prueba_cancer_prostata_institucion-Nos sabe,a1002j-99
+prueba_cancer_prostata_sintoma-Sí,a1003j-1
+prueba_cancer_prostata_sintoma-No,a1003j-2
+prueba_cancer_prostata_resultado-Sí,a1004j-1
+prueba_cancer_prostata_resultado-No,a1004j-2
+prueba_cancer_prostata_diagnostico-Positivo,a1005j-1
+prueba_cancer_prostata_diagnostico-Bien o Negativo,a1005j-2
+prueba_cancer_prostata_diagnostico-No responde,a1005j-8
+prueba_cancer_prostata_diagnostico-No sabe,a1005j-9
+prueba_tacto_rectal-Sí,a1001k-1
+prueba_tacto_rectal-No,a1001k-2
+accidente_ultimo_12meses-Sí,a1101-1
+accidente_ultimo_12meses-No,a1101-2
+accidente_ultimo_12meses-No responde,a1101-8
+accidente_ultimo_12meses-No sabe,a1101-9
+como_accidento-Choque entre vehiculos de 4 o más ruedas,a1102-1
+como_accidento-Choque en motocicleta,a1102-2
+como_accidento-Choque atropellamiento como ciclista,a1102-3
+como_accidento-Atropellado como peatón,a1102-4
+"como_accidento-Otros accidentes de transporte: avión, tren, lancha",a1102-5
+como_accidento-Caída a nivel de piso,a1102-6
+"como_accidento-Golpe con objeto, equipo o maquinaria",a1102-7
+"como_accidento-Caída de un nivel a otro: silla, escalera, etc",a1102-8
+"como_accidento-Golpe, rasguño o mordida de persona o animal (caballo, perro",a1102-9
+"como_accidento-Exposición a corriente eléctrica, radiación",a1102-10
+como_accidento-Exposición a humo o fuego,a1102-11
+como_accidento-Contacto con superficies o sustancias calientes (quemaduras),a1102-12
+"como_accidento-Exposición a fuerzas de la naturaleza: rayo, granizo",a1102-13
+como_accidento-Picadura de animal ponzoñoso o contacto con plantas venenosa,a1102-14
+"como_accidento-Envenenamiento accidental: alimentos, medicamentos",a1102-15
+"como_accidento-Sumersión en depósitos de agua: alberca, cisterna",a1102-16
+como_accidento-Otros accidentes que obstruyen la respiración: objeto extrañ,a1102-17
+como_accidento-Exposición accidental a otros factores,a1102-18
+como_accidento-NS/NR,a1102-99
+lugar_encontraba_accidente-Hogar,a1105-1
+lugar_encontraba_accidente-Escuela,a1105-2
+lugar_encontraba_accidente-Trabajo,a1105-3
+lugar_encontraba_accidente-Vía pública,a1105-4
+lugar_encontraba_accidente-Campo,a1105-5
+"lugar_encontraba_accidente-Antro, bar",a1105-6
+lugar_encontraba_accidente-Centro recreativo o deportivo,a1105-7
+lugar_encontraba_accidente-Establecimiento comercial,a1105-8
+lugar_encontraba_accidente-Otro (especifique),a1105-77
+lugar_encontraba_accidente-NS/NR,a1105-99
+accidento_cara-Contusión,a1106a-1
+accidento_cara-Moretón,a1106a-2
+accidento_cara-Esguince o torcedura,a1106a-3
+accidento_cara-Luxación,a1106a-4
+accidento_cara-Fractura,a1106a-5
+accidento_cara-Herida,a1106a-6
+accidento_cara-Laceración,a1106a-7
+accidento_cara-Lesión de nervios,a1106a-8
+accidento_cara-Amputación,a1106a-9
+accidento_cara-Aplastamiento,a1106a-10
+accidento_cara-Quemadura de primer grado,a1106a-11
+accidento_cara-Quemadura de segundo grado,a1106a-12
+accidento_cara-Quemadura de tercer grado,a1106a-13
+accidento_cara-Heridas múltiples,a1106a-14
+accidento_cara-Daño-afectación de órganos,a1106a-15
+accidento_cara-Otras/no especificadas,a1106a-16
+accidento_cara-Ninguna otra lesión,a1106a-17
+accidento_cara-NS/NR,a1106a-99
+accidento_torax-Contusión,a1106b-1
+accidento_torax-Moretón,a1106b-2
+accidento_torax-Esguince o torcedura,a1106b-3
+accidento_torax-Luxación,a1106b-4
+accidento_torax-Fractura,a1106b-5
+accidento_torax-Herida,a1106b-6
+accidento_torax-Laceración,a1106b-7
+accidento_torax-Lesión de nervios,a1106b-8
+accidento_torax-Amputación,a1106b-9
+accidento_torax-Aplastamiento,a1106b-10
+accidento_torax-Quemadura de primer grado,a1106b-11
+accidento_torax-Quemadura de segundo grado,a1106b-12
+accidento_torax-Quemadura de tercer grado,a1106b-13
+accidento_torax-Heridas múltiples,a1106b-14
+accidento_torax-Daño-afectación de órganos,a1106b-15
+accidento_torax-Otras/no especificadas,a1106b-16
+accidento_torax-Ninguna otra lesión,a1106b-17
+accidento_torax-NS/NR,a1106b-99
+accidento_pelvis-Contusión,a1106c-1
+accidento_pelvis-Moretón,a1106c-2
+accidento_pelvis-Esguince o torcedura,a1106c-3
+accidento_pelvis-Luxación,a1106c-4
+accidento_pelvis-Fractura,a1106c-5
+accidento_pelvis-Herida,a1106c-6
+accidento_pelvis-Laceración,a1106c-7
+accidento_pelvis-Lesión de nervios,a1106c-8
+accidento_pelvis-Amputación,a1106c-9
+accidento_pelvis-Aplastamiento,a1106c-10
+accidento_pelvis-Quemadura de primer grado,a1106c-11
+accidento_pelvis-Quemadura de segundo grado,a1106c-12
+accidento_pelvis-Quemadura de tercer grado,a1106c-13
+accidento_pelvis-Heridas múltiples,a1106c-14
+accidento_pelvis-Daño-afectación de órganos,a1106c-15
+accidento_pelvis-Otras/no especificadas,a1106c-16
+accidento_pelvis-Ninguna otra lesión,a1106c-17
+accidento_pelvis-NS/NR,a1106c-99
+accidento_columna-Contusión,a1106d-1
+accidento_columna-Moretón,a1106d-2
+accidento_columna-Esguince o torcedura,a1106d-3
+accidento_columna-Luxación,a1106d-4
+accidento_columna-Fractura,a1106d-5
+accidento_columna-Herida,a1106d-6
+accidento_columna-Laceración,a1106d-7
+accidento_columna-Lesión de nervios,a1106d-8
+accidento_columna-Amputación,a1106d-9
+accidento_columna-Aplastamiento,a1106d-10
+accidento_columna-Quemadura de primer grado,a1106d-11
+accidento_columna-Quemadura de segundo grado,a1106d-12
+accidento_columna-Quemadura de tercer grado,a1106d-13
+accidento_columna-Heridas múltiples,a1106d-14
+accidento_columna-Daño-afectación de órganos,a1106d-15
+accidento_columna-Otras/no especificadas,a1106d-16
+accidento_columna-Ninguna otra lesión,a1106d-17
+accidento_columna-NS/NR,a1106d-99
+accidento_brazo-Contusión,a1106e-1
+accidento_brazo-Moretón,a1106e-2
+accidento_brazo-Esguince o torcedura,a1106e-3
+accidento_brazo-Luxación,a1106e-4
+accidento_brazo-Fractura,a1106e-5
+accidento_brazo-Herida,a1106e-6
+accidento_brazo-Laceración,a1106e-7
+accidento_brazo-Lesión de nervios,a1106e-8
+accidento_brazo-Amputación,a1106e-9
+accidento_brazo-Aplastamiento,a1106e-10
+accidento_brazo-Quemadura de primer grado,a1106e-11
+accidento_brazo-Quemadura de segundo grado,a1106e-12
+accidento_brazo-Quemadura de tercer grado,a1106e-13
+accidento_brazo-Heridas múltiples,a1106e-14
+accidento_brazo-Daño-afectación de órganos,a1106e-15
+accidento_brazo-Otras/no especificadas,a1106e-16
+accidento_brazo-Ninguna otra lesión,a1106e-17
+accidento_brazo-NS/NR,a1106e-99
+accidento_dedos_mano-Contusión,a1106f-1
+accidento_dedos_mano-Moretón,a1106f-2
+accidento_dedos_mano-Esguince o torcedura,a1106f-3
+accidento_dedos_mano-Luxación,a1106f-4
+accidento_dedos_mano-Fractura,a1106f-5
+accidento_dedos_mano-Herida,a1106f-6
+accidento_dedos_mano-Laceración,a1106f-7
+accidento_dedos_mano-Lesión de nervios,a1106f-8
+accidento_dedos_mano-Amputación,a1106f-9
+accidento_dedos_mano-Aplastamiento,a1106f-10
+accidento_dedos_mano-Quemadura de primer grado,a1106f-11
+accidento_dedos_mano-Quemadura de segundo grado,a1106f-12
+accidento_dedos_mano-Quemadura de tercer grado,a1106f-13
+accidento_dedos_mano-Heridas múltiples,a1106f-14
+accidento_dedos_mano-Daño-afectación de órganos,a1106f-15
+accidento_dedos_mano-Otras/no especificadas,a1106f-16
+accidento_dedos_mano-Ninguna otra lesión,a1106f-17
+accidento_dedos_mano-NS/NR,a1106f-99
+accidento_pierna-Contusión,a1106h-1
+accidento_pierna-Moretón,a1106h-2
+accidento_pierna-Esguince o torcedura,a1106h-3
+accidento_pierna-Luxación,a1106h-4
+accidento_pierna-Fractura,a1106h-5
+accidento_pierna-Herida,a1106h-6
+accidento_pierna-Laceración,a1106h-7
+accidento_pierna-Lesión de nervios,a1106h-8
+accidento_pierna-Amputación,a1106h-9
+accidento_pierna-Aplastamiento,a1106h-10
+accidento_pierna-Quemadura de primer grado,a1106h-11
+accidento_pierna-Quemadura de segundo grado,a1106h-12
+accidento_pierna-Quemadura de tercer grado,a1106h-13
+accidento_pierna-Heridas múltiples,a1106h-14
+accidento_pierna-Daño-afectación de órganos,a1106h-15
+accidento_pierna-Otras/no especificadas,a1106h-16
+accidento_pierna-Ninguna otra lesión,a1106h-17
+accidento_pierna-NS/NR,a1106h-99
+accidento_pie-Contusión,a1106i-1
+accidento_pie-Moretón,a1106i-2
+accidento_pie-Esguince o torcedura,a1106i-3
+accidento_pie-Luxación,a1106i-4
+accidento_pie-Fractura,a1106i-5
+accidento_pie-Herida,a1106i-6
+accidento_pie-Laceración,a1106i-7
+accidento_pie-Lesión de nervios,a1106i-8
+accidento_pie-Amputación,a1106i-9
+accidento_pie-Aplastamiento,a1106i-10
+accidento_pie-Quemadura de primer grado,a1106i-11
+accidento_pie-Quemadura de segundo grado,a1106i-12
+accidento_pie-Quemadura de tercer grado,a1106i-13
+accidento_pie-Heridas múltiples,a1106i-14
+accidento_pie-Daño-afectación de órganos,a1106i-15
+accidento_pie-Otras/no especificadas,a1106i-16
+accidento_pie-Ninguna otra lesión,a1106i-17
+accidento_pie-NS/NR,a1106i-99
+accidento_genitales-Contusión,a1106j-1
+accidento_genitales-Moretón,a1106j-2
+accidento_genitales-Esguince o torcedura,a1106j-3
+accidento_genitales-Luxación,a1106j-4
+accidento_genitales-Fractura,a1106j-5
+accidento_genitales-Herida,a1106j-6
+accidento_genitales-Laceración,a1106j-7
+accidento_genitales-Lesión de nervios,a1106j-8
+accidento_genitales-Amputación,a1106j-9
+accidento_genitales-Aplastamiento,a1106j-10
+accidento_genitales-Quemadura de primer grado,a1106j-11
+accidento_genitales-Quemadura de segundo grado,a1106j-12
+accidento_genitales-Quemadura de tercer grado,a1106j-13
+accidento_genitales-Heridas múltiples,a1106j-14
+accidento_genitales-Daño-afectación de órganos,a1106j-15
+accidento_genitales-Otras/no especificadas,a1106j-16
+accidento_genitales-Ninguna otra lesión,a1106j-17
+accidento_genitales-NS/NR,a1106j-99
+accidento_otra_lesion-Sí,a1106la-1
+accidento_otra_lesion-No,a1106la-2
+accidente_atencion-Instituto Mexicano del Seguro Social (IMSS),a1107-1
+accidente_atencion-ISSSTE/ISSSTE Estatal,a1107-2
+accidente_atencion-PEMEX,a1107-3
+accidente_atencion-Defensa,a1107-4
+accidente_atencion-Marina,a1107-5
+accidente_atencion-Centro de salud u Hospital de la SSA,a1107-6
+accidente_atencion-IMSS Bienestar (antes Oportunidades),a1107-7
+"accidente_atencion-DIF federal, estatal o municipal",a1107-8
+accidente_atencion-Cruz roja/cruz verde,a1107-9
+accidente_atencion-Instituto Nacional de Salud,a1107-10
+accidente_atencion-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,a1107-11
+accidente_atencion-Consultorio pertenecientes a farmacias/Farmacias con consult,a1107-12
+accidente_atencion-Consultorio dentro de hospital privado,a1107-13
+accidente_atencion-Área de urgencias/hospitalización dentro de hospital privado,a1107-14
+accidente_atencion-Atención privada en torre de consultorios médicos o en una c,a1107-15
+accidente_atencion-Consultorio en domicilio particular de médico privado,a1107-16
+accidente_atencion-Atención privada en mi domicilio,a1107-17
+"accidente_atencion-Atención privada vía remota (teléfono, mensajes de texto, te",a1107-18
+accidente_atencion-Médico laboral (médico de la empresa),a1107-19
+"accidente_atencion-Curandero, hierbero, naturista",a1107-20
+"accidente_atencion-Homeópata, acupunturista",a1107-21
+accidente_atencion-Otro (especifique),a1107-22
+accidente_atencion-No sabe/No recuerda,a1107-23
+accidente_atencion-Ninguna,a1107-24
+accidente_bajo_efecto-alcohol?,a1108-1
+accidente_bajo_efecto-drogas? (especifique),a1108-2
+accidente_bajo_efecto-ambos?,a1108-3
+accidente_bajo_efecto-No estaba bajo efectos de alcohol o drogas,a1108-8
+accidente_bajo_efecto-NS/NR,a1108-9
+accidente_bajo_efecto-Otro (especifique),a1108-77
+problema_salud_x_accidente-Ningún problema,a1109-1
+problema_salud_x_accidente-Limitación o dificultad para moverse o caminar (o lo hace co,a1109-2
+problema_salud_x_accidente-Limitación o dificultad para usar sus brazos y manos,a1109-3
+problema_salud_x_accidente-Dificultad para oír,a1109-4
+problema_salud_x_accidente-Dificultad para hablar,a1109-5
+problema_salud_x_accidente-Dificultar para ver o ceguera,a1109-6
+problema_salud_x_accidente-Otra limitación física o mental (especifique),a1109-7
+problema_salud_x_accidente-NS/NR,a1109-9
+violencia_fisica_ult_12meses-Sí,a1201-1
+violencia_fisica_ult_12meses-No,a1201-2
+violencia_fisica_ult_12meses-NS/NR,a1201-9
+violencia_fisica_1-Agresiones con substancias,a1202a-1
+"violencia_fisica_1-Sofocación, estrangulamiento, ahogamiento",a1202a-2
+violencia_fisica_1-Herdia por arma de fuego,a1202a-3
+"violencia_fisica_1-Herida por arma punzocortante (cuchillo, navaja, etc)",a1202a-4
+violencia_fisica_1-Empujón desde lugar elevado,a1202a-5
+"violencia_fisica_1-Golpes, patadas, puñetazos",a1202a-6
+violencia_fisica_1-Agresión sexual,a1202a-7
+violencia_fisica_1-Envenenamiento u obstrucción de las vías respiratorias por s,a1202a-8
+violencia_fisica_1-Agresiones verbales,a1202a-9
+violencia_fisica_1-Otras agresiones o maltrato,a1202a-76
+violencia_fisica_1-Otro (especifique),a1202a-77
+violencia_fisica_1-NS/NR,a1202a-99
+motivo_violencia_1-Robo o asalto,a1203a-1
+motivo_violencia_1-Incidente de tránsito,a1203a-2
+motivo_violencia_1-Riña con desconocidos,a1203a-3
+motivo_violencia_1-Riña con conocidos,a1203a-4
+motivo_violencia_1-Secuestro,a1203a-5
+motivo_violencia_1-Detención,a1203a-6
+motivo_violencia_1-Violencia familiar,a1203a-10
+motivo_violencia_1-Violencia por novio/pareja/esposo,a1203a-11
+motivo_violencia_1-Intento de suicidio,a1203a-12
+motivo_violencia_1-Otro (especifique),a1203a-77
+motivo_violencia_1-NS/NR,a1203a-99
+lugar_violencia_fisica-Hogar,a1204-1
+lugar_violencia_fisica-Escuela,a1204-2
+lugar_violencia_fisica-Trabajo,a1204-3
+lugar_violencia_fisica-Transporte público,a1204-4
+lugar_violencia_fisica-Vía pública,a1204-5
+lugar_violencia_fisica-Campo,a1204-6
+lugar_violencia_fisica-Centro recreativo o deportivo,a1204-7
+"lugar_violencia_fisica-Antro, bar",a1204-8
+lugar_violencia_fisica-Establecimiento comercial,a1204-9
+lugar_violencia_fisica-Otro (especifique),a1204-77
+lugar_violencia_fisica-NS/NR,a1204-99
+danio_salud_x_violencia-Sí,a1205-1
+danio_salud_x_violencia-No,a1205-2
+danio_salud_x_violencia-NS/NR,a1205-9
+institucion_atencion_violencia-Instituto Mexicano del Seguro Social (IMSS),a1206-1
+institucion_atencion_violencia-ISSSTE/ISSSTE Estatal,a1206-2
+institucion_atencion_violencia-PEMEX,a1206-3
+institucion_atencion_violencia-Defensa,a1206-4
+institucion_atencion_violencia-Marina,a1206-5
+institucion_atencion_violencia-Centro de salud u Hospital de la SSA,a1206-6
+institucion_atencion_violencia-IMSS Bienestar (antes Oportunidades),a1206-7
+"institucion_atencion_violencia-DIF federal, estatal o municipal",a1206-8
+institucion_atencion_violencia-Cruz roja/cruz verde,a1206-9
+institucion_atencion_violencia-Instituto Nacional de Salud,a1206-10
+institucion_atencion_violencia-Organizaciones (ONG/OSC) que dan atención gratuita/Dispensar,a1206-11
+institucion_atencion_violencia-Consultorio pertenecientes a farmacias/Farmacias con consult,a1206-12
+institucion_atencion_violencia-Consultorio dentro de hospital privado,a1206-13
+institucion_atencion_violencia-Área de urgencias/hospitalización dentro de hospital privado,a1206-14
+institucion_atencion_violencia-Atención privada en torre de consultorios médicos o en una c,a1206-15
+institucion_atencion_violencia-Consultorio en domicilio particular de médico privado,a1206-16
+institucion_atencion_violencia-Atención privada en mi domicilio,a1206-17
+"institucion_atencion_violencia-Atención privada vía remota (teléfono, mensajes de texto, te",a1206-18
+institucion_atencion_violencia-Médico laboral (médico de la empresa),a1206-19
+"institucion_atencion_violencia-Curandero, hierbero, naturista",a1206-20
+"institucion_atencion_violencia-Homeópata, acupunturista",a1206-21
+institucion_atencion_violencia-Otro (especifique),a1206-22
+institucion_atencion_violencia-No sabe/No recuerda,a1206-23
+institucion_atencion_violencia-Ninguna,a1206-24
+violencia_bajo_efecto-alcohol?,a1207-1
+violencia_bajo_efecto-drogas?,a1207-2
+violencia_bajo_efecto-ambos?,a1207-3
+violencia_bajo_efecto-Otro (especifique),a1207-7
+violencia_bajo_efecto-No estaba bajo efectos de alcohol o drogas,a1207-8
+violencia_bajo_efecto-NS/NR,a1207-9
+problema_salud_x_violencia-Ningún problema,a1208-1
+problema_salud_x_violencia-Limitación o dificultad para moverse o caminar (o lo hace co,a1208-2
+problema_salud_x_violencia-Limitación o dificultad para usar sus brazos y manos,a1208-3
+problema_salud_x_violencia-Dificultad para oír,a1208-4
+problema_salud_x_violencia-Dificultad para hablar,a1208-5
+problema_salud_x_violencia-Dificultar para ver o ceguera,a1208-6
+problema_salud_x_violencia-Otra limitación física o mental (especifique),a1208-7
+problema_salud_x_violencia-NS/NR,a1208-9
+persona_que_violento-Pareja,a1209-1
+persona_que_violento-Familiar,a1209-2
+persona_que_violento-Amigo(a),a1209-3
+persona_que_violento-Novio(a),a1209-4
+persona_que_violento-Vecino(a) u otro(a) conocido(a),a1209-5
+persona_que_violento-Desconocido(a),a1209-6
+persona_que_violento-Policia,a1209-7
+persona_que_violento-No responde,a1209-9
+"alguien_manoseo-Sí, antes de los 12",a1210-1
+"alguien_manoseo-Sí, cuando tenía 12 o más años",a1210-2
+"alguien_manoseo-No, nunca",a1210-3
+alguien_manoseo-No recuerda,a1210-8
+alguien_manoseo-No responde,a1210-9
+ha_pensado_suicidarse-Sí,a1211-1
+ha_pensado_suicidarse-No,a1211-2
+ha_pensado_suicidarse-No responde,a1211-9
+frec_pensado_suicidarse-Siempre o muy frecuentemente,a1212-1
+frec_pensado_suicidarse-Casi siempre,a1212-2
+frec_pensado_suicidarse-Algunas veces,a1212-3
+frec_pensado_suicidarse-Rara vez,a1212-4
+frec_pensado_suicidarse-No responde,a1212-9
+"herido_proposito_suicidarse-Sí, una vez",a1213-1
+"herido_proposito_suicidarse-Sí, 2 o más veces",a1213-2
+herido_proposito_suicidarse-Nunca,a1213-3
+herido_suicidio_12meses-Sí,a1214-1
+herido_suicidio_12meses-No,a1214-2
+herido_suicidio_12meses-No responde,a1214-9
+actual_fuma_tabaco-todos los días?,a1301-1
+actual_fuma_tabaco-algunos días?,a1301-2
+actual_fuma_tabaco-no fuma actualmente?,a1301-3
+actual_fuma_tabaco-No responde,a1301-9
+antes_fumo_tabaco-todos los días?,a1305-1
+antes_fumo_tabaco-algunos días?,a1305-2
+antes_fumo_tabaco-nunca ha fumado?,a1305-3
+antes_fumo_tabaco-No responde,a1305-9
+tiempo_dejo_fumar_periodo-Años,a1306p-1
+tiempo_dejo_fumar_periodo-Meses,a1306p-2
+tiempo_dejo_fumar_periodo-Semanas,a1306p-3
+tiempo_dejo_fumar_periodo-Días,a1306p-4
+tiempo_dejo_fumar_periodo-Menos de un día,a1306p-5
+tiempo_dejo_fumar_periodo-No responde,a1306p-9
+consumo_cigarros_electronicos-todos los días?,a1307-1
+consumo_cigarros_electronicos-algunos días?,a1307-2
+consumo_cigarros_electronicos-Actuamente no consume,a1307-3
+consumo_cigarros_electronicos-No conoce el cigarro electrónico,a1307-4
+consumo_cigarros_electronicos-No responde,a1307-9
+ult_12meses_1_copa_alcohol-Diaria,a1308-1
+ult_12meses_1_copa_alcohol-Semanal,a1308-2
+ult_12meses_1_copa_alcohol-Mensual,a1308-3
+ult_12meses_1_copa_alcohol-Anual,a1308-4
+ult_12meses_1_copa_alcohol-No ha consumido en los últimos 12 meses,a1308-5
+ult_12meses_1_copa_alcohol-Nunca ha consumido,a1308-6
+ult_12meses_1_copa_alcohol-No responde,a1308-9
+ult_12meses_5mas_copa_alcohol-Diario,a1309-1
+ult_12meses_5mas_copa_alcohol-Semanal,a1309-2
+ult_12meses_5mas_copa_alcohol-Mensual,a1309-3
+ult_12meses_5mas_copa_alcohol-7 a 11 veces al año,a1309-4
+ult_12meses_5mas_copa_alcohol-1 a 6 veces al año,a1309-5
+ult_12meses_5mas_copa_alcohol-No en los últimos 12 meses,a1309-6
+ult_12meses_5mas_copa_alcohol-No responde,a1309-9
+ult_12meses_4mas_copa_alcohol-Diario,a1310-1
+ult_12meses_4mas_copa_alcohol-Semanal,a1310-2
+ult_12meses_4mas_copa_alcohol-Mensual,a1310-3
+ult_12meses_4mas_copa_alcohol-7 a 11 veces al año,a1310-4
+ult_12meses_4mas_copa_alcohol-1 a 6 veces al año,a1310-5
+ult_12meses_4mas_copa_alcohol-No en los últimos 12 meses,a1310-6
+ult_12meses_4mas_copa_alcohol-No responde,a1310-9
+ult_mes_5mas_copa_alcohol-Sí,a1311-1
+ult_mes_5mas_copa_alcohol-No,a1311-2
+ult_mes_5mas_copa_alcohol-No responde,a1311-9
+ult_mes_4mas_copa_alcohol-Sí,a1312-1
+ult_mes_4mas_copa_alcohol-No,a1312-2
+ult_mes_4mas_copa_alcohol-No responde,a1312-9
+usa_lentes-Sí,a1401-1
+usa_lentes-No,a1401-2
+usa_protesis_auditiva-Sí,a1402-1
+usa_protesis_auditiva-No,a1402-2
+con_lentes_dificultad_ver-Ninguna dificultad,a1403a-1
+con_lentes_dificultad_ver-Cierta dificultad,a1403a-2
+con_lentes_dificultad_ver-Mucha dificultad,a1403a-3
+con_lentes_dificultad_ver-Le resulta imposible ver,a1403a-4
+tiene_dificultad_ver-Ninguna dificultad,a1403b-1
+tiene_dificultad_ver-Cierta dificultad,a1403b-2
+tiene_dificultad_ver-Mucha dificultad,a1403b-3
+tiene_dificultad_ver-Le resulta imposible ver,a1403b-4
+con_pretesis_auditiva_dificultad_oir-Ninguna dificultad,a1404a-1
+con_pretesis_auditiva_dificultad_oir-Cierta dificultad,a1404a-2
+con_pretesis_auditiva_dificultad_oir-Mucha dificultad,a1404a-3
+con_pretesis_auditiva_dificultad_oir-Le resulta imposible oír,a1404a-4
+tiene_dificultad_oir-Ninguna dificultad,a1404b-1
+tiene_dificultad_oir-Cierta dificultad,a1404b-2
+tiene_dificultad_oir-Mucha dificultad,a1404b-3
+tiene_dificultad_oir-Le resulta imposible oír,a1404b-4
+tiene_dificultad_caminar-Ninguna dificultad,a1405-1
+tiene_dificultad_caminar-Cierta dificultad,a1405-2
+tiene_dificultad_caminar-Mucha dificultad,a1405-3
+tiene_dificultad_caminar-Le resulta imposible caminar o subir escalones,a1405-4
+tiene_dificultad_concentrarse-Ninguna dificultad,a1406-1
+tiene_dificultad_concentrarse-Cierta dificultad,a1406-2
+tiene_dificultad_concentrarse-Mucha dificultad,a1406-3
+tiene_dificultad_concentrarse-Le resulta imposible recordar o concentrarse,a1406-4
+tiene_dificultad_cuidado_propio-Ninguna dificultad,a1407-1
+tiene_dificultad_cuidado_propio-Cierta dificultad,a1407-2
+tiene_dificultad_cuidado_propio-Mucha dificultad,a1407-3
+tiene_dificultad_cuidado_propio-Le resulta imposible encargarse de su autocuidado,a1407-4
+tiene_dificultad_comunicarse-Ninguna dificultad,a1408-1
+tiene_dificultad_comunicarse-Cierta dificultad,a1408-2
+tiene_dificultad_comunicarse-Mucha dificultad,a1408-3
+camina_solo_traslado-Sí,a1411-1
+camina_solo_traslado-No,a1411-2
+camina_solo_traslado-No responde,a1411-88
+camina_solo_traslado-No sabe,a1411-99
+camina_solo_recreacion-Sí,a1414-1
+camina_solo_recreacion-No,a1414-2
+camina_solo_recreacion-No responde,a1414-88
+camina_solo_recreacion-No sabe,a1414-99
+usa_celular-Siempre,a1501-1
+usa_celular-A veces,a1501-2
+usa_celular-Nunca,a1501-9
+usa_computadora-Siempre,a1502-1
+usa_computadora-A veces,a1502-2
+usa_computadora-Nunca,a1502-9
+usa_internet-Siempre,a1503-1
+usa_internet-A veces,a1503-2
+usa_internet-Nunca,a1503-9
+usa_redes_sociales_1-No la utilizo,a1504a-1
+usa_redes_sociales_1-WhatsApp,a1504a-2
+usa_redes_sociales_1-Facebook,a1504a-3
+usa_redes_sociales_1-Twitter,a1504a-4
+usa_redes_sociales_1-YouTube,a1504a-5
+usa_redes_sociales_1-Chat,a1504a-6
+usa_redes_sociales_1-Otra (especifique),a1504a-7
+usa_redes_sociales_2-No la utilizo,a1504b-1
+usa_redes_sociales_2-WhatsApp,a1504b-2
+usa_redes_sociales_2-Facebook,a1504b-3
+usa_redes_sociales_2-Twitter,a1504b-4
+usa_redes_sociales_2-YouTube,a1504b-5
+usa_redes_sociales_2-Chat,a1504b-6
+usa_redes_sociales_2-Otra (especifique),a1504b-7
+cuantas_personas_ve-Ninguno,a1505-1
+cuantas_personas_ve-1,a1505-2
+cuantas_personas_ve-2,a1505-3
+cuantas_personas_ve-3 ó 4,a1505-4
+cuantas_personas_ve-5 a 8,a1505-5
+cuantas_personas_ve-9 ó más,a1505-6
+familiares_se_confiesa-Ninguno,a1506-1
+familiares_se_confiesa-1,a1506-2
+familiares_se_confiesa-2,a1506-3
+familiares_se_confiesa-3 ó 4,a1506-4
+familiares_se_confiesa-5 a 8,a1506-5
+familiares_se_confiesa-9 ó más,a1506-6
+familiares_acude_ayuda-Ninguno,a1507-1
+familiares_acude_ayuda-1,a1507-2
+familiares_acude_ayuda-2,a1507-3
+familiares_acude_ayuda-3 ó 4,a1507-4
+familiares_acude_ayuda-5 a 8,a1507-5
+familiares_acude_ayuda-9 ó más,a1507-6
+cuantos_amigos_ve-Ninguno,a1508-1
+cuantos_amigos_ve-1,a1508-2
+cuantos_amigos_ve-2,a1508-3
+cuantos_amigos_ve-3 ó 4,a1508-4
+cuantos_amigos_ve-5 a 8,a1508-5
+cuantos_amigos_ve-9 ó más,a1508-6
+amigos_se_confiesa-Ninguno,a1509-1
+amigos_se_confiesa-1,a1509-2
+amigos_se_confiesa-2,a1509-3
+amigos_se_confiesa-3 ó 4,a1509-4
+amigos_se_confiesa-5 a 8,a1509-5
+amigos_se_confiesa-9 ó más,a1509-6
+amigos_acude_ayuda-Ninguno,a1510-1
+amigos_acude_ayuda-1,a1510-2
+amigos_acude_ayuda-2,a1510-3
+amigos_acude_ayuda-3 ó 4,a1510-4
+amigos_acude_ayuda-5 a 8,a1510-5
+amigos_acude_ayuda-9 ó más,a1510-6
+tiempo_alguien_no_vive-Ninguno,a1511-1
+tiempo_alguien_no_vive-1 vez,a1511-2
+tiempo_alguien_no_vive-2 veces,a1511-3
+tiempo_alguien_no_vive-3 veces,a1511-4
+tiempo_alguien_no_vive-4 veces,a1511-5
+tiempo_alguien_no_vive-5 veces,a1511-6
+tiempo_alguien_no_vive-6 veces,a1511-7
+tiempo_alguien_no_vive-7 veces ó más,a1511-8
+veces_hablo_alguien-Ninguno,a1512-1
+veces_hablo_alguien-1 vez,a1512-2
+veces_hablo_alguien-2 veces,a1512-3
+veces_hablo_alguien-3 veces,a1512-4
+veces_hablo_alguien-4 veces,a1512-5
+veces_hablo_alguien-5 veces,a1512-6
+veces_hablo_alguien-6 veces,a1512-7
+veces_hablo_alguien-7 veces ó más,a1512-8
+frec_reuniones_clubes-Ninguno,a1513-1
+frec_reuniones_clubes-1 vez,a1513-2
+frec_reuniones_clubes-2 veces,a1513-3
+frec_reuniones_clubes-3 veces,a1513-4
+frec_reuniones_clubes-4 veces,a1513-5
+frec_reuniones_clubes-5 veces,a1513-6
+frec_reuniones_clubes-6 veces,a1513-7
+frec_reuniones_clubes-7 veces ó más,a1513-8
+frec_falta_compania-Casi nunca (o nunca),a1514-1
+frec_falta_compania-Algunas veces,a1514-2
+frec_falta_compania-Frecuentemente,a1514-3
+frec_siente_excluido-Casi nunca (o nunca),a1515-1
+frec_siente_excluido-Algunas veces,a1515-2
+frec_siente_excluido-Frecuentemente,a1515-3
+frec_siente_aislado-Casi nunca (o nunca),a1516-1
+frec_siente_aislado-Algunas veces,a1516-2
+frec_siente_aislado-Frecuentemente,a1516-3
