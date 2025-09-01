@@ -76,7 +76,7 @@ class Preprocesador:
 
         self.df = self.df[metadatos_filtrados[columna_metadatos_nombres]]
         
-    def generar_metadatos_agregados_observacion(self, columna_metadatos_nombres:str, columna_metadatos_alias:str, columna_metadatos_posibles_valores:str, columna_metadatos_posibles_valores_alias:str):
+    def generar_metadatos_agregados(self, columna_metadatos_nombres:str, columna_metadatos_alias:str, columna_metadatos_posibles_valores:str, columna_metadatos_posibles_valores_alias:str):
 
         if not isinstance(columna_metadatos_nombres, str):
             raise TypeError('El parámetro columna_metadatos_nombres debe ser de tipo str')
@@ -89,6 +89,7 @@ class Preprocesador:
 
         columna_var_posibles_valores = []
         columnas_var_posibles_valores_alias = []
+        combinaciones  = []
         for var, posibles_valores_list, var_alias, posibles_valores_alias_list in zip(
                 self.metadatos[columna_metadatos_nombres],
                 self.metadatos[columna_metadatos_posibles_valores],
@@ -101,11 +102,14 @@ class Preprocesador:
             for valor, valor_alias in zip(posibles_valores, posibles_valores_alias):
                 lista_combinaciones_nombres.append(f'{var}-{valor}')
                 lista_combinaciones_alias.append(f'{var_alias}-{valor_alias}')
+                combinaciones.append((f'{var}-{valor}', f'{var_alias}-{valor_alias}'))
             columna_var_posibles_valores.append(lista_combinaciones_nombres)
             columnas_var_posibles_valores_alias.append(lista_combinaciones_alias)
 
         self.metadatos[f'{columna_metadatos_nombres}-{columna_metadatos_posibles_valores}'] = columna_var_posibles_valores
         self.metadatos[f'{columna_metadatos_alias}-{columna_metadatos_posibles_valores_alias}'] = columnas_var_posibles_valores_alias
+
+        return pd.DataFrame(combinaciones, columns=[f'{columna_metadatos_nombres}-{columna_metadatos_posibles_valores}', f'{columna_metadatos_alias}-{columna_metadatos_posibles_valores_alias}'])
                  
     def generar_datos_agregados(self, variables_id_agrupacion, variables_a_agrupar, tipo_valores):
         
@@ -113,7 +117,7 @@ class Preprocesador:
         # validar variables en dataset
         
         # normalizar texto de tipo_valores
-        if tipo_valores == 'observacion':
+        if tipo_valores == 'categorico':
 
             df = self.df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
             df_melt = df.melt(
@@ -143,7 +147,7 @@ class Preprocesador:
             
             return df_agregado
             
-        elif tipo_valores == 'conteo':
+        elif tipo_valores == 'numerico':
 
             df = self.df.copy()
             try:
