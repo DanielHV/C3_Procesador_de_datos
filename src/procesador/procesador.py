@@ -20,7 +20,7 @@ def obtener_variables_regex_df(df:pd.DataFrame, regex:str) -> list:
 
 class Procesador:
 
-    def __init__(self, dataframes_escalas:dict, metadatos:pd.DataFrame, variable_identificadora:str, variables_excluidas_list:list, variables_excluidas_regex:list):
+    def __init__(self, dataframes_escalas:dict, metadatos:pd.DataFrame, columna_metadatos_nombres:str, columna_metadatos_alias:str, variable_identificadora:str, variables_excluidas_list:list, variables_excluidas_regex:list):
         
         if not isinstance(dataframes_escalas, dict):
             raise TypeError('El valor del parámetro dataframes_escalas debe ser de tipo dict')
@@ -31,10 +31,14 @@ class Procesador:
         
         if not isinstance(metadatos, pd.DataFrame):
             raise TypeError('El valor del parámetro diccionario_variables debe ser de tipo dict')
-        if 'var' not in metadatos.columns:
-            raise ValueError('El DataFrame de metadatos debe contener una columna con nombre var para identificar el nombre textual de cada variable')
-        if 'code' not in metadatos.columns:
-            raise ValueError('El DataFrame de metadatos debe contener una columna con nombre code para identificar el código alias de cada variable')
+        if not isinstance(columna_metadatos_nombres, str):
+            raise TypeError('El valor del parámetro columna_metadatos_nombres debe ser de tipo str')
+        if not isinstance(columna_metadatos_alias, str):
+            raise TypeError('El valor del parámetro columna_metadatos_alias debe ser de tipo str')
+        if columna_metadatos_nombres not in metadatos.columns:
+            raise ValueError(f'El DataFrame de metadatos debe contener una columna con nombre {columna_metadatos_nombres} para identificar el nombre descriptivo de cada variable')
+        if columna_metadatos_alias not in metadatos.columns:
+            raise ValueError(f'El DataFrame de metadatos debe contener una columna con nombre {columna_metadatos_alias} para identificar el alias de cada variable')
 
         if not isinstance(variable_identificadora, str):
             raise TypeError('El valor del parámetro variable_identificadora debe ser de tipo str')
@@ -57,7 +61,7 @@ class Procesador:
         
         self.dataframes_escalas = dataframes_escalas
         self.metadatos = metadatos
-        self.diccionario_variables = dict(zip(metadatos['code'], metadatos['var']))
+        self.diccionario_variables = dict(zip(metadatos[columna_metadatos_alias], metadatos[columna_metadatos_nombres]))
         self.variable_identificadora = variable_identificadora
 
         variables_excluidas = set(variables_excluidas_list) | {variable_identificadora}
