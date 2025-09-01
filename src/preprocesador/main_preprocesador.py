@@ -29,14 +29,14 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_dataset')
     ruta_csv_dataset = procesador_config['ruta_csv_dataset']
     if not os.path.exists(ruta_csv_dataset):
-        raise FileNotFoundError(f'La ruta especificada para el archivo .csv del dataset no existe')
+        raise FileNotFoundError(f'La ruta especificada para el archivo .csv del dataset no existe ({ruta_csv_dataset})')
     df = pd.read_csv(ruta_csv_dataset)
     
     if 'ruta_csv_metadatos' not in procesador_config:
         raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_metadatos')
     ruta_csv_metadatos = procesador_config['ruta_csv_metadatos']
     if not os.path.exists(ruta_csv_metadatos):
-        raise FileNotFoundError('La ruta especificada para el archivo .csv de metadatos no existe')
+        raise FileNotFoundError(f'La ruta especificada para el archivo .csv de metadatos no existe ({ruta_csv_metadatos})')
     metadatos = pd.read_csv(ruta_csv_metadatos)
     metadatos.columns = [col.lower() for col in metadatos.columns]
     
@@ -55,6 +55,22 @@ if __name__ == '__main__':
         raise TypeError('El valor asociado al campo columna_metadatos_alias debe ser de tipo str')
     if columna_metadatos_alias not in metadatos.columns:
         raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_alias}')
+    
+    if 'columna_metadatos_posibles_valores' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_posibles_valores, que incluye cada posible valor de cada variable en formato de lista')
+    columna_metadatos_posibles_valores = procesador_config['columna_metadatos_posibles_valores']
+    if not isinstance(columna_metadatos_posibles_valores, str):
+        raise TypeError('El valor asociado al campo columna_metadatos_posibles_valores debe ser de tipo str')
+    if columna_metadatos_posibles_valores not in metadatos.columns:
+        raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_posibles_valores}')
+    
+    if 'columna_metadatos_posibles_valores_alias' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_posibles_valores_alias, que incluye el alias de cada posible valor de cada variable en formato de lista')
+    columna_metadatos_posibles_valores_alias = procesador_config['columna_metadatos_posibles_valores_alias']
+    if not isinstance(columna_metadatos_posibles_valores_alias, str):
+        raise TypeError('El valor asociado al campo columna_metadatos_posibles_respuestas_alias debe ser de tipo str')
+    if columna_metadatos_posibles_valores_alias not in metadatos.columns:
+        raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_posibles_valores_alias}')
     
     if 'columna_metadatos_tipos' not in procesador_config:
         raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_tipos, que incluye el tipo a convertir de cada variable')
@@ -77,6 +93,14 @@ if __name__ == '__main__':
     valores_a_excluir = procesador_config['valores_a_excluir']
     if not isinstance(valores_a_excluir, list):
         raise TypeError('El valor asociado al campo valores_a_excluir debe ser de tipo list')
+    
+    if 'ruta_salida_dataset' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_dataset')
+    ruta_salida_dataset = procesador_config['ruta_salida_dataset']
+    
+    if 'ruta_salida_metadatos' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_metadatos')
+    ruta_salida_metadatos = procesador_config['ruta_salida_metadatos']
 
     preprocesador = Preprocesador(df=df, metadatos = metadatos)
     
@@ -112,12 +136,15 @@ if __name__ == '__main__':
             var_regex = var_dict['regex']
             for regex in var_regex:
                 var_list = var_list | set(obtener_variables_regex_df(regex=regex, df=preprocesador.df))
-            print(var_list)
             df_agregado = preprocesador.generar_datos_agregados(variables_id_agrupacion=variables_id_agrupacion,
-                                                  variables_a_agrupar=var_list,
-                                                  tipo_valores=tipo)
-
-            df_agregado.to_csv(f'./df_agregado_{tipo}.csv')
-            
-    preprocesador.df.to_csv('./preprocesamiento.csv')
-    preprocesador.metadatos.to_csv('./preprocesamiento_metadatos.csv')
+                                                                variables_a_agrupar=var_list,
+                                                                tipo_valores=tipo)
+            df_agregado.to_csv(ruta_salida_dataset, index=False)
+            metadatos_df_agregado = preprocesador.generar_metadatos_agregados(columna_metadatos_nombres=columna_metadatos_nombres,
+                                                        columna_metadatos_alias=columna_metadatos_alias,
+                                                        columna_metadatos_posibles_valores=columna_metadatos_posibles_valores,
+                                                        columna_metadatos_posibles_valores_alias=columna_metadatos_posibles_valores_alias)
+            metadatos_df_agregado.to_csv(ruta_salida_metadatos, index=False)
+    else:
+        preprocesador.df.to_csv(ruta_salida_dataset, index=False)
+        preprocesador.metadatos.to_csv(ruta_salida_metadatos, index=False)
