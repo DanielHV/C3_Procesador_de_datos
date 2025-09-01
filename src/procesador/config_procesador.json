@@ -1,9 +1,11 @@
 {
     "rutas_csv_escalas" : {
-        "mun" : "../data/ensanut/preprocessed/ensanut_conteos_geo_mun.csv"
+        "mun" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_datos.csv"
     },
 
-    "ruta_csv_metadatos" : "../data/ensanut/preprocessed/metadatos_ensanut_conteos_geo.csv",
+    "ruta_csv_metadatos" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_metadatos.csv",
+    "columna_metadatos_nombres" : "var-posibles_valores",
+    "columna_metadatos_alias" : "var_alias-posibles_valores_alias",
 
     "variable_identificadora" : "municipio",
 

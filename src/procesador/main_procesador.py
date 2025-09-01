@@ -25,10 +25,18 @@ if __name__ == '__main__':
     ruta_csv_metadatos = procesador_config['ruta_csv_metadatos']
     if not os.path.exists(ruta_csv_metadatos):
         raise FileNotFoundError('La ruta especificada para el archivo .csv de metadatos no existe')
+    if 'columna_metadatos_nombres' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_nombres')
+    columna_metadatos_nombres = procesador_config['columna_metadatos_nombres']
+    if 'columna_metadatos_alias' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_alias')
+    columna_metadatos_alias = procesador_config['columna_metadatos_alias']
     metadatos = pd.read_csv(ruta_csv_metadatos)
     metadatos.columns = [col.lower() for col in metadatos.columns]
-    if 'code' not in metadatos.columns or 'var' not in metadatos.columns:
-        raise ValueError('El DataFrame correspondiente al campo ruta_csv_metadatos debe contener las siguientes dos columnas: code, var')
+    if columna_metadatos_nombres not in metadatos.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_metadatos debe contener la columna {columna_metadatos_nombres}')
+    if columna_metadatos_alias not in metadatos.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_metadatos debe contener la columna {columna_metadatos_alias}')
     
     variables_excluidas_list = procesador_config.get('variables_excluidas_list', [])
     variables_excluidas_regex = procesador_config.get('variables_excluidas_regex', [])
@@ -53,6 +61,8 @@ if __name__ == '__main__':
     procesador = Procesador(
         dataframes_escalas=dataframes_escalas, 
         metadatos=metadatos, 
+        columna_metadatos_nombres=columna_metadatos_nombres,
+        columna_metadatos_alias=columna_metadatos_alias,
         variable_identificadora=variable_identificadora,
         variables_excluidas_list=variables_excluidas_list, 
         variables_excluidas_regex=variables_excluidas_regex 
