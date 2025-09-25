@@ -1,0 +1,36 @@
+{
+    "ruta_csv_metadatos" : "../data/ensanut/raw/21ensanut_a20_hias_rework.csv",
+    "ruta_csv_dataset" : "../data/ensanut/raw/salud_hogar_orig_lower_promedios_for_elastic.csv",
+    "ruta_salida_dataset" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_datos_prueba3.csv",
+    "ruta_salida_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_prueba3.csv",
+
+    "columna_metadatos_nombres" : "var",
+    "columna_metadatos_posibles_valores" : "posibles_valores_alias",
+
+    "columna_metadatos_alias" : "var_alias",
+    "columna_metadatos_posibles_valores_alias" : "posibles_valores",
+
+    "variables_identificadoras_list" : ["municipio"],
+    "variables_a_agrupar" : [
+        {
+            "tipo_variables" : "categorico",
+            "variables_a_agrupar_list" : [],
+            "variables_a_agrupar_regex" : [],
+            "variables_a_agrupar_clasificacion_metadatos" : {
+                "columna_metadatos_filtro" : "var_type",
+                "valores": ["options"]
+            }
+        },
+        {
+            "tipo_variables" : "numerico",
+            "operacion" : "media",
+            "variables_a_agrupar_list" : [],
+            "variables_a_agrupar_regex" : [],
+            "variables_a_agrupar_clasificacion_metadatos" : {
+                "columna_metadatos_filtro" : "var_type",
+                "valores": ["abierta"]
+            }
+        }
+    ] 
+
+}

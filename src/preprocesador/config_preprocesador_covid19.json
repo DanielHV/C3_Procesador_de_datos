@@ -1,0 +1,34 @@
+{
+    "ruta_csv_metadatos" : "../data/covid19/raw/240708 Descriptores_rework.csv",
+    "ruta_csv_dataset" : "../data/covid19/raw/COVID19MEXICO_rework.csv",
+    "ruta_salida_dataset" : "../data/covid19/preprocessed/preprocesamiento_covid19_datos_prueba3.csv",
+    "ruta_salida_diccionario_traducciones" : "../data/covid19/preprocessed/preprocesamiento_covid19_dicc_traducciones_prueba3.csv",
+
+    "columna_metadatos_nombres" : "NOMBRE DE VARIABLE",
+    "columna_metadatos_alias" : "NOMBRE DE VARIABLE",
+    "columna_metadatos_posibles_valores" : "POSIBLES VALORES ALIAS",
+    "columna_metadatos_posibles_valores_alias" : "POSIBLES VALORES",
+
+
+    "variables_identificadoras_list" : ["ENTIDAD_RES", "MUNICIPIO_RES"],
+    "variables_a_agrupar" : [
+        {
+            "tipo_variables":"categorico",
+            "variables_a_agrupar_list":[],
+            "variables_a_agrupar_regex":["^(?!EDAD)(?!FECHA)(?!PAIS)(?!ID).*"]
+        },
+        {
+            "tipo_variables":"numerico",
+            "operacion":"media",
+            "variables_a_agrupar_list":["EDAD"],
+            "variables_a_agrupar_regex":[]
+        },
+        {
+            "tipo_variables":"numerico",
+            "operacion":"mediana",
+            "variables_a_agrupar_list":["EDAD"],
+            "variables_a_agrupar_regex":[]
+        }
+    ] 
+    
+}
