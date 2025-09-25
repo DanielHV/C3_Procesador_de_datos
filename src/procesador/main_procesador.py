@@ -1,7 +1,8 @@
-from procesador import *
+import pandas as pd
+import os
 import argparse
 import json
-import re
+from procesador.procesador import Procesador
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Procesador de datos C3')
@@ -14,36 +15,25 @@ if __name__ == '__main__':
     if 'rutas_csv_escalas' not in procesador_config:
         raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_escalas')
     rutas_csv_escalas = procesador_config['rutas_csv_escalas']
-    dataframes_escalas = {}
-    for escala, ruta in rutas_csv_escalas.items():
-        if not os.path.exists(ruta):
-            raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la escala {escala} no existe')
-        dataframes_escalas = {escala:pd.read_csv(ruta)}
     
-    if 'ruta_csv_metadatos' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_metadatos')
-    ruta_csv_metadatos = procesador_config['ruta_csv_metadatos']
-    if not os.path.exists(ruta_csv_metadatos):
-        raise FileNotFoundError('La ruta especificada para el archivo .csv de metadatos no existe')
-    if 'columna_metadatos_nombres' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_nombres')
-    columna_metadatos_nombres = procesador_config['columna_metadatos_nombres']
-    if 'columna_metadatos_alias' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_alias')
-    columna_metadatos_alias = procesador_config['columna_metadatos_alias']
-    metadatos = pd.read_csv(ruta_csv_metadatos)
-    metadatos.columns = [col.lower() for col in metadatos.columns]
-    if columna_metadatos_nombres not in metadatos.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_metadatos debe contener la columna {columna_metadatos_nombres}')
-    if columna_metadatos_alias not in metadatos.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_metadatos debe contener la columna {columna_metadatos_alias}')
+    if 'ruta_csv_diccionario_traducciones' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_diccionario_traducciones')
+    ruta_csv_diccionario_traducciones = procesador_config['ruta_csv_diccionario_traducciones']
+    if not os.path.exists(ruta_csv_diccionario_traducciones):
+        raise FileNotFoundError('La ruta especificada para el archivo .csv de traducciones no existe')
+    if 'columna_diccionario_traducciones_nombres' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_diccionario_traducciones_nombres')
+    columna_diccionario_traducciones_nombres = procesador_config['columna_diccionario_traducciones_nombres']
+    if 'columna_diccionario_traducciones_alias' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_diccionario_traducciones_alias')
+    columna_diccionario_traducciones_alias = procesador_config['columna_diccionario_traducciones_alias']
     
     variables_excluidas_list = procesador_config.get('variables_excluidas_list', [])
     variables_excluidas_regex = procesador_config.get('variables_excluidas_regex', [])
         
-    if 'variable_identificadora' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo variable_identificadora')
-    variable_identificadora = procesador_config.get('variable_identificadora')
+    if 'variables_identificadoras' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras')
+    variables_identificadoras = procesador_config.get('variables_identificadoras')
     
     if 'variables_a_procesar_list' not in procesador_config and 'variables_a_procesar_regex' not in procesador_config:
         raise ValueError('El archivo JSON pasado para --config debe tener al menos uno de los campos: variables_a_procesar_list, o variables_a_procesar_regex')
@@ -58,12 +48,25 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_salida')
     ruta_csv_salida = procesador_config['ruta_csv_salida']
     
+    dataframes_escalas = {}
+    for escala, ruta in rutas_csv_escalas.items():
+        if not os.path.exists(ruta):
+            raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la escala {escala} no existe')
+        dtype_dict = {col: str for col in variables_identificadoras}
+        dataframes_escalas = {escala:pd.read_csv(ruta, dtype=dtype_dict)}
+        
+    diccionario_traducciones = pd.read_csv(ruta_csv_diccionario_traducciones)
+    if columna_diccionario_traducciones_nombres not in diccionario_traducciones.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_diccionario_traducciones debe contener la columna {columna_diccionario_traducciones_nombres}')
+    if columna_diccionario_traducciones_alias not in diccionario_traducciones.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_diccionario_traducciones debe contener la columna {columna_diccionario_traducciones_alias}')
+    
     procesador = Procesador(
         dataframes_escalas=dataframes_escalas, 
-        metadatos=metadatos, 
-        columna_metadatos_nombres=columna_metadatos_nombres,
-        columna_metadatos_alias=columna_metadatos_alias,
-        variable_identificadora=variable_identificadora,
+        diccionario_traducciones=diccionario_traducciones, 
+        columna_diccionario_traducciones_nombres=columna_diccionario_traducciones_nombres,
+        columna_diccionario_traducciones_alias=columna_diccionario_traducciones_alias,
+        variables_identificadoras=variables_identificadoras,
         variables_excluidas_list=variables_excluidas_list, 
         variables_excluidas_regex=variables_excluidas_regex 
     )
