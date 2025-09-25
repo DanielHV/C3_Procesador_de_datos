@@ -20,7 +20,7 @@ def obtener_variables_regex_df(df:pd.DataFrame, regex:str) -> list:
 
 class Procesador:
 
-    def __init__(self, dataframes_escalas:dict, metadatos:pd.DataFrame, columna_metadatos_nombres:str, columna_metadatos_alias:str, variable_identificadora:str, variables_excluidas_list:list, variables_excluidas_regex:list):
+    def __init__(self, dataframes_escalas:dict, diccionario_traducciones:pd.DataFrame, columna_diccionario_traducciones_nombres:str, columna_diccionario_traducciones_alias:str, variables_identificadoras:list, variables_excluidas_list:list, variables_excluidas_regex:list):
         
         if not isinstance(dataframes_escalas, dict):
             raise TypeError('El valor del parámetro dataframes_escalas debe ser de tipo dict')
@@ -29,22 +29,23 @@ class Procesador:
         if not all(isinstance(valor, pd.DataFrame) for valor in dataframes_escalas.values()):
             raise TypeError('Los valores del diccionario dataframes_escalas deben ser de tipo pd.DataFrame')
         
-        if not isinstance(metadatos, pd.DataFrame):
+        if not isinstance(diccionario_traducciones, pd.DataFrame):
             raise TypeError('El valor del parámetro diccionario_variables debe ser de tipo dict')
-        if not isinstance(columna_metadatos_nombres, str):
-            raise TypeError('El valor del parámetro columna_metadatos_nombres debe ser de tipo str')
-        if not isinstance(columna_metadatos_alias, str):
-            raise TypeError('El valor del parámetro columna_metadatos_alias debe ser de tipo str')
-        if columna_metadatos_nombres not in metadatos.columns:
-            raise ValueError(f'El DataFrame de metadatos debe contener una columna con nombre {columna_metadatos_nombres} para identificar el nombre descriptivo de cada variable')
-        if columna_metadatos_alias not in metadatos.columns:
-            raise ValueError(f'El DataFrame de metadatos debe contener una columna con nombre {columna_metadatos_alias} para identificar el alias de cada variable')
+        if not isinstance(columna_diccionario_traducciones_nombres, str):
+            raise TypeError('El valor del parámetro columna_diccionario_traducciones_nombres debe ser de tipo str')
+        if not isinstance(columna_diccionario_traducciones_alias, str):
+            raise TypeError('El valor del parámetro columna_diccionario_traducciones_alias debe ser de tipo str')
+        if columna_diccionario_traducciones_nombres not in diccionario_traducciones.columns:
+            raise ValueError(f'El DataFrame de diccionario_traducciones debe contener una columna con nombre {columna_diccionario_traducciones_nombres} para identificar el nombre descriptivo de cada variable')
+        if columna_diccionario_traducciones_alias not in diccionario_traducciones.columns:
+            raise ValueError(f'El DataFrame de diccionario_traducciones debe contener una columna con nombre {columna_diccionario_traducciones_alias} para identificar el alias de cada variable')
 
-        if not isinstance(variable_identificadora, str):
-            raise TypeError('El valor del parámetro variable_identificadora debe ser de tipo str')
+        if not isinstance(variables_identificadoras, list):
+            raise TypeError('El valor del parámetro variables_identificadoras debe ser de tipo list')
         for escala, dataframe in dataframes_escalas.items():
-            if variable_identificadora not in dataframe.columns:
-                raise ValueError(f'La variabla identificadora especificada no se encuentra en el DataFrame de la escala {escala}, debe existir en todos los DataFrames')
+            for var in variables_identificadoras:
+                if var not in dataframe.columns:
+                    raise ValueError(f'La variabla identificadora especificada {var} no se encuentra en el DataFrame de la escala {escala}, todas deben existir en todos los DataFrames')
         
         if not (isinstance(variables_excluidas_list, list)):
             raise TypeError('El valor del parámetro variables_excluidas_list debe ser de tipo list')
@@ -60,11 +61,11 @@ class Procesador:
                 raise ValueError(f'Los elementos de la lista variables_excluidas_regex deben ser expresiones regular válidas, es inválida: {regex}')
         
         self.dataframes_escalas = dataframes_escalas
-        self.metadatos = metadatos
-        self.diccionario_variables = dict(zip(metadatos[columna_metadatos_alias], metadatos[columna_metadatos_nombres]))
-        self.variable_identificadora = variable_identificadora
+        self.diccionario_traducciones = diccionario_traducciones
+        self.diccionario_traducciones = dict(zip(diccionario_traducciones[columna_diccionario_traducciones_alias], diccionario_traducciones[columna_diccionario_traducciones_nombres]))
+        self.variables_identificadoras = variables_identificadoras
 
-        variables_excluidas = set(variables_excluidas_list) | {variable_identificadora}
+        variables_excluidas = set(variables_excluidas_list) | set(variables_identificadoras)
         for regex in variables_excluidas_regex:
             for dataframe in dataframes_escalas.values():
                 variables_excluidas = variables_excluidas | set(obtener_variables_regex_df(dataframe, regex))
@@ -75,7 +76,7 @@ class Procesador:
         for dataframe in dataframes_escalas.values():
             variables_consideradas = variables_consideradas | set(dataframe.columns)
 
-        variables_en_diccionario = set(self.diccionario_variables.keys())
+        variables_en_diccionario = set(self.diccionario_traducciones.keys())
         if not (variables_consideradas).issubset(variables_en_diccionario):
             variables_faltantes = variables_consideradas - variables_en_diccionario
             print(f'Se encontraron variables del DataFrame que no están presentes en las llaves del diccionario:\n{variables_faltantes}')
@@ -219,7 +220,7 @@ class Procesador:
         if all(validacion_escalas_var_base_normalizacion[escala] == False for escala in escalas):
             raise ValueError(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en ninguno de los DataFrames de las escalas especificadas')
         
-        nombre = self.diccionario_variables[var]
+        nombre = self.diccionario_traducciones[var]
         codigo = var
         
         # se hace la categorizacion de la variable en los dataframes donde si se encuentra
@@ -233,10 +234,11 @@ class Procesador:
                 variable_categorizada = variable_categorizada.cat.add_categories(['NaN'])
                 variable_categorizada = variable_categorizada.fillna('NaN')
                 
-                cells = {intervalo:[] for intervalo in variable_categorizada.cat.categories}
-                for entidad, intervalo in zip(self.dataframes_escalas[escala][self.variable_identificadora], variable_categorizada):
+                cells = {intervalo: [] for intervalo in variable_categorizada.cat.categories}
+                for i, intervalo in enumerate(variable_categorizada):
+                    entidad = "".join(str(self.dataframes_escalas[escala].iloc[i][col]) for col in self.variables_identificadoras)
                     cells[intervalo].append(entidad)
-                    
+                                    
                 if len(cells['NaN']) == 0:
                     variable_categorizada = variable_categorizada.cat.remove_categories(['NaN'])
                     del cells['NaN']
