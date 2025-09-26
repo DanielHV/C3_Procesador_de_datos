@@ -1,0 +1,23 @@
+{
+    "rutas_csv_escalas" : {
+        "mun" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_datos_prueba3.csv"
+    },
+
+    "ruta_csv_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_prueba3.csv",
+    "columna_diccionario_traducciones_nombres" : "traduccion",
+    "columna_diccionario_traducciones_alias" : "variable",
+
+    "variables_identificadoras" : ["municipio"],
+
+    "variables_excluidas_list" : [],
+
+    "variables_excluidas_regex" : ["^entidad.*', '^region.*"],
+
+    "variables_a_procesar_regex" : {
+        "None" : "^.*"
+    },
+    
+    "q" : 10,
+    
+    "ruta_csv_salida" : "../data/ensanut/processed/procesamiento_ensanut_conteos_geo_prueba3.csv"
+}
