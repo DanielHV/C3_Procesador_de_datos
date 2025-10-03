@@ -2,9 +2,13 @@ import pandas as pd
 import os
 import argparse
 import json
+import time
 from procesador.procesador import Procesador
 
 if __name__ == '__main__':
+    
+    timestamp_inicio = time.time()
+    
     parser = argparse.ArgumentParser(description='Procesador de datos C3')
     parser.add_argument('--config', type=str, required=True, help='Archivo de configuración')
     args = parser.parse_args()
@@ -101,3 +105,6 @@ if __name__ == '__main__':
         
     resultado.to_csv(ruta_csv_salida, index=False)
     print(f'Procesamiento finalizado, el archivo .csv resultante se encuentra en la ruta:\n{ruta_csv_salida}')
+    
+    timestamp_fin = time.time()
+    print(f"Tiempo total de ejecución: {timestamp_fin - timestamp_inicio:.2f} segundos")
