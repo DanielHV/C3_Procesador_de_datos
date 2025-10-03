@@ -51,12 +51,14 @@ class Procesador:
         self.diccionario_traducciones = diccionario_traducciones
         self.diccionario_traducciones = dict(zip(diccionario_traducciones[columna_diccionario_traducciones_alias], diccionario_traducciones[columna_diccionario_traducciones_nombres]))
         self.variables_identificadoras = variables_identificadoras
-
-        variables_excluidas = set(variables_excluidas_list) | set(variables_identificadoras)
+        self.variables_excluidas = set(variables_excluidas_list)
+        
         for regex in variables_excluidas_regex:
             for dataframe in dataframes_escalas.values():
-                variables_excluidas = variables_excluidas | set(obtener_variables_regex_df(dataframe, regex))
+                self.variables_excluidas = self.variables_excluidas | set(obtener_variables_regex_df(dataframe, regex))
 
+        print(f'Variables excluidas manualmente: {self.variables_excluidas}')
+        
         self.variables_faltantes_diccionario = []
         
         variables_consideradas = set()
@@ -66,20 +68,26 @@ class Procesador:
         variables_en_diccionario = set(self.diccionario_traducciones.keys())
         if not (variables_consideradas).issubset(variables_en_diccionario):
             variables_faltantes = variables_consideradas - variables_en_diccionario
-            print(f'Se encontraron variables del DataFrame que no están presentes en las llaves del diccionario:\n{variables_faltantes}')
-            variables_excluidas = variables_excluidas | variables_faltantes
-            self.variables_faltantes_diccionario = sorted(list(variables_faltantes))
+            self.variables_excluidas = self.variables_excluidas | variables_faltantes
+            self.variables_faltantes_diccionario = variables_faltantes
+            print(f'Variables faltantes en el diccionario de traducciones (se excluirán automáticamente): {self.variables_faltantes_diccionario}')
+            
+        for escala, df in self.dataframes_escalas.items():
+            self.dataframes_escalas[escala] = df.drop(columns=[col for col in self.variables_excluidas if col in df.columns and col not in self.variables_identificadoras])
+            
+        self.variables_excluidas = sorted(list(self.variables_excluidas))
+        self.variables_faltantes_diccionario = sorted(list(self.variables_faltantes_diccionario))
+        
 
-        self.variables_excluidas = sorted(list(variables_excluidas))
-        print(f'Variables excluidas totales:\n{self.variables_excluidas}')
+            
 
     def get_variables_excluidas(self) -> list:
         
-        return self.variables_excluidas
+        return list(self.variables_excluidas)
 
     def get_variables_faltantes_diccionario(self) -> list:
         
-        return self.variables_faltantes_diccionario
+        return list(self.variables_faltantes_diccionario)
         
     def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None) -> pd.Series:
         
@@ -215,7 +223,7 @@ class Procesador:
         intervalos_cells_escalas = {escala:{} for escala in escalas}
         intervalos_ordenados_escalas = {escala:[] for escala in escalas}
         for escala in escalas:
-            
+            #print(f'Categorizando variable {var} en la escala {escala}')
             if validacion_escalas_var[escala] and validacion_escalas_var_base_normalizacion[escala]:
                 variable_categorizada = self.categorizar_variable(escala=escala, var=var, var_base_normalizacion=var_base_normalizacion, q=q)
                 variable_categorizada = variable_categorizada.cat.add_categories(['NaN'])
@@ -243,6 +251,7 @@ class Procesador:
             for escala in escalas:
                 try:
                     intervalo = intervalos_ordenados_escalas[escala][i]
+                    #print(f'Procesando bin {i}, escala {escala}, variable {var}')
                     if isinstance(intervalo, pd.Interval):
                         resultado[f'interval_{escala}'].append(
                             f'{(intervalo.left*100).round(1)}%:{(intervalo.right*100).round(1)}%' if (var_base_normalizacion is not None) else f'{intervalo.left}:{intervalo.right}'
@@ -284,15 +293,21 @@ class Procesador:
         
         resultado = {}
         
+        total_vars = sum(len(v) for v in dicc.values() if isinstance(v, list))
+        print(f'Variables totales a procesar por lista explícita: {total_vars}')
+        
+        contador = 0
         for var_base_normalizacion, lista_vars in dicc.items():
             
             if var_base_normalizacion is not None:
                 if not isinstance(var_base_normalizacion, str):
                     raise TypeError('Las llaves del diccionario deben ser de tipo str o None')
+                if var_base_normalizacion in self.variables_identificadoras:
+                    print(f'La variable {var_base_normalizacion} está en la lista de variables identificadoras, no se procesará la lista asociada a esta variable')
+                    continue
                 if var_base_normalizacion in self.variables_excluidas:
                     print(f'La variable {var_base_normalizacion} está en la lista de variables excluidas, no se procesará la lista asociada a esta variable')
                     continue
-            
             if not isinstance(lista_vars, list):
                 raise TypeError('Los valores del diccionario deben ser de tipo list')
             
@@ -301,10 +316,15 @@ class Procesador:
             for var in lista_vars:
                 if not isinstance(var, str):
                     raise TypeError('Los elementos de las listas deben ser de tipo str')
+                
+                contador += 1
+                if var in self.variables_identificadoras:
+                    print(f'La variable {var} está en la lista de variables identificadoras, no se procesará')
+                    continue
                 if var in self.variables_excluidas:
                     print(f'La variable {var} está en la lista de variables excluidas, no se procesará')
                     continue
-                
+                print(f"Procesando variable {contador}/{total_vars}: {var}")
                 variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
                 
             resultado[var_base_normalizacion] = pd.concat(variables_procesadas, ignore_index=True)
@@ -331,17 +351,26 @@ class Procesador:
         if q < 1:
             raise ValueError('El valor de q debe ser mayor a 1')
         
+        total_vars = 0
+        for regex in dicc.values():
+            for escala in escalas:
+                total_vars += len(obtener_variables_regex_df(self.dataframes_escalas[escala], regex))
+        print(f'Variables totales a procesar según todas las expresiones regulares: {total_vars}')
+        
         resultado = {}
         
+        contador = 0
         for var_base_normalizacion, regex in dicc.items():
             
             if var_base_normalizacion is not None:
                 if not isinstance(var_base_normalizacion, str):
                     raise TypeError('Las llaves del diccionario deben ser de tipo str o None')
+                if var_base_normalizacion in self.variables_identificadoras:
+                    print(f'La variable {var_base_normalizacion} está en la lista de variables identificadoras, no se procesará')
+                    continue
                 if var_base_normalizacion in self.variables_excluidas:
                     print(f'La variable {var_base_normalizacion} está en la lista de variables excluidas, no se procesará la expresión regular asociada a esta variable')
                     continue
-                
             if not isinstance(regex, str):
                 raise TypeError('Los valores del diccionario deben ser de tipo str, y una expresión regular válida')
             try:
@@ -362,10 +391,14 @@ class Procesador:
                 
             for var in sorted(list(variables_regex)):
                 
+                contador += 1
+                if var in self.variables_identificadoras:
+                    print(f'La variable {var} está en la lista de variables identificadoras, no se procesará')
+                    continue
                 if var in self.variables_excluidas:
                     print(f'La variable {var} está en la lista de variables excluidas, no se procesará')
                     continue
-
+                print(f'(regex {regex}) Procesando variable {contador}/{total_vars}: {var}')
                 variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
                 
             resultado[var_base_normalizacion] = pd.concat(variables_procesadas, ignore_index=True) if len(variables_procesadas) > 0 else None
