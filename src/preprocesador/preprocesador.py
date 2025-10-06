@@ -62,6 +62,7 @@ class Preprocesador:
         
         diccionario_variables = dict(zip(self.metadatos[self.columna_metadatos_nombres], self.metadatos[columna_metadatos_alias]))
         self.df.rename(columns=diccionario_variables, inplace=True)
+        self.columna_metadatos_nombres = columna_metadatos_alias
         
     def convertir_tipos(self, columna_metadatos_tipos:str) -> None:
         """
