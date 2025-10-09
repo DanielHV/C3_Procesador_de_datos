@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 pd.set_option('future.no_silent_downcasting', True)
 import re
+from typing import Optional
 from utils.regex_utils import obtener_variables_regex_df
 
 class Procesador:
@@ -91,6 +92,7 @@ class Procesador:
         
     def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None) -> pd.Series:
         
+    def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:Optional[str]=None) -> pd.Series:
         if not isinstance(escala, str):
             raise TypeError('El parámetro escala debe ser de tipo str')
         if escala not in self.dataframes_escalas.keys():
@@ -120,6 +122,7 @@ class Procesador:
     
     def categorizar_variable(self, escala:str, var:str, var_base_normalizacion:str=None, q:int=10) -> pd.Series:
         
+    def categorizar_variable(self, escala:str, var:str, var_base_normalizacion:Optional[str]=None, q: int=10) -> pd.Series:
         if not isinstance(escala, str):
             raise TypeError('El parámetro escala debe ser de tipo str')
         if escala not in self.dataframes_escalas.keys():
@@ -159,6 +162,7 @@ class Procesador:
         
         # validaciones de parametros
         
+    def procesar_variable(self, escalas:list, var:str, var_base_normalizacion:Optional[str]=None, q:int=10) -> pd.DataFrame:
         if not isinstance(escalas, list):
             raise TypeError('El parámetro escalas debe ser de tipo list')
         for escala in escalas:
