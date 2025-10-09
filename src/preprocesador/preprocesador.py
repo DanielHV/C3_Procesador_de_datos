@@ -21,30 +21,40 @@ class Preprocesador:
         Raises:
             TypeError: Si los parámetros no son del tipo esperado.
         """
+        # validaciones df
         if not isinstance(df, pd.DataFrame):
             raise TypeError('El valor del parámetro df debe ser de tipo pd.DataFrame')
-        self.df = df
-        if 'Unnamed: 0' in self.df.columns:
-            self.df.drop(columns=['Unnamed: 0'], inplace=True)
         
+        # validaciones metadatos
         if not isinstance(metadatos, pd.DataFrame):
             raise TypeError('El valor del parámetro metadatos debe ser de tipo pd.DataFrame')
-        self.metadatos = metadatos
-        if 'Unnamed: 0' in self.metadatos.columns:
-            self.metadatos.drop(columns=['Unnamed: 0'], inplace=True)
         
+        # validaciones columna_metadatos_nombres
         if not isinstance(columna_metadatos_nombres, str):
             raise TypeError('El parámetro columna_metadatos_nombres debe ser de tipo str')
-        self.columna_metadatos_nombres = columna_metadatos_nombres
-
+        
+        # validaciones columa_metadatos_posibles_valores
         if not isinstance(columna_metadatos_posibles_valores, str):
             raise TypeError('El parámetro columna_metadatos_posibles_valores debe ser de tipo str')
+        
+        # asignacion de atributos
+        self.df = df
+        self.metadatos = metadatos
+        self.columna_metadatos_nombres = columna_metadatos_nombres
         self.columna_metadatos_posibles_valores = columna_metadatos_posibles_valores
         
+        # eliminar columna 'Unnamed: 0' (esta existe cuando se tiene una primera columna de indices sin nombre)
+        if 'Unnamed: 0' in self.df.columns:
+            self.df.drop(columns=['Unnamed: 0'], inplace=True)
+        if 'Unnamed: 0' in self.metadatos.columns:
+            self.metadatos.drop(columns=['Unnamed: 0'], inplace=True)
+            
     def eliminar_cadenas_vacias(self) -> None:
         """
         Reemplaza cadenas vacías o espacios en blanco en el DataFrame por valores NA de pandas.
         """
+        # la funcion replace toma como primer parametro una expresion regular que acepta las cadenas vacias a sustituir,
+        # y como segundo parametro pd.NA que sera el valor que sustituye
         self.df.replace(r'^\s*$', pd.NA, regex=True, inplace=True)
         
     def columnas_a_alias(self, columna_metadatos_alias:str) -> None:
@@ -57,11 +67,15 @@ class Preprocesador:
         Raises:
             TypeError: Si el parámetro no es del tipo esperado.
         """
+        # validaciones columna_metadatos_alias
         if not isinstance(columna_metadatos_alias, str):
             raise TypeError('El parámetro columna_metadatos_alias debe ser de tipo str')
         
+        # crear un diccionario de mapeo entre nombres originales y alias
         diccionario_variables = dict(zip(self.metadatos[self.columna_metadatos_nombres], self.metadatos[columna_metadatos_alias]))
+        # renombrar columnas del dataframe usando el diccionario
         self.df.rename(columns=diccionario_variables, inplace=True)
+         # actualizar el atributo correspondiente a la columna que contiene los nombres de las variables en el dataframe
         self.columna_metadatos_nombres = columna_metadatos_alias
         
     def convertir_tipos(self, columna_metadatos_tipos:str) -> None:
@@ -75,10 +89,14 @@ class Preprocesador:
             TypeError: Si el parámetro no es del tipo esperado.
             KeyError: Si alguna variable no se encuentra en el DataFrame.
         """
+        # validaciones columna_metadatos_tipos
         if not isinstance(columna_metadatos_tipos, str):
             raise TypeError('El parámetro columna_metadatos_tipos debe ser de tipo str')
+        
+        # para cada entrada en los metadatos se obtiene el valor en la columna de nombres y el valor en la columna de tipos
         for var, tipo in zip(self.metadatos[self.columna_metadatos_nombres], self.metadatos[columna_metadatos_tipos]):
             try: 
+                # convertir el tipo de cada columna según lo especificado en la columna de tipos 
                 if tipo.lower() in ['int', 'int64']:
                     self.df[var] = self.df[var].astype('Int64')
                 elif tipo.lower() in ['float', 'float64']:
@@ -105,14 +123,19 @@ class Preprocesador:
         Raises:
             TypeError: Si los parámetros no son del tipo esperado.
         """
+        # validaciones columna_metadatos_filtro_excluir
         if not isinstance(columna_metadatos_filtro_excluir, str):
             raise TypeError('El parámetro columna_metadatos_filtro_excluir debe ser de tipo str')
+        
+        # validaciones valores_a_excluir
         if not isinstance(valores_a_excluir, list):
             raise TypeError('El parámetro valores_a_excluir debe ser de tipo list')
 
+        # filtrar metadatos para excluir las variables especificadas
         metadatos_filtrados = self.metadatos.loc[~self.metadatos[columna_metadatos_filtro_excluir].isin(valores_a_excluir)]
+        # obtener las columnas filtradas que existen en el dataframe
         columnas_filtradas = [col for col in metadatos_filtrados[self.columna_metadatos_nombres] if col in self.df.columns]
-
+        # actualizar el dataframe manteniendo solo las columnas filtradas
         self.df = self.df[columnas_filtradas]
         
     def generar_diccionario_traducciones_variables_categoricas(self, variables:list, columna_metadatos_alias:str, columna_metadatos_posibles_valores_alias:str) -> dict:
@@ -123,7 +146,7 @@ class Preprocesador:
         se vuelve a utilizar esa misma columna en esta función, se generará un diccionario con nombres y traducciones iguales.
 
         Args:
-            variables (list): Lista de variables categóricas que se incluirán en el diccionario (se generará una traducción para cada combinación nombre-posible_valor).
+            variables (list): Lista explícita de variables categóricas que se incluirán en el diccionario (se generará una traducción para cada combinación nombre-posible_valor).
             columna_metadatos_alias (str): Columna de metadatos con los alias de variables.
             columna_metadatos_posibles_valores_alias (str): Columna de metadatos con los alias de los posibles valores.
 
@@ -134,22 +157,33 @@ class Preprocesador:
             TypeError: Si los parámetros no son del tipo esperado.
             ValueError: Si los valores de los metadatos no pueden ser evaluados como listas.
         """
+        # validaciones variables
         if not isinstance(variables, list):
             raise TypeError('El parámetro variables debe ser de tipo list')
+        
+        # validaciones columna_metadatos_alias
         if not isinstance(columna_metadatos_alias, str):
             raise TypeError('El parámetro columna_metadatos_alias debe ser de tipo str')
+        
+        # validaciones columna_metadatos_posibles_valores_alias
         if not isinstance(columna_metadatos_posibles_valores_alias, str):
             raise TypeError('El parámetro columna_metadatos_posibles_valores_alias debe ser de tipo str')
-
+        
+        # inicializar un diccionario vacio para almacenar las traducciones
         diccionario_traducciones = {}
+        
         for variable in variables:
+            # obtener la fila de metadatos correspondiente a la variable
             fila = self.metadatos[self.metadatos[self.columna_metadatos_nombres] == variable]
             if fila.empty:
                 continue
+            # obtener el alias de la variable desde los metadatos
             variable_alias = fila[columna_metadatos_alias].values[0]
+            # obtener los posibles valores y sus alias como cadenas, se evaluan para construir listas
             posibles_valores = ast.literal_eval(fila[self.columna_metadatos_posibles_valores].values[0])
             posibles_valores_alias = ast.literal_eval(fila[columna_metadatos_posibles_valores_alias].values[0])
             
+            # generar las traducciones para cada combinación de valor y alias
             for valor, valor_alias in zip(posibles_valores, posibles_valores_alias):
                 diccionario_traducciones[f'{variable}-{valor}'] = f'{variable_alias}-{valor_alias}'
 
@@ -174,19 +208,29 @@ class Preprocesador:
         Raises:
             TypeError: Si los argumentos no son del tipo esperado.
         """
+        # validaciones variables
         if not isinstance(variables, list):
             raise TypeError('El parámetro variables debe ser de tipo list')
+        
+        # validaciones columna_metadatos_alias
         if not isinstance(columna_metadatos_alias, str):
             raise TypeError('El parámetro columna_metadatos_alias debe ser de tipo str')
+        
+        # validaciones operaciones
         if not isinstance(operacion, str):
             raise TypeError('El parámetro operacion debe ser de tipo str')
         
+        # inicializar un diccionario vacio para almacenar las traducciones
         diccionario_traducciones = {}
+        
         for variable in variables:
+            # obtener la fila de metadatos correspondiente a la variable
             fila = self.metadatos[self.metadatos[self.columna_metadatos_nombres] == variable]
             if fila.empty:
                 continue
+            # obtener el alias de la variable desde los metadatos
             variable_alias = fila[columna_metadatos_alias].values[0]
+            # generar la traducción para la variable, representando la aplicación de la operación especificada
             diccionario_traducciones[f'{operacion}::{variable}'] = f'{operacion}::{variable_alias}'
         
         return diccionario_traducciones
@@ -194,7 +238,7 @@ class Preprocesador:
     
     def generar_diccionario_total_datos(self) -> dict:
         """
-        Genera un diccionario con la traducción para la columna que representa el conteo total de datos, el nombre de esta es constante: conteo::total_datos.
+        Genera un diccionario con la traducción fija para la columna que representa el conteo total de datos: conteo::total_datos.
 
         Returns:
             dict: Diccionario de traducción para la columna que representa el conteo total de datos.
@@ -216,17 +260,24 @@ class Preprocesador:
         Raises:
             TypeError: Si los parámetros no son del tipo esperado.
         """
+        # validaciones variables_id_agrupacion
         if not isinstance(variables_id_agrupacion, list):
             raise TypeError('El valor del parámetro variables_id_agrupacion debe ser de tipo list')
         
+        # validaciones variables_a_agrupar
         if not isinstance(variables_a_agrupar, list):
             raise TypeError('El valor del parámetro variables_a_agrupar debe ser de tipo list')
 
+        # seleccionar las variables de agrupacion y las variables a agrupar
         df = self.df[variables_id_agrupacion+variables_a_agrupar]
+        # eliminar espacios en blanco cuando el tipo de dato es str
         df = df.apply(lambda col: col.map(lambda x: x.strip() if isinstance(x, str) else x))
+        # eliminar columnas duplicadas en el dataframe
+        df = df.loc[:, ~df.columns.duplicated()]
 
-        df = df.loc[:, ~df.columns.duplicated()] # si las variables de agrupacion se encuentran repetidas en las variables a agrupar, se eliminan
-
+        # transformar el dataframe a formato largo (melt)
+        # cada columna original pasa a convertirse en un posible valor de una unica columna 'característica',
+        # cada valor en cada columna original pasa a convertir en el valor de una unica columna 'observación'
         df_melt = df.melt(
             id_vars=variables_id_agrupacion,
             value_vars=variables_a_agrupar,
@@ -234,6 +285,7 @@ class Preprocesador:
             value_name='observación'
         )
         
+        # generar conteos de caracteristica-observacion por grupo
         df_conteos = (
             df_melt
             .groupby(variables_id_agrupacion + ['característica', 'observación'])
@@ -241,6 +293,8 @@ class Preprocesador:
             .reset_index(name='conteo')
         )
         
+        # pivotear el dataframe de conteos para obtener una columna por cada par caracteristica-observacion,
+        # donde el valor de cada columna es el conteo del grupo correspondiente
         df_agregado = df_conteos.pivot_table(
             index=variables_id_agrupacion,
             columns=['característica', 'observación'],
@@ -248,10 +302,15 @@ class Preprocesador:
             fill_value=0
         )
         
+        # convertir las columnas a enterios, sin contar las que se usaron como identificadores para agrupar
         columnas_conteos = [col for col in df_agregado.columns if col not in variables_id_agrupacion]
         for col in columnas_conteos:
             df_agregado[col] = df_agregado[col].astype(int)
+            
+        # renombrar las columnas con el formato 'columna-valor'
         df_agregado.columns = [f'{columna}-{valor}' for columna, valor in df_agregado.columns]
+        
+        # reiniciar el indice del dataframe
         df_agregado = df_agregado.reset_index()
         
         return df_agregado
@@ -273,37 +332,54 @@ class Preprocesador:
             TypeError: Si los parámetros no son del tipo esperado.
             ValueError: Si la operación especificada no es válida.
         """
+        # validaciones variables_id_agrupacion
         if not isinstance(variables_id_agrupacion, list):
             raise TypeError('El valor del parámetro variables_id_agrupacion debe ser de tipo list')
         
+        # validaciones variables_a_agrupar
         if not isinstance(variables_a_agrupar, list):
             raise TypeError('El valor del parámetro variables_a_agrupar debe ser de tipo list')
         
+        # seleccionar las variables de agrupacion y las variables a agrupar
         df = self.df[variables_id_agrupacion + variables_a_agrupar]
+        # eliminar espacios en blanco cuando el tipo de dato es str
         df = df.apply(lambda col: col.map(lambda x: x.strip() if isinstance(x, str) else x))
         
+        # inicializar una lista para almacenar las variables numéricas
         variables_numericas = []
         for var in variables_a_agrupar:
             try:
+                # intentar convertir la columna a tipo numerico
                 df[var] = pd.to_numeric(df[var], errors='raise')
                 variables_numericas.append(var)
             except Exception:
+                # si no se puede convertir, se omite la variable
                 print(f'La variable {var} contiene valores no numéricos (o no convertibles a numérico), no se agrupará')
+                
+        # filtrar el dataframe para incluir solo las variables numericas y las de agrupacion
         df = df[variables_id_agrupacion + variables_numericas]
-        df = df.loc[:, ~df.columns.duplicated()] # si las variables de agrupacion se encuentran repetidas en las variables a agrupar, se eliminan
+        # eliminar columnas duplicadas en el dataframe
+        df = df.loc[:, ~df.columns.duplicated()]
 
+        # inicializar un dataframe vacío para almacenar los resultados
         df_agregado = pd.DataFrame()
         if operacion == 'suma':
+            # realizar la suma por cada grupo
             df_agregado = df.groupby(variables_id_agrupacion, as_index=False).sum()
         elif operacion == 'media': 
+            # calcular la media por cada grupo
             df_agregado = df.groupby(variables_id_agrupacion, as_index=False).mean()
         elif operacion == 'mediana':
+            # calcular la mediana por cada grupo
             df_agregado = df.groupby(variables_id_agrupacion, as_index=False).median()
         else:
+            # operacion no valida
             raise ValueError('La operación especificada no existe, se implementan las siguientes: suma, media, mediana')
         
-        df_agregado = df_agregado.copy() # defragmentacion
+        # defragmentacion
+        df_agregado = df_agregado.copy()
         
+        # renombrar las columnas para incluir el prefijo de la operación aplicada
         renombramiento_columnas = [
             var if var in variables_id_agrupacion else f"{operacion}::{var}"
             for var in df_agregado.columns
@@ -323,8 +399,10 @@ class Preprocesador:
         Raises:
             TypeError: Si el parámetro no es del tipo esperado.
         """
+        # validaciones variables_id_agrupacion
         if not isinstance(variables_id_agrupacion, list):
             raise TypeError('El parámetro variables_id_agrupacion debe ser de tipo list')
         
+        # agrupar el dataframe y contar el total de datos en cada grupo
         return self.df.groupby(variables_id_agrupacion).size().reset_index(name='conteo::total_datos')
     
