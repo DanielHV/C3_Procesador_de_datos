@@ -1,0 +1,28 @@
+{
+    "rutas_csv_escalas" : {
+        "mun" : "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun.csv"
+    },
+    "ruta_csv_diccionario_traducciones" : "../data/covid19/preprocessed/preprocesamiento_covid19_dicc_traducciones_example_mun.csv",
+    "ruta_csv_salida" : "../data/covid19/processed/procesamiento_covid19_example.csv",
+
+    "columna_diccionario_traducciones_nombres" : "traduccion",
+    "columna_diccionario_traducciones_alias" : "variable",
+
+    "variables_identificadoras" : ["ENTIDAD_RES", "MUNICIPIO_RES"],
+
+    "variables_excluidas_list" : ["ASMA-1", "ASMA-2", "ASMA-98"],
+    "variables_excluidas_regex" : ["^ENTIDAD.*', '^MUNICIPIO.*"],
+
+    "variables_a_procesar_list" : {
+        "None" : ["media::EDAD"],
+        "conteo::total_datos" : ["MIGRANTE-1", "OBESIDAD-1"]
+    },
+    "variables_a_procesar_regex" : {
+        "None" : ["^CLASIFICACION_FINAL_COVID.*"],
+        "conteo::total_datos" : ["^TIPO_PACIENTE.*"]
+
+    },
+    
+    "q" : 10
+    
+}
