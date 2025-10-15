@@ -12,7 +12,7 @@ class Procesador:
     realizando operaciones de normalización y categorización, para generar un nuevo archivo como resultado.
     Todos DataFrames que toma como atributos esta clase son generados por la clase Preprocesador.
     """
-    def __init__(self, dataframes_escalas:dict, diccionario_traducciones:pd.DataFrame, columna_diccionario_traducciones_nombres:str, columna_diccionario_traducciones_alias:str, variables_identificadoras:list, variables_excluidas_list:list, variables_excluidas_regex:list):
+    def __init__(self, dataframes_escalas:dict, diccionario_traducciones:pd.DataFrame, columna_diccionario_traducciones_nombres:str, columna_diccionario_traducciones_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list):
         """
         Inicializa el procesador validando los parámetros y configurando las variables a excluir,
         así como el diccionario de traducciones.
@@ -22,7 +22,7 @@ class Procesador:
             diccionario_traducciones (pd.DataFrame): DataFrame con traducciones de variables.
             columna_diccionario_traducciones_nombres (str): Nombre de columna con nombres descriptivos.
             columna_diccionario_traducciones_alias (str): Nombre de columna con alias de variables.
-            variables_identificadoras (list): Lista de variables identificadoras.
+            variables_identificadoras (dict): Diccionario de variables identificadoras por escala.
             variables_excluidas_list (list): Lista de variables a excluir (explícitamente).
             variables_excluidas_regex (list): Lista de variables a excluir (por expresión regular).
 
@@ -52,13 +52,18 @@ class Procesador:
         if columna_diccionario_traducciones_alias not in diccionario_traducciones.columns:
             raise ValueError(f'El DataFrame de diccionario_traducciones debe contener una columna con nombre {columna_diccionario_traducciones_alias} para identificar el alias de cada variable')
         
-        # validaciones variables_identificadores
-        if not isinstance(variables_identificadoras, list):
-            raise TypeError('El valor del parámetro variables_identificadoras debe ser de tipo list')
-        for escala, dataframe in dataframes_escalas.items():
-            for var in variables_identificadoras:
-                if var not in dataframe.columns:
-                    raise ValueError(f'La variabla identificadora especificada {var} no se encuentra en el DataFrame de la escala {escala}, todas deben existir en todos los DataFrames')
+        # validaciones variables_identificadoras
+        if not isinstance(variables_identificadoras, dict):
+            raise TypeError('El parámetro variables_identificadoras debe ser un dict {escala: [vars]}')
+        for escala, vars_id in variables_identificadoras.items():
+            if escala not in dataframes_escalas:
+                raise ValueError(f'La escala {escala} de variables_identificadoras no está en los dataframes')
+            if not isinstance(vars_id, list):
+                raise TypeError(f'Las variables identificadoras de la escala {escala} deben ser una lista')
+            for var in vars_id:
+                if var not in dataframes_escalas[escala].columns:
+                    raise ValueError(f'La variable identificadora {var} no está en el DataFrame de la escala {escala}')
+        self.variables_identificadoras = variables_identificadoras
                 
         # validaciones variables_excluidas_list
         if not (isinstance(variables_excluidas_list, list)):
@@ -83,15 +88,17 @@ class Procesador:
         self.variables_excluidas = set(variables_excluidas_list)
         self.variables_faltantes_diccionario = []
         
-        # agregar variables excluidas a set segun las regex especificadas
+        # imprimir en terminal variables excluidas por lista explicita
+        print(f'Variables a excluir por lista explícita: {variables_excluidas_list}')
+        
+        # agregar variables excluidas a set segun las regex especificadas e imprimir en terminal
+        variables_excluidas_encontradas_regex = set()
         for regex in variables_excluidas_regex:
             for dataframe in dataframes_escalas.values():
-                self.variables_excluidas |= set(obtener_variables_regex_df(dataframe, regex))
-
-        # eliminar variables identificadoras del set de excluidas y crear una lista ordenada
-        identificadoras_excluidas = set(variables_identificadoras) & set(variables_excluidas_list)
-        variables_excluidas_manualmente = sorted(list(self.variables_excluidas - identificadoras_excluidas))
-        
+                variables_excluidas_encontradas_regex |= set(obtener_variables_regex_df(dataframe, regex))
+        variables_excluidas_encontradas_regex = sorted(list(variables_excluidas_encontradas_regex))
+        print(f'Variables a excluir encontradas por lista de regex: {variables_excluidas_encontradas_regex}')
+            
         # verificar variables faltantes en el diccionario de traducciones
         self.variables_faltantes_diccionario = []
         variables_consideradas = set()
@@ -106,18 +113,16 @@ class Procesador:
             self.variables_excluidas = self.variables_excluidas | variables_faltantes
             self.variables_faltantes_diccionario = variables_faltantes
         
-        # eliminar variables excluidas de los DataFrames
+        # eliminar variables excluidas de los DataFrames excepto identificadoras
+        variables_identificadoras_set = set([var for lista in variables_identificadoras.values() for var in lista])
         for escala, df in self.dataframes_escalas.items():
-            self.dataframes_escalas[escala] = df.drop(columns=[col for col in self.variables_excluidas if col in df.columns and col not in self.variables_identificadoras])
+            self.dataframes_escalas[escala] = df.drop(columns=[col for col in self.variables_excluidas if col in df.columns and col not in variables_identificadoras_set])
             
         # convertir sets en listas ordenadas
         self.variables_excluidas = sorted(list(self.variables_excluidas))
         self.variables_faltantes_diccionario = sorted(list(self.variables_faltantes_diccionario))
         
-        # imprimir en terminal variables excluidas maualmente y variables faltantes en el diccionario
-        print(f'Variables del DataFrame excluidas manualmente: {variables_excluidas_manualmente}')
-        if identificadoras_excluidas:
-            print(f"Advertencia: Las siguientes variables identificadoras fueron incluidas en la lista de excluidas manual, pero no serán excluidas automáticamente: {sorted(list(identificadoras_excluidas))}")
+        # imprimir en terminal variables faltantes en el diccionario
         print(f'Variables del DataFrame faltantes en el diccionario de traducciones (se excluirán automáticamente): {self.variables_faltantes_diccionario}')
 
     def get_variables_excluidas(self) -> list:
@@ -402,7 +407,7 @@ class Procesador:
                     
                     # construir la cadena que identifica al dato a partir de las variables identificadoras
                     # y agregarla a la lista de datos que pertenecen al intervalo
-                    entidad = "".join(str(self.dataframes_escalas[escala].iloc[i][col]) for col in self.variables_identificadoras)
+                    entidad = "".join(str(self.dataframes_escalas[escala].iloc[i][col]) for col in self.variables_identificadoras[escala])
                     cells[intervalo].append(entidad)
                                     
                 # eliminar la categoria NaN si no contiene valores
@@ -534,14 +539,14 @@ class Procesador:
                 
                 # validar que la variable no este en las identificadoras o excluidas
                 if var in self.variables_identificadoras:
-                    print(f"(Base: {var_base_normalizacion}) {contador}/{totales_por_base} La variable {var} está en la lista de variables identificadoras, no se procesará")
+                    print(f"- (Base: '{var_base_normalizacion}') {contador}/{totales_por_base} La variable '{var}' está en la lista de variables identificadoras, no se procesará")
                     continue
                 if var in self.variables_excluidas:
-                    print(f"(Base: {var_base_normalizacion}) {contador}/{totales_por_base} La variable {var} está en la lista de variables excluidas, no se procesará")
+                    print(f"- (Base: '{var_base_normalizacion}') {contador}/{totales_por_base} La variable '{var}' está en la lista de variables excluidas, no se procesará")
                     continue
                 
                 # imprimir en terminal variable actual y progreso con respecto al total de variables
-                print(f"(Base: '{var_base_normalizacion}') Procesando variable {contador}/{totales_por_base}: '{var}'")
+                print(f"- (Base: '{var_base_normalizacion}') Procesando variable {contador}/{totales_por_base}: '{var}'")
                 
                 # procesar la variable y agregarla a la lista de resultados
                 variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
@@ -648,14 +653,14 @@ class Procesador:
                 
                 # validar que la variable no este en las identificadoras o excluidas
                 if var in self.variables_identificadoras:
-                    print(f"(Base: {var_base_normalizacion}) {contador}/{totales_por_base} La variable {var} está en la lista de variables identificadoras, no se procesará")
+                    print(f"- (Base: '{var_base_normalizacion}') {contador}/{totales_por_base} La variable '{var}' está en la lista de variables identificadoras, no se procesará")
                     continue
                 if var in self.variables_excluidas:
-                    print(f"(Base: {var_base_normalizacion}) {contador}/{totales_por_base} La variable {var} está en la lista de variables excluidas, no se procesará")
+                    print(f"- (Base: '{var_base_normalizacion}') {contador}/{totales_por_base} La variable '{var}' está en la lista de variables excluidas, no se procesará")
                     continue
                 
                 # imprimir en terminal variable actual y progreso con respecto al total de variables
-                print(f"(Base: '{var_base_normalizacion}') Procesando variable {contador}/{totales_por_base}: '{var}'")
+                print(f"- (Base: '{var_base_normalizacion}') Procesando variable {contador}/{totales_por_base}: '{var}'")
                 
                 # procesar la variable y agregarla a la lista de resultados
                 variables_procesadas_regex_list.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))

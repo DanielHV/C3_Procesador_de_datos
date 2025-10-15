@@ -61,6 +61,8 @@ if __name__ == '__main__':
     if 'variables_identificadoras' not in procesador_config:
         raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras')
     variables_identificadoras = procesador_config.get('variables_identificadoras')
+    if not isinstance(variables_identificadoras, dict):
+        raise ValueError('El campo variables_identificadoras debe ser un diccionario {escala: [col1, col2, ...]}')
     
     # validaciones campos variables_a_procesar_list y variables_a_procesar_regex
     if 'variables_a_procesar_list' not in procesador_config and 'variables_a_procesar_regex' not in procesador_config:
@@ -87,9 +89,16 @@ if __name__ == '__main__':
         if not os.path.exists(ruta):
             raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la escala {escala} no existe')
         
+        # validaciones diccionario variables identificadoras
+        if escala not in variables_identificadoras:
+            raise ValueError(f'El diccionario de variables identificadoras no contiene la escala {escala}')
+        
+        # obtener variables identificadoras para escala
+        id_cols = variables_identificadoras[escala]
+        
         # cargar dataframe de escala actual con columnas identificadoras de tipo str
-        dtype_dict = {col: str for col in variables_identificadoras}
-        dataframes_escalas = {escala:pd.read_csv(ruta, dtype=dtype_dict)}
+        dtype_dict = {col: str for col in id_cols}
+        dataframes_escalas[escala] = pd.read_csv(ruta, dtype=dtype_dict)
         
     # cargar dataframe de diccionario de traducciones
     diccionario_traducciones = pd.read_csv(ruta_csv_diccionario_traducciones)

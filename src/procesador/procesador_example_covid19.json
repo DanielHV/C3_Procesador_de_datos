@@ -8,7 +8,9 @@
     "columna_diccionario_traducciones_nombres" : "traduccion",
     "columna_diccionario_traducciones_alias" : "variable",
 
-    "variables_identificadoras" : ["ENTIDAD_RES", "MUNICIPIO_RES"],
+    "variables_identificadoras" : {
+        "mun" : ["ENTIDAD_RES", "MUNICIPIO_RES"]
+    },
 
     "variables_excluidas_list" : ["ASMA-1", "ASMA-2", "ASMA-98"],
     "variables_excluidas_regex" : ["^ENTIDAD.*', '^MUNICIPIO.*"],

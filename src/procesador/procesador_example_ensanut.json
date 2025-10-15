@@ -8,9 +8,8 @@
     "columna_diccionario_traducciones_nombres" : "traduccion",
     "columna_diccionario_traducciones_alias" : "variable",
 
-    "variables_identificadoras" : ["municipio"],
-    "id_escalas" : {
-        "mun" : []
+    "variables_identificadoras" : {
+        "mun" : ["municipio"]
     },
 
     "variables_excluidas_list" : ["agua_lavar_ropa-88", "agua_lavar_ropa-99"],
