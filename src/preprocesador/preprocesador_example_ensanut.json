@@ -1,8 +1,8 @@
 {
     "ruta_csv_metadatos" : "../data/ensanut/raw/21ensanut_a20_hias_rework.csv",
     "ruta_csv_dataset" : "../data/ensanut/raw/salud_hogar_orig_lower_promedios_for_elastic.csv",
-    "ruta_salida_dataset" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_datos_prueba3.csv",
-    "ruta_salida_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_prueba3.csv",
+    "ruta_salida_dataset" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv",
+    "ruta_salida_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_example_mun.csv",
 
     "columna_metadatos_nombres" : "var",
     "columna_metadatos_posibles_valores" : "posibles_valores_alias",
@@ -31,6 +31,5 @@
                 "valores": ["abierta"]
             }
         }
-    ] 
-
+    ]
 }
