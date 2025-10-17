@@ -13,7 +13,7 @@
     },
 
     "variables_excluidas_list" : ["agua_lavar_ropa-88", "agua_lavar_ropa-99"],
-    "variables_excluidas_regex" : ["^entidad.*', '^region.*"],
+    "variables_excluidas_regex" : ["^entidad.*", "^region.*"],
 
     "variables_a_procesar_list" : {
         "None" : ["conteo::total_datos"],
