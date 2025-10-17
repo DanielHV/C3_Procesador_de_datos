@@ -55,7 +55,7 @@ cd src
 python -m preprocesador.main_preprocesador --config preprocesador/preprocesador_example.json
 ```
 
-- El archivo de configuración define rutas de entrada/salida, columnas de diccioario de datos, variables a agrupar, etc.
+- El archivo de configuración define rutas de entrada/salida, columnas de diccionario de datos, variables a agrupar, etc.
 
 ### Características de entrada
 
@@ -69,7 +69,7 @@ En este paso se realiza un preprocesamiento y agrupación de los datos provenien
     - Columna que tenga como valores listas (cadenas que representan listas de Python), que consisten de todos los posibles valores que toma la variable en el archivo de datos. En caso de tratarse de una variable no categórica, se tiene una lista vacía.
   - Opcional (no indispensable, pero pueden ser utilizadas para transformar los datos además de agruparlos)
     - Columna que tenga como valores nombres alternativos (alias) para los nombres de las variables.
-    - Columna que tenga como valores listas (cadenas que representan listas de Python), que consisten de nombres alternativos (alias) para todos los posibles valores que toma la variable en el archivo de datos. En caso de tratarse de uan variable no categórica, se tiene una lista vacía. (Nota: para el valor en la posición i de la lista de posibles valores, su alias será el valor en la posición i de la lista de alias de posibles valores).
+    - Columna que tenga como valores listas (cadenas que representan listas de Python), que consisten de nombres alternativos (alias) para todos los posibles valores que toma la variable en el archivo de datos. En caso de tratarse de una variable no categórica, se tiene una lista vacía. (Nota: para el valor en la posición i de la lista de posibles valores, su alias será el valor en la posición i de la lista de alias de posibles valores).
     - Columna que tenga como valores etiquetas (cadenas) con el propósito de filtrar solo variables específicas al momento de agrupar.
 
 ### Archivo de configuración 
@@ -150,7 +150,7 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 
 ### Salida
 
-El archivo de salida contendrá, para cada grupo, los conteos de cada valor posible de las variables categóricas, el resultado de aplicar la operación especificada a las variables numéricas, y el total de registros que se incluye automáticamente una columna `conteo::total_datos`.
+El archivo de salida contendrá, para cada grupo, los conteos de cada valor posible de las variables categóricas, el resultado de aplicar la operación especificada a las variables numéricas, y el total de registros que se incluye automáticamente en la columna `conteo::total_datos`.
 Además, se generará un archivo de diccionario de alias, necesario en el paso de procesamiento.
 
 ---
@@ -168,13 +168,13 @@ python -m procesador.main_procesador --config procesador/procesador_example.json
 
 ### Características de entrada
 
-En este paso se realiza una clasificación en cuantiles y procesamiento de los datos previamente preprocesasdos y agrupados, se espera que los archivos cumplan con ciertas características mínimas para el correcto funcionamiento del programa, a continuación se describen los dos archivos mínimos, así como las columnas que se pueden reconocer en estos:
+En este paso se realiza una clasificación en cuantiles y procesamiento de los datos previamente preprocesados y agrupados, se espera que los archivos cumplan con ciertas características mínimas para el correcto funcionamiento del programa, a continuación se describen los dos archivos mínimos, así como las columnas que se pueden reconocer en estos:
 1. Archivo de datos
   - Obligatorio
     - Columna que tenga como valores identificadores para cada grupo existente (por ejemplo, municipios, estados, etc.).
 2. Archivo de alias
   - Obligatorio
-    - Columna que tenga como valores los nombres de las variables tal cual se escriben en las columnas del archivo de datos. Nota: El programa solo procesará variables existente en esta columna, si se especifica una variable que no existe, se omitirá.
+    - Columna que tenga como valores los nombres de las variables tal cual se escriben en las columnas del archivo de datos. Nota: El programa solo procesará variables existentes en esta columna, si se especifica una variable que no existe, se omitirá.
     - Columna que tenga como valores los nombres alternativos (alias) de las variables.
 
 ### Archivo de configuración
@@ -195,7 +195,7 @@ Ejemplo: `config/procesador_example_ensanut.json`
     "variables_identificadoras" : ["municipio"],
 
     "variables_excluidas_list" : ["agua_lavar_ropa-88", "agua_lavar_ropa-99"],
-    "variables_excluidas_regex" : ["^entidad.*', '^region.*"],
+    "variables_excluidas_regex" : ["^entidad.*", "^region.*"],
 
     "variables_a_procesar_list" : {
         "None" : ["conteo::total_datos"],
