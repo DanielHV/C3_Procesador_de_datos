@@ -1,12 +1,12 @@
 {
-    "rutas_csv_escalas" : {
+    "rutas_csv_mallas" : {
         "mun" : "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun.csv"
     },
-    "ruta_csv_diccionario_traducciones" : "../data/covid19/preprocessed/preprocesamiento_covid19_dicc_traducciones_example_mun.csv",
+    "ruta_csv_dataframe_alias" : "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun.csv",
     "ruta_csv_salida" : "../data/covid19/processed/procesamiento_covid19_example.csv",
 
-    "columna_diccionario_traducciones_nombres" : "traduccion",
-    "columna_diccionario_traducciones_alias" : "variable",
+    "columna_dataframe_alias_nombres" : "alias",
+    "columna_dataframe_alias_alias" : "variable",
 
     "variables_identificadoras" : {
         "mun" : ["ENTIDAD_RES", "MUNICIPIO_RES"]

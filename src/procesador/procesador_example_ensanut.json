@@ -1,12 +1,12 @@
 {
-    "rutas_csv_escalas" : {
+    "rutas_csv_mallas" : {
         "mun" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv"
     },
-    "ruta_csv_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_example_mun.csv",
+    "ruta_csv_dataframe_alias" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_alias_example_mun.csv",
     "ruta_csv_salida" : "../data/ensanut/processed/procesamiento_ensanut_example.csv",
 
-    "columna_diccionario_traducciones_nombres" : "traduccion",
-    "columna_diccionario_traducciones_alias" : "variable",
+    "columna_dataframe_alias_nombres" : "alias",
+    "columna_dataframe_alias_alias" : "variable",
 
     "variables_identificadoras" : {
         "mun" : ["municipio"]
