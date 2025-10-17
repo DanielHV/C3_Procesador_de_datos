@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     Este script toma un archivo de configuración en formato JSON que especifica las rutas de entrada,
     las variables a agrupar, y otros parámetros necesarios para el preprocesamiento. Genera un archivo
-    CSV con los datos preprocesados y otro con el diccionario de traducciones.
+    CSV con los datos preprocesados y otro con el diccionario de alias.
 
     Raises:
         ValueError: Si el archivo de configuración no contiene los campos requeridos.
@@ -61,10 +61,10 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_dataset')
     ruta_salida_dataset = preprocesador_config['ruta_salida_dataset']
     
-    # validaciones campo ruta_salida_diccionario_traducciones
-    if 'ruta_salida_diccionario_traducciones' not in preprocesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_diccionario_traducciones')
-    ruta_salida_diccionario_traducciones = preprocesador_config['ruta_salida_diccionario_traducciones']
+    # validaciones campo ruta_salida_alias
+    if 'ruta_salida_alias' not in preprocesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_alias')
+    ruta_salida_alias = preprocesador_config['ruta_salida_alias']
     
     # validaciones campo columna_metadatos_nombres
     if 'columna_metadatos_nombres' not in preprocesador_config:
@@ -160,13 +160,13 @@ if __name__ == '__main__':
         raise TypeError('El valor asociado al campo variables_a_agrupar debe ser de tipo list')
     
     
-    # inicializar de listas para almacenar resultados y diccionarios de traducciones
+    # inicializar de listas para almacenar resultados y diccionarios de alias
     resultados_dfs = []
-    resultados_traducciones = []
+    resultados_alias = []
     
-    # agregar conteo total de datos y su traduccion a las listas de resultados correspondientes
+    # agregar conteo total de datos y su alias a las listas de resultados correspondientes
     resultados_dfs.append(preprocesador.agrupar_total_datos(variables_id_agrupacion=variables_identificadoras_list))
-    resultados_traducciones.append(preprocesador.generar_diccionario_total_datos())
+    resultados_alias.append(preprocesador.generar_alias_total_datos())
     
     # obtener elementos de la lista 'variables_a_agrupar'
     for agrupacion in variables_a_agrupar:
@@ -236,15 +236,15 @@ if __name__ == '__main__':
             # agregar agrupacion a lista de resultados correspondiente
             resultados_dfs.append(df_agregado)
         
-            # generar diccionario de traducciones para agrupacion
-            diccionario_traducciones = preprocesador.generar_diccionario_traducciones_variables_categoricas(
+            # generar diccionario de alias para agrupacion
+            diccionario_alias = preprocesador.generar_alias_variables_categoricas(
                 variables=variables_a_agrupar_total, 
                 columna_metadatos_alias=columna_metadatos_alias, 
                 columna_metadatos_posibles_valores_alias=columna_metadatos_posibles_valores_alias
             )
             
-            # agregar diccionario de traducciones a lista de resultados correspondiente
-            resultados_traducciones.append(diccionario_traducciones)
+            # agregar diccionario de alias a lista de resultados correspondiente
+            resultados_alias.append(diccionario_alias)
             
         elif tipo_variables == 'numerico':
             
@@ -263,15 +263,15 @@ if __name__ == '__main__':
             # agregar agrupacion a lista de resultados correspondiente
             resultados_dfs.append(df_agregado)
             
-            # generar diccionario de traducciones para agrupacion
-            diccionario_traducciones = preprocesador.generar_diccionario_traducciones_variables_numericas(
+            # generar diccionario de alias para agrupacion
+            diccionario_alias = preprocesador.generar_alias_variables_numericas(
                 variables=variables_a_agrupar_total, 
                 columna_metadatos_alias=columna_metadatos_alias, 
                 operacion=operacion
             )
             
-            # agregar diccionario de traducciones a lista de resultados correspondiente
-            resultados_traducciones.append(diccionario_traducciones)
+            # agregar diccionario de alias a lista de resultados correspondiente
+            resultados_alias.append(diccionario_alias)
             
         else:
             raise ValueError('El valor de tipo_variables debe ser una de las cadenas: categorico, numerico')
@@ -283,14 +283,14 @@ if __name__ == '__main__':
     )
     
     # combinar diccionarios obtenidos por cada agrupacion
-    diccionario_final = {}
-    for d in resultados_traducciones:
-        diccionario_final.update(d)
-    diccionario_final_df = pd.DataFrame(list(diccionario_final.items()), columns=['variable', 'traduccion'])
+    alias_final = {}
+    for d in resultados_alias:
+        alias_final.update(d)
+    alias_df = pd.DataFrame(list(alias_final.items()), columns=['variable', 'alias'])
     
     # guardar resultados en archivos csv
     join_dfs.to_csv(ruta_salida_dataset, index=False)
-    print(f'Preprocesamiento creado en la ruta {ruta_salida_dataset}')
-    diccionario_final_df.to_csv(ruta_salida_diccionario_traducciones, index=False)
-    print(f'Diccionario de traducciones creado en la ruta {ruta_salida_diccionario_traducciones}')
+    print(f'Archivo csv de datos preprocesados creado en la ruta {ruta_salida_dataset}')
+    alias_df.to_csv(ruta_salida_alias, index=False)
+    print(f'Archivo csv de alias creado en la ruta {ruta_salida_alias}')
 

@@ -5,8 +5,8 @@ class Preprocesador:
     """
     Clase para preprocesar y transformar datos en un DataFrame de pandas,
     utilizando metadatos para definir operaciones como renombrado, exclusión,
-    conversión de tipos y agrupaciones, así como la generación de archivos de 
-    traducción a alias para la agrupación de dichas variables.
+    conversión de tipos y agrupaciones, así como la generación de archivos de alias
+    para la agrupación de dichas variables.
     """
     def __init__(self, df:pd.DataFrame, metadatos:pd.DataFrame, columna_metadatos_nombres:str, columna_metadatos_posibles_valores:str):
         """
@@ -138,20 +138,20 @@ class Preprocesador:
         # actualizar el dataframe manteniendo solo las columnas filtradas
         self.df = self.df[columnas_filtradas]
         
-    def generar_diccionario_traducciones_variables_categoricas(self, variables:list, columna_metadatos_alias:str, columna_metadatos_posibles_valores_alias:str) -> dict:
+    def generar_alias_variables_categoricas(self, variables:list, columna_metadatos_alias:str, columna_metadatos_posibles_valores_alias:str) -> dict:
         """
-        Genera un diccionario de traducción para variables categóricas, mapeando nombre_original-_valor_original a sus alias definidos en las columnas especificadas de los metadatos
+        Genera un diccionario de alias para variables categóricas, mapeando nombre_original-_valor_original a sus alias definidos en las columnas especificadas de los metadatos
         de forma nombre_alias-posible_valor_alias.
         Nota: Si se utiliza previamente la función columna_a_alias, la columna de alias especificada ahí se convertirá en la nueva columna de nombres de variables, por lo que si
-        se vuelve a utilizar esa misma columna en esta función, se generará un diccionario con nombres y traducciones iguales.
+        se vuelve a utilizar esa misma columna en esta función, se generará un diccionario con nombres y alias iguales.
 
         Args:
-            variables (list): Lista explícita de variables categóricas que se incluirán en el diccionario (se generará una traducción para cada combinación nombre-posible_valor).
+            variables (list): Lista explícita de variables categóricas que se incluirán en el diccionario (se generará un alias para cada combinación nombre-posible_valor).
             columna_metadatos_alias (str): Columna de metadatos con los alias de variables.
             columna_metadatos_posibles_valores_alias (str): Columna de metadatos con los alias de los posibles valores.
 
         Returns:
-            dict: Diccionario de traducción.
+            dict: Diccionario de alias.
             
         Raises:
             TypeError: Si los parámetros no son del tipo esperado.
@@ -169,8 +169,8 @@ class Preprocesador:
         if not isinstance(columna_metadatos_posibles_valores_alias, str):
             raise TypeError('El parámetro columna_metadatos_posibles_valores_alias debe ser de tipo str')
         
-        # inicializar un diccionario vacio para almacenar las traducciones
-        diccionario_traducciones = {}
+        # inicializar un diccionario vacio para almacenar alias
+        alias = {}
         
         for variable in variables:
             # obtener la fila de metadatos correspondiente a la variable
@@ -183,27 +183,27 @@ class Preprocesador:
             posibles_valores = ast.literal_eval(fila[self.columna_metadatos_posibles_valores].values[0])
             posibles_valores_alias = ast.literal_eval(fila[columna_metadatos_posibles_valores_alias].values[0])
             
-            # generar las traducciones para cada combinación de valor y alias
+            # generar alias para cada combinación de valor y alias
             for valor, valor_alias in zip(posibles_valores, posibles_valores_alias):
-                diccionario_traducciones[f'{variable}-{valor}'] = f'{variable_alias}-{valor_alias}'
+                alias[f'{variable}-{valor}'] = f'{variable_alias}-{valor_alias}'
 
-        return diccionario_traducciones
+        return alias
     
     
-    def generar_diccionario_traducciones_variables_numericas(self, variables:list, columna_metadatos_alias:str, operacion:str) -> dict:
+    def generar_alias_variables_numericas(self, variables:list, columna_metadatos_alias:str, operacion:str) -> dict:
         """
-        Genera un diccionario de traducción para variables numéricas, mapeando operacion_aplicada::nombre_original a sus alias definidos en las columna especificada de los metadatos
+        Genera un diccionario de alias para variables numéricas, mapeando operacion_aplicada::nombre_original a sus alias definidos en las columna especificada de los metadatos
         de forma operacion_aplicada::nombre_alias.
         Nota: Si se utiliza previamente la función columna_a_alias, la columna de alias especificada ahí se convertirá en la nueva columna de nombres de variables, por lo que si
-        se vuelve a utilizar esa misma columna en esta función, se generará un diccionario con nombres y traducciones iguales.
+        se vuelve a utilizar esa misma columna en esta función, se generará un diccionario con nombres y alias iguales.
 
         Args:
-            variables (list): Lista de variables numéricas que se incluirán en el diccionario (se generará una traducción para cada variable con la operación especificada).
+            variables (list): Lista de variables numéricas que se incluirán en el diccionario (se generará un alias para cada variable con la operación especificada).
             columna_metadatos_alias (str): Columna de metadatos con los alias de variables.
-            operacion (str): Operación a incluir en la traducción (ej. 'suma', 'media').
+            operacion (str): Operación a incluir en el alias (ej. 'suma', 'media').
 
         Returns:
-            dict: Diccionario de traducción.
+            dict: Diccionario de alias.
             
         Raises:
             TypeError: Si los argumentos no son del tipo esperado.
@@ -220,8 +220,8 @@ class Preprocesador:
         if not isinstance(operacion, str):
             raise TypeError('El parámetro operacion debe ser de tipo str')
         
-        # inicializar un diccionario vacio para almacenar las traducciones
-        diccionario_traducciones = {}
+        # inicializar un diccionario vacio para almacenar las alias
+        alias = {}
         
         for variable in variables:
             # obtener la fila de metadatos correspondiente a la variable
@@ -230,18 +230,18 @@ class Preprocesador:
                 continue
             # obtener el alias de la variable desde los metadatos
             variable_alias = fila[columna_metadatos_alias].values[0]
-            # generar la traducción para la variable, representando la aplicación de la operación especificada
-            diccionario_traducciones[f'{operacion}::{variable}'] = f'{operacion}::{variable_alias}'
+            # generar alias para la variable, representando la aplicación de la operación especificada
+            alias[f'{operacion}::{variable}'] = f'{operacion}::{variable_alias}'
         
-        return diccionario_traducciones
+        return alias
     
     
-    def generar_diccionario_total_datos(self) -> dict:
+    def generar_alias_total_datos(self) -> dict:
         """
-        Genera un diccionario con la traducción fija para la columna que representa el conteo total de datos: conteo::total_datos.
+        Genera un diccionario con un alias fijo para la columna que representa el conteo total de datos: conteo::total_datos.
 
         Returns:
-            dict: Diccionario de traducción para la columna que representa el conteo total de datos.
+            dict: Diccionario de alias para la columna que representa el conteo total de datos.
         """
         return {'conteo::total_datos':'conteo::total_datos'}
 
@@ -405,4 +405,4 @@ class Preprocesador:
         
         # agrupar el dataframe y contar el total de datos en cada grupo
         return self.df.groupby(variables_id_agrupacion).size().reset_index(name='conteo::total_datos')
-    
+

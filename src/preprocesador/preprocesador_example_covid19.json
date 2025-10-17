@@ -2,7 +2,7 @@
     "ruta_csv_metadatos" : "../data/covid19/raw/240708 Descriptores_rework.csv",
     "ruta_csv_dataset" : "../data/covid19/raw/COVID19MEXICO_rework.csv",
     "ruta_salida_dataset" : "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun.csv",
-    "ruta_salida_diccionario_traducciones" : "../data/covid19/preprocessed/preprocesamiento_covid19_dicc_traducciones_example_mun.csv",
+    "ruta_salida_alias" : "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun.csv",
 
     "columna_metadatos_nombres" : "NOMBRE DE VARIABLE",
     "columna_metadatos_posibles_valores" : "POSIBLES VALORES ALIAS",
