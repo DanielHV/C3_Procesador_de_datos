@@ -42,19 +42,19 @@ if __name__ == '__main__':
     if 'Unnamed: 0' in df.columns:
         df.drop(columns=['Unnamed: 0'], inplace=True)
     
-    # validaciones campo ruta_csv_metadatos    
-    if 'ruta_csv_metadatos' not in preprocesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_metadatos')
-    ruta_csv_metadatos = preprocesador_config['ruta_csv_metadatos']
-    if not os.path.exists(ruta_csv_metadatos):
-        raise FileNotFoundError(f'La ruta especificada para el archivo .csv de metadatos no existe ({ruta_csv_metadatos})')
+    # validaciones campo ruta_csv_diccionario_datos    
+    if 'ruta_csv_diccionario_datos' not in preprocesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_diccionario_datos')
+    ruta_csv_diccionario_datos = preprocesador_config['ruta_csv_diccionario_datos']
+    if not os.path.exists(ruta_csv_diccionario_datos):
+        raise FileNotFoundError(f'La ruta especificada para el archivo .csv del diccionario de datos no existe ({ruta_csv_diccionario_datos})')
     
-    # cargar dataframe de metadatos con columnas de tipo str
-    metadatos = pd.read_csv(ruta_csv_metadatos, dtype=str)
+    # cargar dataframe de diccionario de datos con columnas de tipo str
+    diccionario_datos = pd.read_csv(ruta_csv_diccionario_datos, dtype=str)
     
     # eliminar columna 'Unnamed: 0' (esta existe cuando se tiene una primera columna de indices sin nombre)
-    if 'Unnamed: 0' in df.columns:
-        metadatos.drop(columns=['Unnamed: 0'], inplace=True)
+    if 'Unnamed: 0' in diccionario_datos.columns:
+        diccionario_datos.drop(columns=['Unnamed: 0'], inplace=True)
     
     # validaciones campo ruta_salida_dataset
     if 'ruta_salida_dataset' not in preprocesador_config:
@@ -66,55 +66,55 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_alias')
     ruta_salida_alias = preprocesador_config['ruta_salida_alias']
     
-    # validaciones campo columna_metadatos_nombres
-    if 'columna_metadatos_nombres' not in preprocesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_nombres, que incluye el nombre descriptivo de cada variables')
-    columna_metadatos_nombres = preprocesador_config['columna_metadatos_nombres']
-    if not isinstance(columna_metadatos_nombres, str):
-        raise TypeError('El valor asociado al campo columna_metadatos_nombres debe ser de tipo str')
-    if columna_metadatos_nombres not in metadatos.columns:
-        raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_nombres}')
+    # validaciones campo columna_diccionario_nombres
+    if 'columna_diccionario_nombres' not in preprocesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_diccionario_nombres, que incluye el nombre descriptivo de cada variables')
+    columna_diccionario_nombres = preprocesador_config['columna_diccionario_nombres']
+    if not isinstance(columna_diccionario_nombres, str):
+        raise TypeError('El valor asociado al campo columna_diccionario_nombres debe ser de tipo str')
+    if columna_diccionario_nombres not in diccionario_datos.columns:
+        raise KeyError(f'El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_nombres}')
     
-    # validaciones campo columna_metadatos_posibles_valores
-    if 'columna_metadatos_posibles_valores' not in preprocesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_metadatos_posibles_valores, que incluye cada posible valor de cada variable en formato de lista')
-    columna_metadatos_posibles_valores = preprocesador_config['columna_metadatos_posibles_valores']
-    if not isinstance(columna_metadatos_posibles_valores, str):
-        raise TypeError('El valor asociado al campo columna_metadatos_posibles_valores debe ser de tipo str')
-    if columna_metadatos_posibles_valores not in metadatos.columns:
-        raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_posibles_valores}')
+    # validaciones campo columna_diccionario_posibles_valores
+    if 'columna_diccionario_posibles_valores' not in preprocesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_diccionario_posibles_valores, que incluye cada posible valor de cada variable en formato de lista')
+    columna_diccionario_posibles_valores = preprocesador_config['columna_diccionario_posibles_valores']
+    if not isinstance(columna_diccionario_posibles_valores, str):
+        raise TypeError('El valor asociado al campo columna_diccionario_posibles_valores debe ser de tipo str')
+    if columna_diccionario_posibles_valores not in diccionario_datos.columns:
+        raise KeyError(f'El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_posibles_valores}')
 
-    # validaciones campo columna_metadatos_alias
-    columna_metadatos_alias = preprocesador_config.get('columna_metadatos_alias', columna_metadatos_nombres)
-    if columna_metadatos_alias is not None:
-        if not isinstance(columna_metadatos_alias, str):
-            raise TypeError('El valor asociado al campo columna_metadatos_alias debe ser de tipo str')
-        if columna_metadatos_alias not in metadatos.columns:
-            raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_alias}')
+    # validaciones campo columna_diccionario_alias
+    columna_diccionario_alias = preprocesador_config.get('columna_diccionario_alias', columna_diccionario_nombres)
+    if columna_diccionario_alias is not None:
+        if not isinstance(columna_diccionario_alias, str):
+            raise TypeError('El valor asociado al campo columna_diccionario_alias debe ser de tipo str')
+        if columna_diccionario_alias not in diccionario_datos.columns:
+            raise KeyError(f'El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_alias}')
     
-    # validaciones campo columna_metadatos_posibles_valores_alias
-    columna_metadatos_posibles_valores_alias = preprocesador_config.get('columna_metadatos_posibles_valores_alias', columna_metadatos_posibles_valores)
-    if columna_metadatos_posibles_valores_alias is not None:
-        if not isinstance(columna_metadatos_posibles_valores_alias, str):
-            raise TypeError('El valor asociado al campo columna_metadatos_posibles_respuestas_alias debe ser de tipo str')
-        if columna_metadatos_posibles_valores_alias not in metadatos.columns:
-            raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_posibles_valores_alias}')
+    # validaciones campo columna_diccionario_posibles_valores_alias
+    columna_diccionario_posibles_valores_alias = preprocesador_config.get('columna_diccionario_posibles_valores_alias', columna_diccionario_posibles_valores)
+    if columna_diccionario_posibles_valores_alias is not None:
+        if not isinstance(columna_diccionario_posibles_valores_alias, str):
+            raise TypeError('El valor asociado al campo columna_diccionario_posibles_respuestas_alias debe ser de tipo str')
+        if columna_diccionario_posibles_valores_alias not in diccionario_datos.columns:
+            raise KeyError(f'El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_posibles_valores_alias}')
     
-    # validaciones campo columna_metadatos_tipos
-    columna_metadatos_tipos = preprocesador_config.get("columna_metadatos_tipos")
-    if columna_metadatos_tipos is not None:
-        if not isinstance(columna_metadatos_tipos, str):
-            raise TypeError('El valor asociado al campo columna_metadatos_tipos debe ser de tipo str')
-        if columna_metadatos_tipos not in metadatos.columns:
-            raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_tipos}')
+    # validaciones campo columna_diccionario_tipos
+    columna_diccionario_tipos = preprocesador_config.get("columna_diccionario_tipos")
+    if columna_diccionario_tipos is not None:
+        if not isinstance(columna_diccionario_tipos, str):
+            raise TypeError('El valor asociado al campo columna_diccionario_tipos debe ser de tipo str')
+        if columna_diccionario_tipos not in diccionario_datos.columns:
+            raise KeyError(f'El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_tipos}')
     
-    # validaciones campo columna_metadatos_filtro_excluir
-    columna_metadatos_filtro_excluir = preprocesador_config.get('columna_metadatos_filtro_excluir')
-    if columna_metadatos_filtro_excluir is not None:
-        if not isinstance(columna_metadatos_filtro_excluir, str):
-            raise TypeError('El valor asociado al campo columna_metadatos_filtro_excluir debe ser de tipo str')
-        if columna_metadatos_filtro_excluir not in metadatos.columns:
-            raise KeyError(f'El DataFrame de metadatos no tiene una columna llamada {columna_metadatos_filtro_excluir}')
+    # validaciones campo columna_diccionario_filtro_excluir
+    columna_diccionario_filtro_excluir = preprocesador_config.get('columna_diccionario_filtro_excluir')
+    if columna_diccionario_filtro_excluir is not None:
+        if not isinstance(columna_diccionario_filtro_excluir, str):
+            raise TypeError('El valor asociado al campo columna_diccionario_filtro_excluir debe ser de tipo str')
+        if columna_diccionario_filtro_excluir not in diccionario_datos.columns:
+            raise KeyError(f'El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_filtro_excluir}')
         
     # validaciones campo valores_a_excluir
     valores_a_excluir = preprocesador_config.get('valores_a_excluir')
@@ -125,26 +125,26 @@ if __name__ == '__main__':
     # inicializar preprocesador
     preprocesador = Preprocesador(
         df=df, 
-        metadatos=metadatos,
-        columna_metadatos_nombres=columna_metadatos_nombres,
-        columna_metadatos_posibles_valores=columna_metadatos_posibles_valores
+        diccionario_datos=diccionario_datos,
+        columna_diccionario_nombres=columna_diccionario_nombres,
+        columna_diccionario_posibles_valores=columna_diccionario_posibles_valores
     )
     
      # eliminar de cadenas vacias en el dataframe
     preprocesador.eliminar_cadenas_vacias()
         
-    # convertir tipos en el dataframe segun campos 'columna_metadatos_tipos'
-    if columna_metadatos_tipos is not None:
+    # convertir tipos en el dataframe segun campos 'columna_diccionario_tipos'
+    if columna_diccionario_tipos is not None:
         preprocesador.convertir_tipos(
-            columna_metadatos_tipos=columna_metadatos_tipos)
+            columna_diccionario_tipos=columna_diccionario_tipos)
     
-    # excluir columnas en el dataframe segun campos 'columna_metadatos_tipos' y 'valores_a_excluir'
-    if columna_metadatos_filtro_excluir is not None:
+    # excluir columnas en el dataframe segun campos 'columna_diccionario_filtro_excluir' y 'valores_a_excluir'
+    if columna_diccionario_filtro_excluir is not None:
         preprocesador.excluir_variables(
-            columna_metadatos_filtro_excluir=columna_metadatos_filtro_excluir, 
+            columna_diccionario_filtro_excluir=columna_diccionario_filtro_excluir, 
             valores_a_excluir=valores_a_excluir
         )
-    
+
     # validaciones campo variables_identificadoras_list
     if 'variables_identificadoras_list' not in preprocesador_config:
         raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras_list')
@@ -191,10 +191,10 @@ if __name__ == '__main__':
             raise ValueError('El campo agrupacion debe tener una llave variables_a_agrupar_regex')
         variables_a_agrupar_regex = agrupacion['variables_a_agrupar_regex']
         
-        # campo opcional variables_a_agrupar_clasificacion_metadatos
-        variables_a_agrupar_clasificacion_metadatos = agrupacion.get('variables_a_agrupar_clasificacion_metadatos')
+        # campo opcional variables_a_agrupar_clasificacion_diccionario
+        variables_a_agrupar_clasificacion_diccionario = agrupacion.get('variables_a_agrupar_clasificacion_diccionario')
         
-        # obtener variables a agrupar segun filtros variables_a_agrupar_list, variables_a_agrupar_regex y variables_a_agrupar_clasificacion_metadatos
+        # obtener variables a agrupar segun filtros variables_a_agrupar_list, variables_a_agrupar_regex y variables_a_agrupar_clasificacion_diccionario
         # primero inicializando set para almacenar variables a agrupar, primero con los elementos de variables_a_agrupar_list
         variables_a_agrupar_total = set(variables_a_agrupar_list)
         
@@ -203,22 +203,22 @@ if __name__ == '__main__':
             
             variables_a_agrupar_total = variables_a_agrupar_total | set(obtener_variables_regex_df(regex=regex, df=preprocesador.df))
             
-        # obtener subcampo opcional variables_a_agrupar_clasificacion_metadatos
-        if variables_a_agrupar_clasificacion_metadatos is not None:
+        # obtener subcampo opcional variables_a_agrupar_clasificacion_diccionario
+        if variables_a_agrupar_clasificacion_diccionario is not None:
             
-            # este a su vez tiene subcampos 'columna_metadatos_filtro' y 'valores'
-            columna_metadatos_filtro = variables_a_agrupar_clasificacion_metadatos['columna_metadatos_filtro']
-            valores = variables_a_agrupar_clasificacion_metadatos['valores']
+            # este a su vez tiene subcampos 'columna_diccionario_filtro' y 'valores'
+            columna_diccionario_filtro = variables_a_agrupar_clasificacion_diccionario['columna_diccionario_filtro']
+            valores = variables_a_agrupar_clasificacion_diccionario['valores']
             
-            # obtener las filas del dataframe de metadatos donde su valor para la columna 'columna_metadatos_filtro'
+            # obtener las filas del dataframe del diccionario donde su valor para la columna 'columna_diccionario_filtro'
             # coincida con alguno de los elementos de la lista 'valores'
-            metadatos_filtrados = preprocesador.metadatos.loc[preprocesador.metadatos[columna_metadatos_filtro].isin(valores)]
+            diccionario_filtrados = preprocesador.diccionario_datos.loc[preprocesador.diccionario_datos[columna_diccionario_filtro].isin(valores)]
             
-            # a partir de las filas de los metadatos obtener las variables filtradas en la columna 'columna_metadatos_nombres'
-            variables_filtradas_clasificacion_metadatos = [var for var in metadatos_filtrados[columna_metadatos_nombres] if var in preprocesador.df.columns]
+            # a partir de las filas del diccionario obtener las variables filtradas en la columna 'columna_diccionario_nombres'
+            variables_filtradas_clasificacion_diccionario = [var for var in diccionario_filtrados[columna_diccionario_nombres] if var in preprocesador.df.columns]
             
             # agregar variables filtradas a set
-            variables_a_agrupar_total = variables_a_agrupar_total | set(variables_filtradas_clasificacion_metadatos)
+            variables_a_agrupar_total = variables_a_agrupar_total | set(variables_filtradas_clasificacion_diccionario)
             
         variables_a_agrupar_total = sorted(variables_a_agrupar_total)
         
@@ -239,8 +239,8 @@ if __name__ == '__main__':
             # generar diccionario de alias para agrupacion
             diccionario_alias = preprocesador.generar_alias_variables_categoricas(
                 variables=variables_a_agrupar_total, 
-                columna_metadatos_alias=columna_metadatos_alias, 
-                columna_metadatos_posibles_valores_alias=columna_metadatos_posibles_valores_alias
+                columna_diccionario_alias=columna_diccionario_alias, 
+                columna_diccionario_posibles_valores_alias=columna_diccionario_posibles_valores_alias
             )
             
             # agregar diccionario de alias a lista de resultados correspondiente
@@ -266,7 +266,7 @@ if __name__ == '__main__':
             # generar diccionario de alias para agrupacion
             diccionario_alias = preprocesador.generar_alias_variables_numericas(
                 variables=variables_a_agrupar_total, 
-                columna_metadatos_alias=columna_metadatos_alias, 
+                columna_diccionario_alias=columna_diccionario_alias, 
                 operacion=operacion
             )
             
