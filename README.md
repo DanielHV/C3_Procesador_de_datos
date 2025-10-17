@@ -9,7 +9,7 @@ Procesamiento de fuentes de datos heterogéneas de interés en el C3.
 ```
 C3_Procesador_de_datos/
 ├── data/                  # Datos de entrada y salida (raw, preprocessed, processed)
-├── notebooks/             # Notebooks de generación de metadatos
+├── notebooks/             # Notebooks de generación de diccionarios de datos
 ├── src/
 │   ├── procesador/        # Clasificación y procesamiento de variables
 │   │   ├── procesador.py
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 
 ## Flujo general
 
-1. **Preprocesamiento de datos** ([`src/preprocesador/main_preprocesador.py`](src/preprocesador/preprocesador.py)): Limpiar, transformar y agrupar los datos originales, generando archivos preprocesados y diccionarios de traducción.
+1. **Preprocesamiento de datos** ([`src/preprocesador/main_preprocesador.py`](src/preprocesador/preprocesador.py)): Limpiar, transformar y agrupar los datos originales, generando archivos preprocesados y diccionarios de alias.
 
 2. **Categorización y procesamiento** ([`src/procesador/main_procesador.py`](src/procesador/procesador.py)): Normalizar variables categorizarlas en cuantiles, y procesar el resultado generando archivos estructurados para análisis subsecuente.
 
@@ -55,7 +55,7 @@ cd src
 python -m preprocesador.main_preprocesador --config preprocesador/preprocesador_example.json
 ```
 
-- El archivo de configuración define rutas de entrada/salida, columnas de metadatos, variables a agrupar, etc.
+- El archivo de configuración define rutas de entrada/salida, columnas de diccioario de datos, variables a agrupar, etc.
 
 ### Características de entrada
 
@@ -63,7 +63,7 @@ En este paso se realiza un preprocesamiento y agrupación de los datos provenien
 1. Archivo de datos
   - Obligatorio
     - Columna que tenga como valores identificadores utilizados para crear agrupaciones en los datos (por ejemplo, identificador para agrupar datos en municipio, estado, etc.).
-2. Archivo de metadatos que describe todas las variables en el archivo de datos
+2. Archivo de diccionario de datos que describe todas las variables en el archivo de datos
   - Obligatorio
     - Columna que tenga como valores los nombres de las variables tal cual se escriben en las columnas del archivo de datos.
     - Columna que tenga como valores listas (cadenas que representan listas de Python), que consisten de todos los posibles valores que toma la variable en el archivo de datos. En caso de tratarse de una variable no categórica, se tiene una lista vacía.
@@ -78,16 +78,16 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 
 ```json
 {
-    "ruta_csv_metadatos" : "../data/ensanut/raw/21ensanut_a20_hias_rework.csv",
+    "ruta_csv_diccionario_datos" : "../data/ensanut/raw/21ensanut_a20_hias_rework.csv",
     "ruta_csv_dataset" : "../data/ensanut/raw/salud_hogar_orig_lower_promedios_for_elastic.csv",
     "ruta_salida_dataset" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv",
-    "ruta_salida_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_example_mun.csv",
+    "ruta_salida_alias" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_alias_example_mun.csv",
 
-    "columna_metadatos_nombres" : "var",
-    "columna_metadatos_posibles_valores" : "posibles_valores_alias",
+    "columna_diccionario_nombres" : "var",
+    "columna_diccionario_posibles_valores" : "posibles_valores_alias",
 
-    "columna_metadatos_alias" : "var_alias",
-    "columna_metadatos_posibles_valores_alias" : "posibles_valores",
+    "columna_diccionario_alias" : "var_alias",
+    "columna_diccionario_posibles_valores_alias" : "posibles_valores",
 
     "variables_identificadoras_list" : ["municipio"],
     "variables_a_agrupar" : [
@@ -95,8 +95,8 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
             "tipo_variables" : "categorico",
             "variables_a_agrupar_list" : [],
             "variables_a_agrupar_regex" : [],
-            "variables_a_agrupar_clasificacion_metadatos" : {
-                "columna_metadatos_filtro" : "var_type",
+            "variables_a_agrupar_clasificacion_diccionario" : {
+                "columna_diccionario_filtro" : "var_type",
                 "valores": ["options"]
             }
         },
@@ -105,8 +105,8 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
             "operacion" : "media",
             "variables_a_agrupar_list" : [],
             "variables_a_agrupar_regex" : [],
-            "variables_a_agrupar_clasificacion_metadatos" : {
-                "columna_metadatos_filtro" : "var_type",
+            "variables_a_agrupar_clasificacion_diccionario" : {
+                "columna_diccionario_filtro" : "var_type",
                 "valores": ["abierta"]
             }
         }
@@ -114,8 +114,8 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 }
 ```
 
-- `"ruta_csv_metadatos"`:  
-  Ruta al archivo de metadatos que describe las variables del dataset, sus tipos, valores posibles, alias, etc. Es necesario para la selección automática de variables y para la generación de diccionarios de traducción.
+- `"ruta_csv_diccionario_datos"`:  
+  Ruta al archivo de diccionario de datos que describe las variables del dataset, sus tipos, valores posibles, alias, etc. Es necesario para la selección automática de variables y para la generación de diccionarios de alias.
 
 - `"ruta_csv_dataset"`:  
   Ruta al archivo de datos.
@@ -123,14 +123,14 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 - `"ruta_salida_dataset"`:  
   Ruta donde se guardará el archivo de datos preprocesados y transformados, resultado de todas las operaciones y agrupaciones configuradas.
 
-- `"ruta_salida_diccionario_traducciones"`:  
-  Ruta donde se guardará el diccionario de traducciones, que mapea nombres originales a alias o códigos.
+- `"ruta_salida_alias"`:  
+  Ruta donde se guardará el dataframe de alias, que mapea nombres originales a alias o códigos.
 
-- `"columna_metadatos_nombres"` y `"columna_metadatos_posibles_valores"`:  
-  Nombres de las columnas en el archivo de metadatos que contienen los nombres originales de las variables y sus valores posibles, respectivamente. Estas columnas son obligatorias.
+- `"columna_diccionario_nombres"` y `"columna_diccionario_posibles_valores"`:  
+  Nombres de las columnas en el archivo de diccionario de datos que contienen los nombres originales de las variables y sus valores posibles, respectivamente. Estas columnas son obligatorias.
 
-- `"columna_metadatos_alias"` y `"columna_metadatos_posibles_valores_alias"`:  
-  Nombres de las columnas en el archivo de metadatos que contienen los alias de las variables y los alias de sus valores posibles, que serán utilizados para dar traducciones a los nombres originales en el diccionario. Estos campos son obligatorios, sin embargo, es posible establecer las mismas columnas con nombres originales como columnas de alias.
+- `"columna_diccionario_alias"` y `"columna_diccionario_posibles_valores_alias"`:  
+  Nombres de las columnas en el archivo de diccionario de datos que contienen los alias de las variables y los alias de sus valores posibles, que serán utilizados para dar alias a los nombres originales en el diccionario. Estos campos son obligatorios, sin embargo, es posible establecer las mismas columnas con nombres originales como columnas de alias.
 
 - `"variables_identificadoras_list"`:  
   Lista de columnas que identifican de manera única cada grupo sobre el que se realizarán las agregaciones y transformaciones (por ejemplo, `"municipio"`). El resultado tendrá una fila por cada combinación única de estos identificadores.
@@ -146,12 +146,12 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
     - `"operacion"`: (Solo para variables numéricas) La operación de agregación a aplicar, por ejemplo `"media"` para promedio.
     - `"variables_a_agrupar_list"`: Lista explícita de variables a agrupar.
     - `"variables_a_agrupar_regex"`: Lista de expresiones regulares para seleccionar variables a agrupar.
-    - `"variables_a_agrupar_clasificacion_metadatos"`: (Opcional) Permite seleccionar variables automáticamente según una columna de los metadatos (por ejemplo, todas las variables cuyo valor en la columna `"var_type"` sea `"options"` o `"abierta"`).
+    - `"variables_a_agrupar_clasificacion_diccionario"`: (Opcional) Permite seleccionar variables automáticamente según una columna del diccionario de datos (por ejemplo, todas las variables cuyo valor en la columna `"var_type"` sea `"options"` o `"abierta"`).
 
 ### Salida
 
 El archivo de salida contendrá, para cada grupo, los conteos de cada valor posible de las variables categóricas, el resultado de aplicar la operación especificada a las variables numéricas, y el total de registros que se incluye automáticamente una columna `conteo::total_datos`.
-Además, se generará un archivo de diccionario de traducciones, necesario en el paso de procesamiento.
+Además, se generará un archivo de diccionario de alias, necesario en el paso de procesamiento.
 
 ---
 
@@ -172,7 +172,7 @@ En este paso se realiza una clasificación en cuantiles y procesamiento de los d
 1. Archivo de datos
   - Obligatorio
     - Columna que tenga como valores identificadores para cada grupo existente (por ejemplo, municipios, estados, etc.).
-2. Archivo de traducciones
+2. Archivo de alias
   - Obligatorio
     - Columna que tenga como valores los nombres de las variables tal cual se escriben en las columnas del archivo de datos. Nota: El programa solo procesará variables existente en esta columna, si se especifica una variable que no existe, se omitirá.
     - Columna que tenga como valores los nombres alternativos (alias) de las variables.
@@ -183,14 +183,14 @@ Ejemplo: `config/procesador_example_ensanut.json`
 
 ```json
 {
-    "rutas_csv_escalas" : {
+    "rutas_csv_mallas" : {
         "mun" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv"
     },
-    "ruta_csv_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_example_mun.csv",
+    "ruta_csv_dataframe_alias" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_alias_example_mun.csv",
     "ruta_csv_salida" : "../data/ensanut/processed/procesamiento_ensanut_example.csv",
 
-    "columna_diccionario_traducciones_nombres" : "traduccion",
-    "columna_diccionario_traducciones_alias" : "variable",
+    "columna_dataframe_alias_nombres" : "alias",
+    "columna_dataframe_alias_alias" : "variable",
 
     "variables_identificadoras" : ["municipio"],
 
@@ -210,20 +210,20 @@ Ejemplo: `config/procesador_example_ensanut.json`
 }
 ```
 
-- `"rutas_csv_escalas"`:  
-  Diccionario que indica las rutas a los archivos CSV de entrada para cada "escala geográfica" diferente (por ejemplo, `"mun"` para municipio). Cada clave es el nombre de la escala y el valor es la ruta al archivo correspondiente.
+- `"rutas_csv_mallas"`:  
+  Diccionario que indica las rutas a los archivos CSV de entrada para cada malla diferente (por ejemplo, `"mun"` para municipio). Cada clave es el nombre de la malla y el valor es la ruta al archivo correspondiente.
 
-- `"ruta_csv_diccionario_traducciones"`:  
-  Ruta al archivo CSV que contiene el diccionario de traducciones de variables y valores, generado en el preprocesamiento.
+- `"ruta_csv_dataframe_alias"`:  
+  Ruta al archivo CSV que contiene el dataframe de alias de variables y valores, generado en el preprocesamiento.
 
 - `"ruta_csv_salida"`:  
   Ruta donde se guardará el archivo CSV con los resultados del procesamiento.
 
-- `"columna_diccionario_traducciones_nombres"`:  
-  Nombre de la columna en el diccionario de traducciones que contiene los nombres descriptivos o traducidos de las variables.
+- `"columna_dataframe_alias_nombres"`:  
+  Nombre de la columna en el dataframe de alias que contiene los nombres descriptivos de las variables.
 
-- `"columna_diccionario_traducciones_alias"`:  
-  Nombre de la columna en el diccionario de traducciones que contiene los alias o nombres cortos de las variables.
+- `"columna_dataframe_alias_alias"`:  
+  Nombre de la columna en el dataframe de alias que contiene los alias o nombres cortos de las variables.
 
 - `"variables_identificadoras"`:  
   Lista de columnas que identifican de manera única cada grupo (entidad) en  (por ejemplo, `"municipio"`).
@@ -263,13 +263,13 @@ Ejemplo: `config/procesador_example_ensanut.json`
 
 ### Salida
 
-El archivo de salida generado por el procesamiento es un archivo CSV en formato largo, donde cada fila representa una categoría (bin) de una variable procesada para una escala geográfica específica (el número de filas por variable será igual al número de categorías (`q`) más una posible fila adicional para "Sin clasificar"). La estructura general incluye las siguientes columnas:
+El archivo de salida generado por el procesamiento es un archivo CSV en formato largo, donde cada fila representa una categoría (bin) de una variable procesada para una malla específica (el número de filas por variable será igual al número de categorías (`q`) más una posible fila adicional para "Sin clasificar"). La estructura general incluye las siguientes columnas:
 
-- **name**: Nombre descriptivo de la variable procesada (según el diccionario de traducciones).
+- **name**: Nombre descriptivo de la variable procesada (según el diccionario de alias).
 - **code**: Alias o código de la variable procesada.
 - **bin**: Número de la categoría o bin asignado (por ejemplo, 1 a q, donde q es el número de cuantiles).
-- **interval_{escala}**: Intervalo numérico o de porcentaje correspondiente a la categoría para cada escala geográfica (por ejemplo, `interval_mun`).
-- **cells_{escala}**: Conjunto de entidades (por ejemplo, municipios) que pertenecen a ese intervalo/categoría para la escala correspondiente.
+- **interval_{malla}**: Intervalo numérico o de porcentaje correspondiente a la categoría para cada malla (por ejemplo, `interval_mun`).
+- **cells_{malla}**: Conjunto de entidades (por ejemplo, municipios) que pertenecen a ese intervalo/categoría para la malla correspondiente.
 
 ---
 
@@ -303,6 +303,6 @@ DB_TABLE=nombre_de_tabla
 
 ## Notebooks
 
-En la carpeta [`notebooks/`](notebooks/) se incluyen los procedimientos de generación de archivos de metadatos compatibles con el paso de preprocesamiento para las fuentes de datos de ejemplo.
+En la carpeta [`notebooks/`](notebooks/) se incluyen los procedimientos de generación de archivos de diccionarios de datos compatibles con el paso de preprocesamiento para las fuentes de datos de ejemplo.
 
 ---
