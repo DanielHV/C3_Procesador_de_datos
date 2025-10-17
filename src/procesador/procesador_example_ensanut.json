@@ -1,5 +1,5 @@
 {
-    "rutas_csv_escalas" : {
+    "rutas_csv_mallas" : {
         "mun" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv"
     },
     "ruta_csv_diccionario_traducciones" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_dicc_traducciones_example_mun.csv",

@@ -30,10 +30,10 @@ if __name__ == '__main__':
     with open(args.config) as f:
         procesador_config = json.load(f)
     
-    # validaciones campo rutas_csv_escalas
-    if 'rutas_csv_escalas' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_escalas')
-    rutas_csv_escalas = procesador_config['rutas_csv_escalas']
+    # validaciones campo rutas_csv_mallas
+    if 'rutas_csv_mallas' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_mallas')
+    rutas_csv_mallas = procesador_config['rutas_csv_mallas']
     
     # validaciones campo ruta_csv_diccionario_traducciones
     if 'ruta_csv_diccionario_traducciones' not in procesador_config:
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras')
     variables_identificadoras = procesador_config.get('variables_identificadoras')
     if not isinstance(variables_identificadoras, dict):
-        raise ValueError('El campo variables_identificadoras debe ser un diccionario {escala: [col1, col2, ...]}')
+        raise ValueError('El campo variables_identificadoras debe ser un diccionario {malla: [col1, col2, ...]}')
     
     # validaciones campos variables_a_procesar_list y variables_a_procesar_regex
     if 'variables_a_procesar_list' not in procesador_config and 'variables_a_procesar_regex' not in procesador_config:
@@ -80,25 +80,25 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_salida')
     ruta_csv_salida = procesador_config['ruta_csv_salida']
     
-    # inicializar diccionario para almacenar dataframes de escalas especificadas
-    dataframes_escalas = {}
+    # inicializar diccionario para almacenar dataframes de mallas especificadas
+    dataframes_mallas = {}
     
-    for escala, ruta in rutas_csv_escalas.items():
+    for malla, ruta in rutas_csv_mallas.items():
         
-        # validaciones valores diccionario rutas_csv_escalas (rutas de archivos csv de dataframes)
+        # validaciones valores diccionario rutas_csv_mallas (rutas de archivos csv de dataframes)
         if not os.path.exists(ruta):
-            raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la escala {escala} no existe')
+            raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la malla {malla} no existe')
         
         # validaciones diccionario variables identificadoras
-        if escala not in variables_identificadoras:
-            raise ValueError(f'El diccionario de variables identificadoras no contiene la escala {escala}')
+        if malla not in variables_identificadoras:
+            raise ValueError(f'El diccionario de variables identificadoras no contiene la malla {malla}')
         
-        # obtener variables identificadoras para escala
-        id_cols = variables_identificadoras[escala]
+        # obtener variables identificadoras para malla
+        id_cols = variables_identificadoras[malla]
         
-        # cargar dataframe de escala actual con columnas identificadoras de tipo str
+        # cargar dataframe de malla actual con columnas identificadoras de tipo str
         dtype_dict = {col: str for col in id_cols}
-        dataframes_escalas[escala] = pd.read_csv(ruta, dtype=dtype_dict)
+        dataframes_mallas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
         
     # cargar dataframe de diccionario de traducciones
     diccionario_traducciones = pd.read_csv(ruta_csv_diccionario_traducciones)
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     
     # inicializar procesador
     procesador = Procesador(
-        dataframes_escalas=dataframes_escalas, 
+        dataframes_mallas=dataframes_mallas, 
         diccionario_traducciones=diccionario_traducciones, 
         columna_diccionario_traducciones_nombres=columna_diccionario_traducciones_nombres,
         columna_diccionario_traducciones_alias=columna_diccionario_traducciones_alias,
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     if variables_a_procesar_list is not None:
         if 'None' in variables_a_procesar_list:
             variables_a_procesar_list[None] = variables_a_procesar_list.pop('None')
-        procesamiento_listas_dict = procesador.procesar_multiples_variables_list(escalas=list(dataframes_escalas.keys()), dicc=variables_a_procesar_list, q=q)
+        procesamiento_listas_dict = procesador.procesar_multiples_variables_list(mallas=list(dataframes_mallas.keys()), dicc=variables_a_procesar_list, q=q)
         procesamiento_listas = pd.concat(
             [df for df in procesamiento_listas_dict.values() if df is not None]
         ) if any(df is not None for df in procesamiento_listas_dict.values()) else pd.DataFrame()
@@ -135,7 +135,7 @@ if __name__ == '__main__':
     if variables_a_procesar_regex is not None:
         if 'None' in variables_a_procesar_regex:
             variables_a_procesar_regex[None] = variables_a_procesar_regex.pop('None')
-        procesamiento_regex_dict = procesador.procesar_multiples_variables_regex(escalas=list(dataframes_escalas.keys()), dicc=variables_a_procesar_regex, q=q)
+        procesamiento_regex_dict = procesador.procesar_multiples_variables_regex(mallas=list(dataframes_mallas.keys()), dicc=variables_a_procesar_regex, q=q)
         procesamiento_regex = pd.concat(
             [df for df in procesamiento_regex_dict.values() if df is not None]
         ) if any(df is not None for df in procesamiento_regex_dict.values()) else pd.DataFrame()

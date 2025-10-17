@@ -8,21 +8,21 @@ from utils.regex_utils import obtener_variables_regex_df
 
 class Procesador:
     """
-    Clase para procesar variables de múltiples DataFrames asociados a diferentes escalas,
+    Clase para procesar variables de múltiples DataFrames asociados a diferentes mallas,
     realizando operaciones de normalización y categorización, para generar un nuevo archivo como resultado.
     Todos DataFrames que toma como atributos esta clase son generados por la clase Preprocesador.
     """
-    def __init__(self, dataframes_escalas:dict, diccionario_traducciones:pd.DataFrame, columna_diccionario_traducciones_nombres:str, columna_diccionario_traducciones_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list):
+    def __init__(self, dataframes_mallas:dict, diccionario_traducciones:pd.DataFrame, columna_diccionario_traducciones_nombres:str, columna_diccionario_traducciones_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list):
         """
         Inicializa el procesador validando los parámetros y configurando las variables a excluir,
         así como el diccionario de traducciones.
 
         Args:
-            dataframes_escalas (dict): Diccionario {escala: DataFrame}.
+            dataframes_mallas (dict): Diccionario {malla: DataFrame}.
             diccionario_traducciones (pd.DataFrame): DataFrame con traducciones de variables.
             columna_diccionario_traducciones_nombres (str): Nombre de columna con nombres descriptivos.
             columna_diccionario_traducciones_alias (str): Nombre de columna con alias de variables.
-            variables_identificadoras (dict): Diccionario de variables identificadoras por escala.
+            variables_identificadoras (dict): Diccionario de variables identificadoras por malla.
             variables_excluidas_list (list): Lista de variables a excluir (explícitamente).
             variables_excluidas_regex (list): Lista de variables a excluir (por expresión regular).
 
@@ -30,13 +30,13 @@ class Procesador:
             TypeError: Si los parámetros no son del tipo esperado.
             ValueError: Si los parámetros no son válidos.
         """
-        # validaciones dataframes_escalas
-        if not isinstance(dataframes_escalas, dict):
-            raise TypeError('El valor del parámetro dataframes_escalas debe ser de tipo dict')
-        if not all(isinstance(llave, str) for llave in dataframes_escalas.keys()):
-            raise TypeError('Las llaves del diccionario dataframes_escalas deben ser de tipo str')
-        if not all(isinstance(valor, pd.DataFrame) for valor in dataframes_escalas.values()):
-            raise TypeError('Los valores del diccionario dataframes_escalas deben ser de tipo pd.DataFrame')
+        # validaciones dataframes_mallas
+        if not isinstance(dataframes_mallas, dict):
+            raise TypeError('El valor del parámetro dataframes_mallas debe ser de tipo dict')
+        if not all(isinstance(llave, str) for llave in dataframes_mallas.keys()):
+            raise TypeError('Las llaves del diccionario dataframes_mallas deben ser de tipo str')
+        if not all(isinstance(valor, pd.DataFrame) for valor in dataframes_mallas.values()):
+            raise TypeError('Los valores del diccionario dataframes_mallas deben ser de tipo pd.DataFrame')
         
         # validaciones diccionario_traducciones
         if not isinstance(diccionario_traducciones, pd.DataFrame):
@@ -54,15 +54,15 @@ class Procesador:
         
         # validaciones variables_identificadoras
         if not isinstance(variables_identificadoras, dict):
-            raise TypeError('El parámetro variables_identificadoras debe ser un dict {escala: [vars]}')
-        for escala, vars_id in variables_identificadoras.items():
-            if escala not in dataframes_escalas:
-                raise ValueError(f'La escala {escala} de variables_identificadoras no está en los dataframes')
+            raise TypeError('El parámetro variables_identificadoras debe ser un dict {malla: [vars]}')
+        for malla, vars_id in variables_identificadoras.items():
+            if malla not in dataframes_mallas:
+                raise ValueError(f'La malla {malla} de variables_identificadoras no está en los dataframes')
             if not isinstance(vars_id, list):
-                raise TypeError(f'Las variables identificadoras de la escala {escala} deben ser una lista')
+                raise TypeError(f'Las variables identificadoras de la malla {malla} deben ser una lista')
             for var in vars_id:
-                if var not in dataframes_escalas[escala].columns:
-                    raise ValueError(f'La variable identificadora {var} no está en el DataFrame de la escala {escala}')
+                if var not in dataframes_mallas[malla].columns:
+                    raise ValueError(f'La variable identificadora {var} no está en el DataFrame de la malla {malla}')
         self.variables_identificadoras = variables_identificadoras
                 
         # validaciones variables_excluidas_list
@@ -81,7 +81,7 @@ class Procesador:
                 raise ValueError(f'Los elementos de la lista variables_excluidas_regex deben ser expresiones regular válidas, es inválida: {regex}')
         
         # asignacion de atributos
-        self.dataframes_escalas = dataframes_escalas
+        self.dataframes_mallas = dataframes_mallas
         self.diccionario_traducciones = diccionario_traducciones
         self.diccionario_traducciones = dict(zip(diccionario_traducciones[columna_diccionario_traducciones_alias], diccionario_traducciones[columna_diccionario_traducciones_nombres]))
         self.variables_identificadoras = variables_identificadoras
@@ -94,7 +94,7 @@ class Procesador:
         # agregar variables excluidas a set segun las regex especificadas e imprimir en terminal
         variables_excluidas_encontradas_regex = set()
         for regex in variables_excluidas_regex:
-            for dataframe in dataframes_escalas.values():
+            for dataframe in dataframes_mallas.values():
                 variables_excluidas_encontradas_regex |= set(obtener_variables_regex_df(dataframe, regex))
         variables_excluidas_encontradas_regex = sorted(list(variables_excluidas_encontradas_regex))
         print(f'Variables a excluir encontradas por lista de regex: {variables_excluidas_encontradas_regex}')
@@ -102,7 +102,7 @@ class Procesador:
         # verificar variables faltantes en el diccionario de traducciones
         self.variables_faltantes_diccionario = []
         variables_consideradas = set()
-        for dataframe in dataframes_escalas.values():
+        for dataframe in dataframes_mallas.values():
             variables_consideradas = variables_consideradas | set(dataframe.columns)
         variables_en_diccionario = set(self.diccionario_traducciones.keys())
         
@@ -115,8 +115,8 @@ class Procesador:
         
         # eliminar variables excluidas de los DataFrames excepto identificadoras
         variables_identificadoras_set = set([var for lista in variables_identificadoras.values() for var in lista])
-        for escala, df in self.dataframes_escalas.items():
-            self.dataframes_escalas[escala] = df.drop(columns=[col for col in self.variables_excluidas if col in df.columns and col not in variables_identificadoras_set])
+        for malla, df in self.dataframes_mallas.items():
+            self.dataframes_mallas[malla] = df.drop(columns=[col for col in self.variables_excluidas if col in df.columns and col not in variables_identificadoras_set])
             
         # convertir sets en listas ordenadas
         self.variables_excluidas = sorted(list(self.variables_excluidas))
@@ -143,12 +143,12 @@ class Procesador:
         """
         return list(self.variables_faltantes_diccionario)
     
-    def normalizar_variable(self, escala:str, var:str, var_base_normalizacion:Optional[str]=None) -> pd.Series:
+    def normalizar_variable(self, malla:str, var:str, var_base_normalizacion:Optional[str]=None) -> pd.Series:
         """
         Normaliza una variable dividiendo sus valores entre los valores de una variable base de normalización.
 
         Args:
-            escala (str): Nombre de la escala (DataFrame) donde se encuentra la variable.
+            malla (str): Nombre de la malla (DataFrame) donde se encuentra la variable.
             var (str): Nombre de la variable a normalizar.
             var_base_normalizacion (str, optional): Nombre de la variable base para la normalización. Si es None, no se realiza la división.
 
@@ -159,20 +159,20 @@ class Procesador:
             TypeError: Si los parámetros no son del tipo esperado.
             ValueError: Si los parámetros no son válidos.
         """
-        # validaciones escala
-        if not isinstance(escala, str):
-            raise TypeError('El parámetro escala debe ser de tipo str')
-        if escala not in self.dataframes_escalas.keys():
-            raise ValueError('La escala especificada no es válida')
+        # validaciones malla
+        if not isinstance(malla, str):
+            raise TypeError('El parámetro malla debe ser de tipo str')
+        if malla not in self.dataframes_mallas.keys():
+            raise ValueError('La malla especificada no es válida')
         
-        # dataframe correspondiente a la escala
-        df = self.dataframes_escalas[escala]
+        # dataframe correspondiente a la malla
+        df = self.dataframes_mallas[malla]
         
         # validaciones var
         if not isinstance(var, str):
             raise TypeError('El parámetro var debe ser de tipo str')
         if var not in df.columns:
-            raise ValueError(f'La variable {var} no existe en el DataFrame de la escala especificada')
+            raise ValueError(f'La variable {var} no existe en el DataFrame de la malla especificada')
         if var in self.variables_excluidas:
             raise ValueError(f'La variable {var} está en la lista de variables excluidas')
         
@@ -181,7 +181,7 @@ class Procesador:
             if not isinstance(var_base_normalizacion, str):
                 raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
             if var_base_normalizacion not in df.columns:
-                raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la escala especificada')
+                raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la malla especificada')
             if var_base_normalizacion in self.variables_excluidas:
                 raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
             
@@ -193,12 +193,12 @@ class Procesador:
         # dividir la variable entre la base, si no se especifica no se aplica ninuna operacion
         return df[var] / df[var_base_normalizacion] if var_base_normalizacion is not None else df[var]
     
-    def categorizar_variable(self, escala:str, var:str, var_base_normalizacion:Optional[str]=None, q: int=10) -> pd.Series:
+    def categorizar_variable(self, malla:str, var:str, var_base_normalizacion:Optional[str]=None, q: int=10) -> pd.Series:
         """
         Categorización de una variable en cuantiles, con la opción de normalizarla previamente.
 
         Args:
-            escala (str): Nombre de la escala (DataFrame) donde se encuentra la variable.
+            malla (str): Nombre de la malla (DataFrame) donde se encuentra la variable.
             var (str): Nombre de la variable a categorizar.
             var_base_normalizacion (str, optional): Nombre de la variable base para la normalización. Si es None, no se realiza la normalización.
             q (int): Número de cuantiles para la categorización.
@@ -210,20 +210,20 @@ class Procesador:
             TypeError: Si los parámetros no son del tipo esperado.
             ValueError: Si los parámetros no son válidos.
         """
-        # validaciones escala
-        if not isinstance(escala, str):
-            raise TypeError('El parámetro escala debe ser de tipo str')
-        if escala not in self.dataframes_escalas.keys():
-            raise ValueError('La escala especificada no es válida')
+        # validaciones malla
+        if not isinstance(malla, str):
+            raise TypeError('El parámetro malla debe ser de tipo str')
+        if malla not in self.dataframes_mallas.keys():
+            raise ValueError('La malla especificada no es válida')
         
-        # dataframe correspondiente a la escala
-        df = self.dataframes_escalas[escala]
+        # dataframe correspondiente a la malla
+        df = self.dataframes_mallas[malla]
         
         # validaciones var
         if not isinstance(var, str):
             raise TypeError('El parámetro var debe ser de tipo str')
         if var not in df.columns:
-            raise ValueError(f'La variable {var} no existe en el DataFrame de la escala especificada')
+            raise ValueError(f'La variable {var} no existe en el DataFrame de la malla especificada')
         if var in self.variables_excluidas:
             raise ValueError(f'La variable {var} está en la lista de variables excluidas')
         
@@ -232,7 +232,7 @@ class Procesador:
             if not isinstance(var_base_normalizacion, str):
                 raise TypeError('El parámetro var_base_normalizacion debe ser de tipo str o None')
             if var_base_normalizacion not in df.columns:
-                raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la escala especificada')
+                raise ValueError(f'La variable {var_base_normalizacion} no existe en el DataFrame de la malla especificada')
             if var_base_normalizacion in self.variables_excluidas:
                 raise ValueError(f'La variable {var_base_normalizacion} está en la lista de variables excluidas')
         
@@ -243,7 +243,7 @@ class Procesador:
             raise ValueError('El valor de q debe ser mayor a 1')
         
         # normalizar la variable si se especifica una base de normalización, y categorizarla en cuantiles
-        return pd.qcut(self.normalizar_variable(escala=escala, var=var, var_base_normalizacion=var_base_normalizacion), q=q, duplicates='drop')
+        return pd.qcut(self.normalizar_variable(malla=malla, var=var, var_base_normalizacion=var_base_normalizacion), q=q, duplicates='drop')
     
     def __list_a_postgres_array(self, lista:list) -> str:
         """
@@ -264,12 +264,12 @@ class Procesador:
         
         return '{' + ','.join(f'{c}' for c in lista) + '}'
     
-    def procesar_variable(self, escalas:list, var:str, var_base_normalizacion:Optional[str]=None, q:int=10) -> pd.DataFrame:
+    def procesar_variable(self, mallas:list, var:str, var_base_normalizacion:Optional[str]=None, q:int=10) -> pd.DataFrame:
         """
-        Procesa una variable específica en las escalas especificadas, normalizándola y categorizándola en cuantiles.
+        Procesa una variable específica en las mallas especificadas, normalizándola y categorizándola en cuantiles.
 
         Args:
-            escalas (list): Lista de escalas (DataFrames) donde se procesará la variable.
+            mallas (list): Lista de mallas (DataFrames) donde se procesará la variable.
             var (str): Nombre de la variable a procesar.
             var_base_normalizacion (str, optional): Nombre de la variable base para la normalización. Si es None, no se realiza la normalización.
             q (int): Número de cuantiles para la categorización.
@@ -281,14 +281,14 @@ class Procesador:
             TypeError: Si los parámetros no son del tipo esperado.
             ValueError: Si los parámetros no son válidos.
         """
-        # validaciones escalas
-        if not isinstance(escalas, list):
-            raise TypeError('El parámetro escalas debe ser de tipo list')
-        for escala in escalas:
-            if not isinstance(escala, str):
-                raise TypeError('Los elementos del parámetro escalas deben ser de tipo str')
-            if escala not in self.dataframes_escalas.keys():
-                raise ValueError(f'La escala {escala} no es válida, pues no fue proporcionado un DataFrame para esta')
+        # validaciones mallas
+        if not isinstance(mallas, list):
+            raise TypeError('El parámetro mallas debe ser de tipo list')
+        for malla in mallas:
+            if not isinstance(malla, str):
+                raise TypeError('Los elementos del parámetro mallas deben ser de tipo str')
+            if malla not in self.dataframes_mallas.keys():
+                raise ValueError(f'La malla {malla} no es válida, pues no fue proporcionado un DataFrame para esta')
         
         # validaciones var
         if not isinstance(var, str):
@@ -320,64 +320,64 @@ class Procesador:
             'bin': []
         }
         
-        # inicializar diccionarios para verificar si var y var_base_normalizacion existen en las escalas,
-        # cada escala es una llave, y el valor es True o False dependiendo si la variable se encuentra en el dataframe de la escala
-        validacion_escalas_var = {escala:False for escala in escalas}
-        validacion_escalas_var_base_normalizacion = {escala:False for escala in escalas}
+        # inicializar diccionarios para verificar si var y var_base_normalizacion existen en las mallas,
+        # cada malla es una llave, y el valor es True o False dependiendo si la variable se encuentra en el dataframe de la malla
+        validacion_mallas_var = {malla:False for malla in mallas}
+        validacion_mallas_var_base_normalizacion = {malla:False for malla in mallas}
         
-        for escala in escalas:
+        for malla in mallas:
             
-            # inicializar las columnas de intervalos y datos pertenecientes a los intervalos para cada escala
-            resultado[f'interval_{escala}'] = []
-            resultado[f'cells_{escala}'] = []
+            # inicializar las columnas de intervalos y datos pertenecientes a los intervalos para cada malla
+            resultado[f'interval_{malla}'] = []
+            resultado[f'cells_{malla}'] = []
             
-            # validar si var existe en el dataframe de la escala actual
-            if var not in self.dataframes_escalas[escala].columns:
-                print(f'La variable {var} (var) no existe en el DataFrame de la escala {escala}')
+            # validar si var existe en el dataframe de la malla actual
+            if var not in self.dataframes_mallas[malla].columns:
+                print(f'La variable {var} (var) no existe en el DataFrame de la malla {malla}')
             else:
-                validacion_escalas_var[escala] = True
+                validacion_mallas_var[malla] = True
                 
-            # validar si var_base_normalizacion existe en el dataframe de la escala
+            # validar si var_base_normalizacion existe en el dataframe de la malla
             # (solo cuando no es None, en caso contrario se asigna True por defecto a todas las llaves del diccionario)
             if var_base_normalizacion is not None:
-                if var_base_normalizacion not in self.dataframes_escalas[escala].columns:
-                    print(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en el DataFrame de la escala {escala}')
+                if var_base_normalizacion not in self.dataframes_mallas[malla].columns:
+                    print(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en el DataFrame de la malla {malla}')
                 else:
-                    validacion_escalas_var_base_normalizacion[escala] = True
+                    validacion_mallas_var_base_normalizacion[malla] = True
             else:
-                validacion_escalas_var_base_normalizacion[escala] = True
+                validacion_mallas_var_base_normalizacion[malla] = True
         
-        # si var no existe en ninguna escala (todos los valores del diccionario correspondiente son False) lanzar un error
-        if all(validacion_escalas_var[escala] == False for escala in escalas):
-            raise ValueError(f'La variable {var} (var) no existe en ninguno de los DataFrames de las escalas especificadas')
+        # si var no existe en ninguna malla (todos los valores del diccionario correspondiente son False) lanzar un error
+        if all(validacion_mallas_var[malla] == False for malla in mallas):
+            raise ValueError(f'La variable {var} (var) no existe en ninguno de los DataFrames de las mallas especificadas')
         
-        # si var_base_normalizacion no existe en ninguna escala (no es None, y todos los valores del diccionario son False) lanzar un error
-        if all(validacion_escalas_var_base_normalizacion[escala] == False for escala in escalas):
-            raise ValueError(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en ninguno de los DataFrames de las escalas especificadas')
+        # si var_base_normalizacion no existe en ninguna malla (no es None, y todos los valores del diccionario son False) lanzar un error
+        if all(validacion_mallas_var_base_normalizacion[malla] == False for malla in mallas):
+            raise ValueError(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en ninguno de los DataFrames de las mallas especificadas')
         
         # obtener el nombre y código de la variable desde el diccionario de traducciones
         nombre = self.diccionario_traducciones[var]
         codigo = var
         
-        # inicializar diccionario para almacenar la lista de intervalos generados en cada escala de manera ordenada
-        # el diccionario intervalos_ordenados_escalas se va a ver de la siguiente forma: 
+        # inicializar diccionario para almacenar la lista de intervalos generados en cada malla de manera ordenada
+        # el diccionario intervalos_ordenados_mallas se va a ver de la siguiente forma: 
         # {
-        #     escala_1:[intervalo_1, intervalo_2, ...],
-        #     escala_2:[intervalo_1], intervalo_2, ...],
+        #     malla_1:[intervalo_1, intervalo_2, ...],
+        #     malla_2:[intervalo_1], intervalo_2, ...],
         #     ...   
         # }
-        intervalos_ordenados_escalas = {escala:[] for escala in escalas}
+        intervalos_ordenados_mallas = {malla:[] for malla in mallas}
         
         # inicializar diccionario para almacenar los datos pertenecientes a cada intervalo
-        # el diccionario intervalos_cells_escalas se va a ver de la siguiente forma:
+        # el diccionario intervalos_cells_mallas se va a ver de la siguiente forma:
         # {
-        #     escala_1: 
+        #     malla_1: 
         #         {
         #             intervalo_1:[entidad_a, entidad_x, ...],
         #             intervalo_2:[entidad_b, entidad_y, ...],
         #             ...
         #         },
-        #     escala_2:
+        #     malla_2:
         #         {
         #             intervalo_1:[entidad_a, entidad_x, ...],
         #             intervalo_2:[entidad_b, entidad_y, ...],
@@ -385,29 +385,29 @@ class Procesador:
         #         },
         #     ...
         # }
-        intervalos_cells_escalas = {escala:{} for escala in escalas}
+        intervalos_cells_mallas = {malla:{} for malla in mallas}
         
-        for escala in escalas:
+        for malla in mallas:
             
-            # comprobar si var y var_base_normalizacion (cuando no es None) existen en el dataframe de la escala actual
-            if validacion_escalas_var[escala] and validacion_escalas_var_base_normalizacion[escala]:
+            # comprobar si var y var_base_normalizacion existen en la malla actual
+            if validacion_mallas_var[malla] and validacion_mallas_var_base_normalizacion[malla]:
                 
                 # categorizar variable en cuantiles
-                variable_categorizada = self.categorizar_variable(escala=escala, var=var, var_base_normalizacion=var_base_normalizacion, q=q)
+                variable_categorizada = self.categorizar_variable(malla=malla, var=var, var_base_normalizacion=var_base_normalizacion, q=q)
                 
                 # agregar una categoría para valores NaN
                 variable_categorizada = variable_categorizada.cat.add_categories(['NaN'])
                 variable_categorizada = variable_categorizada.fillna('NaN')
                 
-                # inicializar un diccionario para almacenar las listas de datos pertenecientes a cada intervalo generado en la escala actual,
-                # este diccionario se almacenara en el diccionario intervalos_cells_escalas para cada variable
+                # inicializar un diccionario para almacenar las listas de datos pertenecientes a cada intervalo generado en la malla actual,
+                # este diccionario se almacenara en el diccionario intervalos_cells_mallas para cada variable
                 cells = {intervalo: [] for intervalo in variable_categorizada.cat.categories}
                 
                 for i, intervalo in enumerate(variable_categorizada):
                     
                     # construir la cadena que identifica al dato a partir de las variables identificadoras
                     # y agregarla a la lista de datos que pertenecen al intervalo
-                    entidad = "".join(str(self.dataframes_escalas[escala].iloc[i][col]) for col in self.variables_identificadoras[escala])
+                    entidad = "".join(str(self.dataframes_mallas[malla].iloc[i][col]) for col in self.variables_identificadoras[malla])
                     cells[intervalo].append(entidad)
                                     
                 # eliminar la categoria NaN si no contiene valores
@@ -415,14 +415,14 @@ class Procesador:
                     variable_categorizada = variable_categorizada.cat.remove_categories(['NaN'])
                     del cells['NaN']
                     
-                # almacenar cells en el diccionario intervalos_cells_escalas en la escala actual
-                intervalos_cells_escalas[escala] = cells
+                # almacenar cells en el diccionario intervalos_cells_mallas en la malla actual
+                intervalos_cells_mallas[malla] = cells
                 
-                # almacenar la lista de intervalos generados para la variable de manera ordenada en el diccionario intervalos_ordenados_escalas en la escala actual
-                intervalos_ordenados_escalas[escala] = sorted(variable_categorizada.value_counts().index, key=lambda x: (isinstance(x, str), x))
+                # almacenar la lista de intervalos generados para la variable de manera ordenada en el diccionario intervalos_ordenados_mallas en la malla actual
+                intervalos_ordenados_mallas[malla] = sorted(variable_categorizada.value_counts().index, key=lambda x: (isinstance(x, str), x))
 
         # el resultado consistira de a lo mas q+1 bins (entradas) considerando la categoria NaN
-        # se eliminaran los bins donde ninguna escala haya generado un intervalo en ese bin (se tienen valores nulos pd.NA en las columnas de ese bin)
+        # se eliminaran los bins donde ninguna malla haya generado un intervalo en ese bin (se tienen valores nulos pd.NA en las columnas de ese bin)
         for i in range(q+1):
             
             # agregar name, code y bin al resultado
@@ -430,29 +430,29 @@ class Procesador:
             resultado['code'].append(codigo)
             resultado['bin'].append(i+1)
             
-            for escala in escalas:
+            for malla in mallas:
                 
                 try:
                     
                     # obtener el intervalo correspondiente al bin actual
-                    intervalo = intervalos_ordenados_escalas[escala][i]
+                    intervalo = intervalos_ordenados_mallas[malla][i]
                     
                     # agregar el intervalo (o categoria NaN) al resultado
                     if isinstance(intervalo, pd.Interval):
-                        resultado[f'interval_{escala}'].append(
+                        resultado[f'interval_{malla}'].append(
                             f'{(intervalo.left*100).round(1)}%:{(intervalo.right*100).round(1)}%' if (var_base_normalizacion is not None) else f'{intervalo.left}:{intervalo.right}'
                         )
                     else:
-                        resultado[f'interval_{escala}'].append('Sin clasificar')
+                        resultado[f'interval_{malla}'].append('Sin clasificar')
                         
                     # agregar las celdas correspondientes al intervalo
-                    resultado[f'cells_{escala}'].append(self.__list_a_postgres_array(intervalos_cells_escalas[escala][intervalo]))
+                    resultado[f'cells_{malla}'].append(self.__list_a_postgres_array(intervalos_cells_mallas[malla][intervalo]))
                     
                 except IndexError:
                     
                     # si no hay más intervalos, agregar valores nulos
-                    resultado[f'interval_{escala}'].append(pd.NA)
-                    resultado[f'cells_{escala}'].append(pd.NA)
+                    resultado[f'interval_{malla}'].append(pd.NA)
+                    resultado[f'cells_{malla}'].append(pd.NA)
         
         # filtrar y eliminan los bins en donde todos sus valores para las columnas de intervalos y cells son nulos
         df_resultado = pd.DataFrame(resultado)
@@ -461,12 +461,12 @@ class Procesador:
         
         return df_resultado[~bins_nulos].reset_index(drop=True)
     
-    def procesar_multiples_variables_list(self, escalas:list, dicc:dict, q:int=10) -> dict:
+    def procesar_multiples_variables_list(self, mallas:list, dicc:dict, q:int=10) -> dict:
         """
         Procesa múltiples variables utilizando listas explícitas de nombres de variables.
 
         Args:
-            escalas (list): Lista de escalas (DataFrames) donde se procesarán las variables.
+            mallas (list): Lista de mallas (DataFrames) donde se procesarán las variables.
             dicc (dict): Diccionario donde las llaves son bases de normalización y los valores son listas de variables.
             q (int): Número de cuantiles para la categorización.
 
@@ -477,14 +477,14 @@ class Procesador:
             TypeError: Si los parámetros no son del tipo esperado.
             ValueError: Si los parámetros no cumplen con los requisitos.
         """
-        # validaciones escalas
-        if not isinstance(escalas, list):
-            raise TypeError('El parámetro escalas debe ser de tipo list')
-        for escala in escalas:
-            if not isinstance(escala, str):
-                raise TypeError('Los elementos del parámetro escalas deben ser de tipo str')
-            if escala not in self.dataframes_escalas.keys():
-                raise ValueError(f'La escala {escala} no es válida, pues no fue proporcionado un DataFrame para esta')
+        # validaciones mallas
+        if not isinstance(mallas, list):
+            raise TypeError('El parámetro mallas debe ser de tipo list')
+        for malla in mallas:
+            if not isinstance(malla, str):
+                raise TypeError('Los elementos del parámetro mallas deben ser de tipo str')
+            if malla not in self.dataframes_mallas.keys():
+                raise ValueError(f'La malla {malla} no es válida, pues no fue proporcionado un DataFrame para esta')
             
         # validaciones dicc
         if not isinstance(dicc, dict):
@@ -549,19 +549,19 @@ class Procesador:
                 print(f"- (Base: '{var_base_normalizacion}') Procesando variable {contador}/{totales_por_base}: '{var}'")
                 
                 # procesar la variable y agregarla a la lista de resultados
-                variables_procesadas.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
+                variables_procesadas.append(self.procesar_variable(mallas=mallas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
             
             # concatenar los resultados en un solo dataframe y agregarlos al diccionario resultados segun la variable usada como base de normalizacion
             resultado[var_base_normalizacion] = pd.concat(variables_procesadas, ignore_index=True) if len(variables_procesadas) > 0 else None
             
         return resultado
     
-    def procesar_multiples_variables_regex(self, escalas:list, dicc:dict, q:int=10) -> dict:
+    def procesar_multiples_variables_regex(self, mallas:list, dicc:dict, q:int=10) -> dict:
         """
         Procesa múltiples variables utilizando expresiones regulares para seleccionarlas.
 
         Args:
-            escalas (list): Lista de escalas (DataFrames) en las que se procesarán las variables.
+            mallas (list): Lista de mallas (DataFrames) en las que se procesarán las variables.
             dicc (dict): Diccionario donde las llaves son bases de normalización y los valores son listas de expresiones regulares.
             q (int): Número de cuantiles para la categorización.
 
@@ -573,14 +573,14 @@ class Procesador:
             ValueError: Si los parámetros no cumplen con los requisitos.
         """
         
-        # validaciones escalas
-        if not isinstance(escalas, list):
-            raise TypeError('El parámetro escalas debe ser de tipo list')
-        for escala in escalas:
-            if not isinstance(escala, str):
-                raise TypeError('Los elementos del parámetro escalas deben ser de tipo str')
-            if escala not in self.dataframes_escalas.keys():
-                raise ValueError(f'La escala {escala} no es válida, pues no fue proporcionado un DataFrame para esta')
+        # validaciones mallas
+        if not isinstance(mallas, list):
+            raise TypeError('El parámetro mallas debe ser de tipo list')
+        for malla in mallas:
+            if not isinstance(malla, str):
+                raise TypeError('Los elementos del parámetro mallas deben ser de tipo str')
+            if malla not in self.dataframes_mallas.keys():
+                raise ValueError(f'La malla {malla} no es válida, pues no fue proporcionado un DataFrame para esta')
             
         # validaciones dicc
         if not isinstance(dicc, dict):
@@ -627,9 +627,9 @@ class Procesador:
             
             # obtener las variables que coinciden con la regex combinada en los dataframes
             variables_obtenidas_regex = set()
-            for escala in escalas:
-                # evaluar regex combinada en cada dataframe de las escalas especificadas, y agregar resultados al set variables_obtenidas_regex
-                variables_obtenidas_regex |= set(obtener_variables_regex_df(self.dataframes_escalas[escala], regex_combinada))
+            for malla in mallas:
+                # evaluar regex combinada en cada dataframe de las mallas especificadas, y agregar resultados al set variables_obtenidas_regex
+                variables_obtenidas_regex |= set(obtener_variables_regex_df(self.dataframes_mallas[malla], regex_combinada))
                 totales_por_base += len(variables_obtenidas_regex)
                 
             # si no se obtuvo ningun resultado de la regex combinada, se omite esa var_base_normalizacion
@@ -663,7 +663,7 @@ class Procesador:
                 print(f"- (Base: '{var_base_normalizacion}') Procesando variable {contador}/{totales_por_base}: '{var}'")
                 
                 # procesar la variable y agregarla a la lista de resultados
-                variables_procesadas_regex_list.append(self.procesar_variable(escalas=escalas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
+                variables_procesadas_regex_list.append(self.procesar_variable(mallas=mallas, var=var, var_base_normalizacion=var_base_normalizacion, q=q))
             
             # concatenar los resultados en un solo dataframe y agregarlos al diccionario resultados segun la variable usada como base de normalizacion
             resultado[var_base_normalizacion] = pd.concat(variables_procesadas_regex_list, ignore_index=True) if len(variables_procesadas_regex_list) > 0 else None
