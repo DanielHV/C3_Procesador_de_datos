@@ -35,22 +35,22 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_mallas')
     rutas_csv_mallas = procesador_config['rutas_csv_mallas']
     
-    # validaciones campo ruta_csv_diccionario_traducciones
-    if 'ruta_csv_diccionario_traducciones' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_diccionario_traducciones')
-    ruta_csv_diccionario_traducciones = procesador_config['ruta_csv_diccionario_traducciones']
-    if not os.path.exists(ruta_csv_diccionario_traducciones):
-        raise FileNotFoundError('La ruta especificada para el archivo .csv de traducciones no existe')
+    # validaciones campo ruta_csv_dataframe_alias
+    if 'ruta_csv_dataframe_alias' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_dataframe_alias')
+    ruta_csv_dataframe_alias = procesador_config['ruta_csv_dataframe_alias']
+    if not os.path.exists(ruta_csv_dataframe_alias):
+        raise FileNotFoundError('La ruta especificada para el archivo .csv de alias no existe')
     
-    # validaciones campo columna_diccionario_traducciones_nombres
-    if 'columna_diccionario_traducciones_nombres' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_diccionario_traducciones_nombres')
-    columna_diccionario_traducciones_nombres = procesador_config['columna_diccionario_traducciones_nombres']
+    # validaciones campo columna_dataframe_alias_nombres
+    if 'columna_dataframe_alias_nombres' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_nombres')
+    columna_dataframe_alias_nombres = procesador_config['columna_dataframe_alias_nombres']
     
-    # validaciones campo columna_diccionario_traducciones_alias
-    if 'columna_diccionario_traducciones_alias' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_diccionario_traducciones_alias')
-    columna_diccionario_traducciones_alias = procesador_config['columna_diccionario_traducciones_alias']
+    # validaciones campo columna_dataframe_alias_alias
+    if 'columna_dataframe_alias_alias' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_alias')
+    columna_dataframe_alias_alias = procesador_config['columna_dataframe_alias_alias']
     
     # obtener listas de variables a excluir mediante lista explicita y/o lista de expresiones regulares,
     # en caso de existir el campo en el archivo de configuracion
@@ -100,21 +100,21 @@ if __name__ == '__main__':
         dtype_dict = {col: str for col in id_cols}
         dataframes_mallas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
         
-    # cargar dataframe de diccionario de traducciones
-    diccionario_traducciones = pd.read_csv(ruta_csv_diccionario_traducciones)
+    # cargar dataframe de alias
+    dataframe_alias = pd.read_csv(ruta_csv_dataframe_alias)
     
-    # validaciones columna_diccionario_traducciones_nombres y columna_diccionario_traducciones_alias
-    if columna_diccionario_traducciones_nombres not in diccionario_traducciones.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_diccionario_traducciones debe contener la columna {columna_diccionario_traducciones_nombres}')
-    if columna_diccionario_traducciones_alias not in diccionario_traducciones.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_diccionario_traducciones debe contener la columna {columna_diccionario_traducciones_alias}')
+    # validaciones columna_dataframe y columna_dataframe_alias_alias
+    if columna_dataframe_alias_nombres not in dataframe_alias.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_nombres}')
+    if columna_dataframe_alias_alias not in dataframe_alias.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_alias}')
     
     # inicializar procesador
     procesador = Procesador(
         dataframes_mallas=dataframes_mallas, 
-        diccionario_traducciones=diccionario_traducciones, 
-        columna_diccionario_traducciones_nombres=columna_diccionario_traducciones_nombres,
-        columna_diccionario_traducciones_alias=columna_diccionario_traducciones_alias,
+        dataframe_alias=dataframe_alias, 
+        columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
+        columna_dataframe_alias_alias=columna_dataframe_alias_alias,
         variables_identificadoras=variables_identificadoras,
         variables_excluidas_list=variables_excluidas_list, 
         variables_excluidas_regex=variables_excluidas_regex 
@@ -159,7 +159,7 @@ if __name__ == '__main__':
         
     # guardar resultado en archivo csv segun ruta_csv_salida
     resultado.to_csv(ruta_csv_salida, index=False)
-    print(f'Procesamiento finalizado, el archivo .csv resultante se encuentra en la ruta:\n{ruta_csv_salida}')
+    print(f'Archivo csv de datos procesados creado en la ruta {ruta_csv_salida}')
     
     # imprimir tiempo total de ejecucion
     timestamp_fin = time.time()

@@ -12,16 +12,15 @@ class Procesador:
     realizando operaciones de normalización y categorización, para generar un nuevo archivo como resultado.
     Todos DataFrames que toma como atributos esta clase son generados por la clase Preprocesador.
     """
-    def __init__(self, dataframes_mallas:dict, diccionario_traducciones:pd.DataFrame, columna_diccionario_traducciones_nombres:str, columna_diccionario_traducciones_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list):
+    def __init__(self, dataframes_mallas:dict, dataframe_alias:pd.DataFrame, columna_dataframe_alias_nombres:str, columna_dataframe_alias_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list):
         """
-        Inicializa el procesador validando los parámetros y configurando las variables a excluir,
-        así como el diccionario de traducciones.
+        Inicializa el procesador validando los parámetros y configurando las variables a excluir.
 
         Args:
             dataframes_mallas (dict): Diccionario {malla: DataFrame}.
-            diccionario_traducciones (pd.DataFrame): DataFrame con traducciones de variables.
-            columna_diccionario_traducciones_nombres (str): Nombre de columna con nombres descriptivos.
-            columna_diccionario_traducciones_alias (str): Nombre de columna con alias de variables.
+            dataframe_alias (pd.DataFrame): DataFrame con alias de variables.
+            columna_alias_nombres (str): Nombre de columna con nombres descriptivos.
+            columna_alias_alias (str): Nombre de columna con alias de variables.
             variables_identificadoras (dict): Diccionario de variables identificadoras por malla.
             variables_excluidas_list (list): Lista de variables a excluir (explícitamente).
             variables_excluidas_regex (list): Lista de variables a excluir (por expresión regular).
@@ -38,19 +37,19 @@ class Procesador:
         if not all(isinstance(valor, pd.DataFrame) for valor in dataframes_mallas.values()):
             raise TypeError('Los valores del diccionario dataframes_mallas deben ser de tipo pd.DataFrame')
         
-        # validaciones diccionario_traducciones
-        if not isinstance(diccionario_traducciones, pd.DataFrame):
+        # validaciones dataframe_alias
+        if not isinstance(dataframe_alias, pd.DataFrame):
             raise TypeError('El valor del parámetro diccionario_variables debe ser de tipo dict')
         
-        # validaciones columnas_diccionario_traducciones_nombres y columnas_diccionario_traducciones_alias
-        if not isinstance(columna_diccionario_traducciones_nombres, str):
-            raise TypeError('El valor del parámetro columna_diccionario_traducciones_nombres debe ser de tipo str')
-        if not isinstance(columna_diccionario_traducciones_alias, str):
-            raise TypeError('El valor del parámetro columna_diccionario_traducciones_alias debe ser de tipo str')
-        if columna_diccionario_traducciones_nombres not in diccionario_traducciones.columns:
-            raise ValueError(f'El DataFrame de diccionario_traducciones debe contener una columna con nombre {columna_diccionario_traducciones_nombres} para identificar el nombre descriptivo de cada variable')
-        if columna_diccionario_traducciones_alias not in diccionario_traducciones.columns:
-            raise ValueError(f'El DataFrame de diccionario_traducciones debe contener una columna con nombre {columna_diccionario_traducciones_alias} para identificar el alias de cada variable')
+        # validaciones columnas_dataframe_alias_nombres y columnas_dataframe_alias_alias
+        if not isinstance(columna_dataframe_alias_nombres, str):
+            raise TypeError('El valor del parámetro columna_dataframe_alias_nombres debe ser de tipo str')
+        if not isinstance(columna_dataframe_alias_alias, str):
+            raise TypeError('El valor del parámetro columna_diccionario_alias_alias debe ser de tipo str')
+        if columna_dataframe_alias_nombres not in dataframe_alias.columns:
+            raise ValueError(f'El DataFrame de alias debe contener una columna con nombre {columna_dataframe_alias_nombres} para identificar el nombre descriptivo de cada variable')
+        if columna_dataframe_alias_alias not in dataframe_alias.columns:
+            raise ValueError(f'El DataFrame de alias debe contener una columna con nombre {columna_dataframe_alias_alias} para identificar el alias de cada variable')
         
         # validaciones variables_identificadoras
         if not isinstance(variables_identificadoras, dict):
@@ -82,11 +81,10 @@ class Procesador:
         
         # asignacion de atributos
         self.dataframes_mallas = dataframes_mallas
-        self.diccionario_traducciones = diccionario_traducciones
-        self.diccionario_traducciones = dict(zip(diccionario_traducciones[columna_diccionario_traducciones_alias], diccionario_traducciones[columna_diccionario_traducciones_nombres]))
+        self.alias = dict(zip(dataframe_alias[columna_dataframe_alias_alias], dataframe_alias[columna_dataframe_alias_nombres]))
         self.variables_identificadoras = variables_identificadoras
         self.variables_excluidas = set(variables_excluidas_list)
-        self.variables_faltantes_diccionario = []
+        self.variables_faltantes_alias = []
         
         # imprimir en terminal variables excluidas por lista explicita
         print(f'Variables a excluir por lista explícita: {variables_excluidas_list}')
@@ -99,19 +97,19 @@ class Procesador:
         variables_excluidas_encontradas_regex = sorted(list(variables_excluidas_encontradas_regex))
         print(f'Variables a excluir encontradas por lista de regex: {variables_excluidas_encontradas_regex}')
             
-        # verificar variables faltantes en el diccionario de traducciones
-        self.variables_faltantes_diccionario = []
+        # verificar variables faltantes en el diccionario de alias
+        self.variables_faltantes_alias = []
         variables_consideradas = set()
         for dataframe in dataframes_mallas.values():
             variables_consideradas = variables_consideradas | set(dataframe.columns)
-        variables_en_diccionario = set(self.diccionario_traducciones.keys())
+        variables_en_alias = set(self.alias.keys())
         
-        # si se encuentran variables en el dataframe que no existen en el diccionario de traducciones,
-        # se agregan al set de excluidas, se guardan en el atributo self.variables_faltantes_diccionario
-        if not (variables_consideradas).issubset(variables_en_diccionario):
-            variables_faltantes = variables_consideradas - variables_en_diccionario
+        # si se encuentran variables en el dataframe que no existen en el diccionario de alias,
+        # se agregan al set de excluidas, se guardan en el atributo self.variables_faltantes_alias
+        if not (variables_consideradas).issubset(variables_en_alias):
+            variables_faltantes = variables_consideradas - variables_en_alias
             self.variables_excluidas = self.variables_excluidas | variables_faltantes
-            self.variables_faltantes_diccionario = variables_faltantes
+            self.variables_faltantes_alias = variables_faltantes
         
         # eliminar variables excluidas de los DataFrames excepto identificadoras
         variables_identificadoras_set = set([var for lista in variables_identificadoras.values() for var in lista])
@@ -120,10 +118,10 @@ class Procesador:
             
         # convertir sets en listas ordenadas
         self.variables_excluidas = sorted(list(self.variables_excluidas))
-        self.variables_faltantes_diccionario = sorted(list(self.variables_faltantes_diccionario))
+        self.variables_faltantes_alias = sorted(list(self.variables_faltantes_alias))
         
         # imprimir en terminal variables faltantes en el diccionario
-        print(f'Variables del DataFrame faltantes en el diccionario de traducciones (se excluirán automáticamente): {self.variables_faltantes_diccionario}')
+        print(f'Variables del DataFrame faltantes en el alias (se excluirán automáticamente): {self.variables_faltantes_alias}')
 
     def get_variables_excluidas(self) -> list:
         """
@@ -134,14 +132,14 @@ class Procesador:
         """
         return list(self.variables_excluidas)
 
-    def get_variables_faltantes_diccionario(self) -> list:
+    def get_variables_faltantes_alias(self) -> list:
         """
-        Obtiene la lista de variables faltantes en el diccionario de traducciones.
+        Obtiene la lista de variables faltantes en el diccionario de alias.
 
         Returns:
             list: Lista de variables faltantes en el diccionario.
         """
-        return list(self.variables_faltantes_diccionario)
+        return list(self.variables_faltantes_alias)
     
     def normalizar_variable(self, malla:str, var:str, var_base_normalizacion:Optional[str]=None) -> pd.Series:
         """
@@ -355,8 +353,8 @@ class Procesador:
         if all(validacion_mallas_var_base_normalizacion[malla] == False for malla in mallas):
             raise ValueError(f'La variable {var_base_normalizacion} (var_base_normalizacion) no existe en ninguno de los DataFrames de las mallas especificadas')
         
-        # obtener el nombre y código de la variable desde el diccionario de traducciones
-        nombre = self.diccionario_traducciones[var]
+        # obtener el nombre y código de la variable desde el diccionario de alias
+        nombre = self.alias[var]
         codigo = var
         
         # inicializar diccionario para almacenar la lista de intervalos generados en cada malla de manera ordenada
