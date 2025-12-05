@@ -1,0 +1,17 @@
+{
+  "meta_columns": {
+    "id": "var",
+    "alias": "var_alias",
+    "catalog": "CATALOGOS",
+    "path": "path"
+  },
+  "path_separator": ".",
+  "transformations": [
+    {
+      "name": "todas las variables",
+      "select": { "type": "regex", "pattern": "^(?!region__)(?!region_s__)(?!entidad__).*$" },
+      "operation": "qcut",
+      "params": { "q": 10 }
+    }
+  ]
+}

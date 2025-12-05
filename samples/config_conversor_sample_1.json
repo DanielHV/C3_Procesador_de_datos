@@ -1,0 +1,17 @@
+{
+  "meta_columns": {
+    "id": "NOMBRE DE VARIABLE",
+    "alias": "DESCRIPCIÓN DE VARIABLE",
+    "catalog": "CATALOGOS",
+    "path": "path"
+  },
+  "path_separator": ".",
+  "transformations": [
+    {
+      "name": "todas las variables",
+      "select": { "type": "regex", "pattern": "^(?!ORIGEN__|SECTOR__|ENTIDAD_UM__|ENTIDAD_NAC__).*$" },
+      "operation": "qcut",
+      "params": { "q": 10 }
+    }
+  ]
+}

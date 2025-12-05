@@ -1,0 +1,20 @@
+{
+  "meta_columns": {
+    "id": "NOMBRE DE VARIABLE",
+    "alias": "DESCRIPCIÓN DE VARIABLE",
+    "catalog": "CATALOGOS"
+  },
+  "path_separator": ".",
+  "transformations": [
+    {
+      "name": "categoricas_por_meta",
+      "select": {"type": "meta_filter", "column": "FORMATO O FUENTE", "op": "contains", "value": "CATALOGO"},
+      "operation": "count"
+    },
+    {
+      "name": "edad_media",
+      "select": { "type": "list", "values": ["EDAD"] },
+      "operation": "mean"
+    }
+  ]
+}

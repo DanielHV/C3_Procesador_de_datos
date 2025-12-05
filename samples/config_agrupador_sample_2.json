@@ -1,0 +1,22 @@
+{
+  "meta_columns": {
+    "id": "var",
+    "alias": "var_alias",
+    "catalog": "CATALOGOS",
+    "path": "subcategoria"
+  },
+  "path_separator": ".",
+  "transformations": [
+  
+    {
+      "name": "categoricas_count",
+      "select": {"type": "meta_filter", "column": "var_type", "op": "contains", "value": "options"},
+      "operation": "count"
+    },
+    {
+      "name": "numericas_mean",
+      "select": {"type": "meta_filter", "column": "var_type", "op": "contains", "value": "abierta"},
+      "operation": "mean"
+    }
+  ]
+}
