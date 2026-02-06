@@ -36,6 +36,42 @@ if __name__ == "__main__":
     # cargar variables de entorno desde archivo .env
     load_dotenv(args.ruta_env)
     
+    # procesamiento de columnas especiales y determinacion de tipos
+    special_types = {}
+    for col in df.columns:
+        if col.startswith("cells_"):
+            special_types[col] = "INTEGER[]"
+        elif col.startswith("interval_"):
+            # verificar si tiene formato de rango con ':'
+            sample = df[col].dropna()
+            if not sample.empty and ':' in str(sample.iloc[0]):
+                special_types[col] = "NUMRANGE"
+                # transformar formato "min:max" a "[min,max)"
+                def transform_range(val):
+                    if pd.isna(val): return val
+                    s = str(val).replace('%', '').strip()
+                    if ':' in s:
+                        parts = s.split(':')
+                        # manejar posibles espacios o vacios
+                        return f"[{parts[0].strip()},{parts[1].strip()})"
+                    return val
+                df[col] = df[col].apply(transform_range)
+            else:
+                special_types[col] = "TEXT"
+
+    # identificar columnas de diccionario (excluyendo bin, interval_*, cells_*)
+    data_cols = ['bin'] + [c for c in df.columns if c.startswith('interval_') or c.startswith('cells_')]
+    dict_cols = [c for c in df.columns if c not in data_cols]
+    
+    # crear dataframe de diccionario unico
+    df_dict = df[dict_cols].drop_duplicates().reset_index(drop=True)
+    # crear dict_id (postgres ids suelen ser 1-based)
+    df_dict['id'] = df_dict.index + 1
+    
+    # merge dict_id de vuelta al dataframe principal
+    df = df.merge(df_dict, on=dict_cols, how='left')
+    df = df.rename(columns={'id': 'dict_id'})
+    
     # conexion postgres
     with psycopg.connect(
         host = os.getenv("DB_HOST"),
@@ -48,8 +84,9 @@ if __name__ == "__main__":
         with conn.cursor() as cursor:
             
             tabla = os.getenv("DB_TABLE")
+            tabla_dict = f"dict_{tabla}"
             
-            # crear tabla si se especifica y no existe
+            # crear tablas si se especifica y no existen
             if args.crear_tabla == True:
                 tipos = {
                     'int64': 'INTEGER',
@@ -57,32 +94,72 @@ if __name__ == "__main__":
                     'object': 'TEXT',
                     'bool': 'BOOLEAN'
                 }
-                columns = []
                 
-                # inferir tipos de datos a partir de dataframe
-                for col, dtype in df.dtypes.items():
+                # 1. Crear tabla diccionario
+                dict_columns_sql = []
+                for col in dict_cols:
+                    dtype = df_dict[col].dtype
                     sql_type = tipos.get(str(dtype), 'TEXT')
-                    columns.append(f"{col} {sql_type}")
-                columns_sql = ",\n    ".join(columns)
-                create_table_sql = f"""
-                CREATE TABLE IF NOT EXISTS {tabla} (
-                    id SERIAL PRIMARY KEY,
-                    {columns_sql}
+                    dict_columns_sql.append(f"{col} {sql_type}")
+                
+                create_dict_sql = f"""
+                CREATE TABLE IF NOT EXISTS {tabla_dict} (
+                    id INTEGER PRIMARY KEY,
+                    {", ".join(dict_columns_sql)}
                 );
                 """
-                cursor.execute(create_table_sql)
+                cursor.execute(create_dict_sql)
+                
+                # 2. Crear tabla principal
+                main_columns_sql = []
+                # primero dict_id foreign key
+                main_columns_sql.append(f"dict_id INTEGER REFERENCES {tabla_dict}(id)")
+                # luego columnas de datos
+                for col in data_cols:
+                    if col in special_types:
+                        sql_type = special_types[col]
+                    else:
+                        dtype = df[col].dtype
+                        sql_type = tipos.get(str(dtype), 'TEXT')
+                    main_columns_sql.append(f"{col} {sql_type}")
+                
+                create_main_sql = f"""
+                CREATE TABLE IF NOT EXISTS {tabla} (
+                    id SERIAL PRIMARY KEY,
+                    {", ".join(main_columns_sql)}
+                );
+                """
+                cursor.execute(create_main_sql)
         
-            # archivo temporal en memoria
-            buffer = StringIO()
-            df.to_csv(buffer, index=False, header=True)
-            buffer.seek(0)  # volver al inicio del archivo
+            # insertar datos en tabla diccionario
+            buffer_dict = StringIO()
+            # asegurar orden de columnas: id, [dict_cols]
+            cols_dict_ordered = ['id'] + dict_cols
+            df_dict[cols_dict_ordered].to_csv(buffer_dict, index=False, header=True)
+            buffer_dict.seek(0)
+            
+            with cursor.copy(sql.SQL("COPY {} ({}) FROM STDIN WITH CSV HEADER").format(
+                sql.Identifier(tabla_dict),
+                sql.SQL(", ").join([sql.Identifier(col) for col in cols_dict_ordered])
+            )) as copy:
+                copy.write(buffer_dict.getvalue())
+                
+            print(f"Datos insertados exitosamente en la tabla '{tabla_dict}'")
 
-            # copiar datos de buffer a tabla
+            # insertar datos en tabla principal
+            buffer_main = StringIO()
+            # asegurar orden de columnas: dict_id, [data_cols]
+            # nota: el dataframe original 'df' ahora tiene 'dict_id' y columnas originales.
+            # seleccionamos las columnas a insertar. 'id' (PK) es SERIAL, no lo insertamos.
+            cols_main_ordered = ['dict_id'] + data_cols
+            df[cols_main_ordered].to_csv(buffer_main, index=False, header=True)
+            buffer_main.seek(0)
+
             with cursor.copy(sql.SQL("COPY {} ({}) FROM STDIN WITH CSV HEADER").format(
                 sql.Identifier(tabla),
-                sql.SQL(", ").join([sql.Identifier(col) for col in df.columns])
+                sql.SQL(", ").join([sql.Identifier(col) for col in cols_main_ordered])
             )) as copy:
-                copy.write(buffer.getvalue())
+                copy.write(buffer_main.getvalue())
             
             conn.commit()
             print(f"Datos insertados exitosamente en la tabla '{tabla}'")
