@@ -5,116 +5,30 @@ import json
 import time
 from procesador.procesador import Procesador
 
-if __name__ == '__main__':
+
+def ejecutar_procesamiento(
+    dataframes_mallas,
+    dataframe_alias,
+    columna_dataframe_alias_nombres,
+    columna_dataframe_alias_alias,
+    columna_dataframe_alias_descripcion,
+    variables_identificadoras,
+    variables_excluidas_list,
+    variables_excluidas_regex,
+    variables_a_procesar_list,
+    variables_a_procesar_regex,
+    q
+):
     """
-    Script principal para ejecutar el procesamiento de datos utilizando la clase Procesador.
-    
-    Este script toma un archivo de configuración en formato JSON que especifica las rutas de entrada, 
-    las variables a procesar, y otros parámetros necesarios para el procesamiento. Genera un archivo 
-    CSV con los resultados del procesamiento.
-    
-    Raises:
-        ValueError: Si el archivo de configuración no contiene los campos requeridos.
-        FileNotFoundError: Si alguna de las rutas especificadas en el archivo de configuración no existe.
+    Ejecuta el flujo de procesamiento para un conjunto de variables y configuraciones.
     """
-    
-    # timestamp de inicio de ejecucion del programa
-    timestamp_inicio = time.time()
-    
-    # definir flag de archivo de configuracion
-    parser = argparse.ArgumentParser(description='Procesador de datos C3')
-    parser.add_argument('--config', type=str, required=True, help='Archivo de configuración')
-    args = parser.parse_args()
-    
-    # cargar archivo de configuracion
-    with open(args.config) as f:
-        procesador_config = json.load(f)
-    
-    # validaciones campo rutas_csv_mallas
-    if 'rutas_csv_mallas' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_mallas')
-    rutas_csv_mallas = procesador_config['rutas_csv_mallas']
-    
-    # validaciones campo ruta_csv_dataframe_alias
-    if 'ruta_csv_dataframe_alias' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_dataframe_alias')
-    ruta_csv_dataframe_alias = procesador_config['ruta_csv_dataframe_alias']
-    if not os.path.exists(ruta_csv_dataframe_alias):
-        raise FileNotFoundError('La ruta especificada para el archivo .csv de alias no existe')
-    
-    # validaciones campo columna_dataframe_alias_nombres
-    if 'columna_dataframe_alias_nombres' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_nombres')
-    columna_dataframe_alias_nombres = procesador_config['columna_dataframe_alias_nombres']
-    
-    # validaciones campo columna_dataframe_alias_alias
-    if 'columna_dataframe_alias_alias' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_alias')
-    columna_dataframe_alias_alias = procesador_config['columna_dataframe_alias_alias']
-    
-    # obtener listas de variables a excluir mediante lista explicita y/o lista de expresiones regulares,
-    # en caso de existir el campo en el archivo de configuracion
-    variables_excluidas_list = procesador_config.get('variables_excluidas_list', [])
-    variables_excluidas_regex = procesador_config.get('variables_excluidas_regex', [])
-    
-    # validaciones campo variables_identificadoras
-    if 'variables_identificadoras' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras')
-    variables_identificadoras = procesador_config.get('variables_identificadoras')
-    if not isinstance(variables_identificadoras, dict):
-        raise ValueError('El campo variables_identificadoras debe ser un diccionario {malla: [col1, col2, ...]}')
-    
-    # validaciones campos variables_a_procesar_list y variables_a_procesar_regex
-    if 'variables_a_procesar_list' not in procesador_config and 'variables_a_procesar_regex' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener al menos uno de los campos: variables_a_procesar_list, o variables_a_procesar_regex')
-    variables_a_procesar_list = procesador_config.get('variables_a_procesar_list', None)
-    variables_a_procesar_regex = procesador_config.get('variables_a_procesar_regex', None)
-    
-    # validaciones campo q
-    if 'q' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo q')
-    q = procesador_config['q']
-    
-    # validaciones campo ruta_csv_salida
-    if 'ruta_csv_salida' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_salida')
-    ruta_csv_salida = procesador_config['ruta_csv_salida']
-    
-    # inicializar diccionario para almacenar dataframes de mallas especificadas
-    dataframes_mallas = {}
-    
-    for malla, ruta in rutas_csv_mallas.items():
-        
-        # validaciones valores diccionario rutas_csv_mallas (rutas de archivos csv de dataframes)
-        if not os.path.exists(ruta):
-            raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la malla {malla} no existe')
-        
-        # validaciones diccionario variables identificadoras
-        if malla not in variables_identificadoras:
-            raise ValueError(f'El diccionario de variables identificadoras no contiene la malla {malla}')
-        
-        # obtener variables identificadoras para malla
-        id_cols = variables_identificadoras[malla]
-        
-        # cargar dataframe de malla actual con columnas identificadoras de tipo str
-        dtype_dict = {col: str for col in id_cols}
-        dataframes_mallas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
-        
-    # cargar dataframe de alias
-    dataframe_alias = pd.read_csv(ruta_csv_dataframe_alias)
-    
-    # validaciones columna_dataframe y columna_dataframe_alias_alias
-    if columna_dataframe_alias_nombres not in dataframe_alias.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_nombres}')
-    if columna_dataframe_alias_alias not in dataframe_alias.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_alias}')
-    
     # inicializar procesador
     procesador = Procesador(
         dataframes_mallas=dataframes_mallas, 
         dataframe_alias=dataframe_alias, 
         columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
         columna_dataframe_alias_alias=columna_dataframe_alias_alias,
+        columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
         variables_identificadoras=variables_identificadoras,
         variables_excluidas_list=variables_excluidas_list, 
         variables_excluidas_regex=variables_excluidas_regex 
@@ -149,6 +63,148 @@ if __name__ == '__main__':
     elif variables_a_procesar_regex:
         resultado = procesamiento_regex
         
+    if not resultado.empty:
+        resultado['variable_name'] = resultado['name'].apply(lambda x: x.split('-', 1)[0].strip() if '-' in str(x) else str(x).strip())
+        
+        # Sort values to ensure grouped re-indexing goes in order of appearance or logical order
+        resultado = resultado.sort_values(by=['variable_name', 'name', 'bin']).reset_index(drop=True)
+        
+        # Re-calculate bin based on variable_name rather than name-code combination
+        resultado['bin'] = resultado.groupby('variable_name').cumcount() + 1
+        
+        # Drop the temporary column
+        resultado = resultado.drop(columns=['variable_name'])
+        
+    return resultado
+
+if __name__ == '__main__':
+    """
+    Script principal para ejecutar el procesamiento de datos utilizando la clase Procesador.
+    
+    Este script toma un archivo de configuración en formato JSON que especifica las rutas de entrada, 
+    las variables a procesar, y otros parámetros necesarios para el procesamiento. Genera un archivo 
+    CSV con los resultados del procesamiento.
+    
+    Raises:
+        ValueError: Si el archivo de configuración no contiene los campos requeridos.
+        FileNotFoundError: Si alguna de las rutas especificadas en el archivo de configuración no existe.
+    """
+    
+    # timestamp de inicio de ejecucion del programa
+    print("Iniciando procesamiento...")
+    timestamp_inicio = time.time()
+    
+    # definir flag de archivo de configuracion
+    parser = argparse.ArgumentParser(description='Procesador de datos C3')
+    parser.add_argument('--config', type=str, required=True, help='Archivo de configuración')
+
+    args = parser.parse_args()
+    
+    # cargar archivo de configuracion
+    with open(args.config) as f:
+        procesador_config = json.load(f)
+    
+
+    print("Configuración cargada:", procesador_config)
+    # validaciones campo rutas_csv_mallas
+    if 'rutas_csv_mallas' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_mallas')
+    rutas_csv_mallas = procesador_config['rutas_csv_mallas']
+    
+    # validaciones campo ruta_csv_dataframe_alias
+    if 'ruta_csv_dataframe_alias' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_dataframe_alias')
+    ruta_csv_dataframe_alias = procesador_config['ruta_csv_dataframe_alias']
+    if not os.path.exists(ruta_csv_dataframe_alias):
+        raise FileNotFoundError('La ruta especificada para el archivo .csv de alias no existe')
+    
+    # validaciones campo columna_dataframe_alias_nombres
+    if 'columna_dataframe_alias_nombres' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_nombres')
+    columna_dataframe_alias_nombres = procesador_config['columna_dataframe_alias_nombres']
+    
+    # validaciones campo columna_dataframe_alias_alias
+    if 'columna_dataframe_alias_alias' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_alias')
+    columna_dataframe_alias_alias = procesador_config['columna_dataframe_alias_alias']
+    
+    columna_dataframe_alias_descripcion = procesador_config.get('columna_dataframe_alias_descripcion', None)
+    
+    # obtener listas de variables a excluir mediante lista explicita y/o lista de expresiones regulares,
+    # en caso de existir el campo en el archivo de configuracion
+    # obtener listas de variables a excluir mediante lista explicita y/o lista de expresiones regulares,
+    # en caso de existir el campo en el archivo de configuracion
+    variables_excluidas_list_lugares = procesador_config.get('variables_excluidas_list_lugares', [])
+    variables_excluidas_regex_lugares = procesador_config.get('variables_excluidas_regex_lugares', [])
+    
+    # validaciones campo variables_identificadoras_lugares
+    if 'variables_identificadoras_lugares' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras_lugares')
+    variables_identificadoras_lugares = procesador_config.get('variables_identificadoras_lugares')
+    if not isinstance(variables_identificadoras_lugares, dict):
+        raise ValueError('El campo variables_identificadoras_lugares debe ser un diccionario {malla: [col1, col2, ...]}')
+    
+    # validaciones campos variables_a_procesar_list_lugares y variables_a_procesar_regex_lugares
+    if 'variables_a_procesar_list_lugares' not in procesador_config and 'variables_a_procesar_regex_lugares' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener al menos uno de los campos: variables_a_procesar_list_lugares, o variables_a_procesar_regex_lugares')
+    variables_a_procesar_list_lugares = procesador_config.get('variables_a_procesar_list_lugares', None)
+    variables_a_procesar_regex_lugares = procesador_config.get('variables_a_procesar_regex_lugares', None)
+    
+    # validaciones campo q
+    if 'q' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo q')
+    q = procesador_config['q']
+    
+    # validaciones campo ruta_csv_salida
+    if 'ruta_csv_salida' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_salida')
+    ruta_csv_salida = procesador_config['ruta_csv_salida']
+    
+    # inicializar diccionario para almacenar dataframes de mallas especificadas
+    dataframes_mallas = {}
+    
+    for malla, ruta in rutas_csv_mallas.items():
+        
+        # validaciones valores diccionario rutas_csv_mallas (rutas de archivos csv de dataframes)
+        if not os.path.exists(ruta):
+            raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la malla {malla} no existe')
+        
+        # validaciones diccionario variables identificadoras
+        if malla not in variables_identificadoras_lugares:
+            raise ValueError(f'El diccionario de variables identificadoras no contiene la malla {malla}')
+        
+        # obtener variables identificadoras para malla
+        id_cols = variables_identificadoras_lugares[malla]
+        
+        # cargar dataframe de malla actual con columnas identificadoras de tipo str
+        dtype_dict = {col: str for col in id_cols}
+        dataframes_mallas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
+        
+    # cargar dataframe de alias
+    dataframe_alias = pd.read_csv(ruta_csv_dataframe_alias)
+    
+    # validaciones columna_dataframe y columna_dataframe_alias_alias
+    if columna_dataframe_alias_nombres not in dataframe_alias.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_nombres}')
+    if columna_dataframe_alias_alias not in dataframe_alias.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_alias}')
+    
+    # --- PROCESAMIENTO LUGARES ---
+    print("--- Procesando Lugares ---")
+    resultado = ejecutar_procesamiento(
+        dataframes_mallas=dataframes_mallas,
+        dataframe_alias=dataframe_alias,
+        columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
+        columna_dataframe_alias_alias=columna_dataframe_alias_alias,
+        columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+        variables_identificadoras=variables_identificadoras_lugares,
+        variables_excluidas_list=variables_excluidas_list_lugares,
+        variables_excluidas_regex=variables_excluidas_regex_lugares,
+        variables_a_procesar_list=variables_a_procesar_list_lugares,
+        variables_a_procesar_regex=variables_a_procesar_regex_lugares,
+        q=q
+    )
+
     # verificar duplicados en resultado
     duplicados = resultado.duplicated(['code', 'bin'])
 
@@ -159,8 +215,74 @@ if __name__ == '__main__':
         
     # guardar resultado en archivo csv segun ruta_csv_salida
     resultado.to_csv(ruta_csv_salida, index=False)
-    print(f'Archivo csv de datos procesados creado en la ruta {ruta_csv_salida}')
+    print(f'Archivo csv de datos procesados (lugares) creado en la ruta {ruta_csv_salida}')
     
+    # --- PROCESAMIENTO PERSONAS (Opcional) ---
+
+    if 'variables_identificadoras_personas' in procesador_config:
+         print("--- Procesando Personas ---")
+         
+         # Obtener configuraciones de personas
+         variables_identificadoras_personas = procesador_config.get('variables_identificadoras_personas')
+         variables_excluidas_list_personas = procesador_config.get('variables_excluidas_list_personas', [])
+         variables_excluidas_regex_personas = procesador_config.get('variables_excluidas_regex_personas', [])
+         variables_a_procesar_list_personas = procesador_config.get('variables_a_procesar_list_personas', None)
+         variables_a_procesar_regex_personas = procesador_config.get('variables_a_procesar_regex_personas', None)
+         
+         # Obtener rutas de csv para personas
+         if 'rutas_csv_personas' not in procesador_config:
+             raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_personas si se especifican variables_identificadoras_personas')
+         rutas_csv_personas = procesador_config['rutas_csv_personas']
+         
+         # Cargar dataframes de personas
+         dataframes_personas = {}
+         for malla, ruta in rutas_csv_personas.items():
+             if not os.path.exists(ruta):
+                 raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la malla {malla} no existe')
+             
+             if malla not in variables_identificadoras_personas:
+                 raise ValueError(f'El diccionario de variables identificadoras (personas) no contiene la malla {malla}')
+             
+             id_cols = variables_identificadoras_personas[malla]
+             dtype_dict = {col: str for col in id_cols}
+             dataframes_personas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
+             
+         # Cargar dataframe de alias para personas (opcional, fallback al general)
+         ruta_alias_personas = procesador_config.get('ruta_csv_dataframe_alias_personas')
+         if ruta_alias_personas and os.path.exists(ruta_alias_personas):
+             dataframe_alias_personas = pd.read_csv(ruta_alias_personas)
+         else:
+             dataframe_alias_personas = dataframe_alias
+
+         print("Personas shape:", dataframes_personas["personas"].shape)
+         print("Personas columns:", list(dataframes_personas["personas"].columns))
+         print("EDAD in personas?", "EDAD" in dataframes_personas["personas"].columns)
+
+         print("Alias personas shape:", dataframe_alias_personas.shape)
+         print("EDAD in alias?", (dataframe_alias_personas["variable"] == "EDAD").any())
+
+         # Ejecutar procesamiento
+         resultado_personas = ejecutar_procesamiento(
+            dataframes_mallas=dataframes_personas,
+            dataframe_alias=dataframe_alias_personas,
+            columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
+            columna_dataframe_alias_alias=columna_dataframe_alias_alias,
+            columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+            variables_identificadoras=variables_identificadoras_personas,
+            variables_excluidas_list=variables_excluidas_list_personas,
+            variables_excluidas_regex=variables_excluidas_regex_personas,
+            variables_a_procesar_list=variables_a_procesar_list_personas,
+            variables_a_procesar_regex=variables_a_procesar_regex_personas,
+            q=q
+        )
+         
+         # Generar ruta de salida
+         ruta_csv_salida_personas = ruta_csv_salida.replace('.csv', '_personas.csv')
+         
+         # Guardar resultado personas
+         resultado_personas.to_csv(ruta_csv_salida_personas, index=False)
+         print(f'Archivo csv de datos procesados (personas) creado en la ruta {ruta_csv_salida_personas}')
+
     # imprimir tiempo total de ejecucion
     timestamp_fin = time.time()
     print(f"Tiempo total de ejecución: {timestamp_fin - timestamp_inicio:.2f} segundos")
