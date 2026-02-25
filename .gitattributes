@@ -1,0 +1,2 @@
+data/covid19/preprocessed/preprocesamiento_covid19_example_mun_personas.csv filter=lfs diff=lfs merge=lfs -text
+data/covid19/preprocessed/*.csv filter=lfs diff=lfs merge=lfs -text
