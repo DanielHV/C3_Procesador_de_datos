@@ -210,3 +210,4 @@ __marimo__/
 
 
 data/*personas.csv
+data/covid19/preprocessed/preprocesamiento_covid19_example_mun_personas.csv
