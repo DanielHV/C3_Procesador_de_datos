@@ -77,40 +77,25 @@ En este paso se realiza un preprocesamiento y agrupación de los datos provenien
 Ejemplo: `config/preprocesador_example_ensanut.json`
 
 ```json
+```json
 {
-    "ruta_csv_diccionario_datos" : "../data/ensanut/raw/21ensanut_a20_hias_rework.csv",
-    "ruta_csv_dataset" : "../data/ensanut/raw/salud_hogar_orig_lower_promedios_for_elastic.csv",
-    "ruta_salida_dataset" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv",
-    "ruta_salida_alias" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_alias_example_mun.csv",
+    "ruta_csv_diccionario_datos" : "../data/covid19/raw/240708 Descriptores_rework.csv",
+    "ruta_csv_dataset" : "../data/covid19/raw/COVID19MEXICO_rework.csv",
+    "ruta_salida_dataset" : "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun.csv",
+    "ruta_salida_alias" : "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun.csv",
 
-    "columna_diccionario_nombres" : "var",
-    "columna_diccionario_posibles_valores" : "posibles_valores_alias",
+    "columna_diccionario_nombres" : "NOMBRE DE VARIABLE",
+    "columna_diccionario_posibles_valores" : "POSIBLES VALORES ALIAS",
 
-    "columna_diccionario_alias" : "var_alias",
-    "columna_diccionario_posibles_valores_alias" : "posibles_valores",
+    "columna_diccionario_alias" : "NOMBRE DE VARIABLE",
+    "columna_diccionario_posibles_valores_alias" : "POSIBLES VALORES",
+    "columna_diccionario_descripcion" : "DESCRIPCIÓN DE VARIABLE",
 
-    "variables_identificadoras_list" : ["municipio"],
-    "variables_a_agrupar" : [
-        {
-            "tipo_variables" : "categorico",
-            "variables_a_agrupar_list" : [],
-            "variables_a_agrupar_regex" : [],
-            "variables_a_agrupar_clasificacion_diccionario" : {
-                "columna_diccionario_filtro" : "var_type",
-                "valores": ["options"]
-            }
-        },
-        {
-            "tipo_variables" : "numerico",
-            "operacion" : "media",
-            "variables_a_agrupar_list" : [],
-            "variables_a_agrupar_regex" : [],
-            "variables_a_agrupar_clasificacion_diccionario" : {
-                "columna_diccionario_filtro" : "var_type",
-                "valores": ["abierta"]
-            }
-        }
-    ]
+    "variables_identificadoras_list_lugares" : ["ENTIDAD_RES", "MUNICIPIO_RES"],
+    "variables_a_agrupar_lugares" : [ ... ],
+
+    "variables_identificadoras_list_personas" : ["ID_REGISTRO"],
+    "variables_a_agrupar_personas": [ ... ]
 }
 ```
 
@@ -131,22 +116,38 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 
 - `"columna_diccionario_alias"` y `"columna_diccionario_posibles_valores_alias"`:  
   Nombres de las columnas en el archivo de diccionario de datos que contienen los alias de las variables y los alias de sus valores posibles, que serán utilizados para dar alias a los nombres originales en el diccionario. Estos campos son obligatorios, sin embargo, es posible establecer las mismas columnas con nombres originales como columnas de alias.
+  
+- `"columna_diccionario_descripcion"` (Opcional):  
+  Nombre de la columna en el diccionario de datos que contiene la descripción o información textual de la variable. Estos datos se incluirán como una nueva columna en el archivo alias final.
 
-- `"variables_identificadoras_list"`:  
-  Lista de columnas que identifican de manera única cada grupo sobre el que se realizarán las agregaciones y transformaciones (por ejemplo, `"municipio"`). El resultado tendrá una fila por cada combinación única de estos identificadores.
+- `"columna_diccionario_tipos"` (Opcional):  
+  Permite realizar conversiones de tipo cast para columnas.
 
-- `"variables_a_agrupar"`:
-  Permite definir distintos tipos de agrupaciones sobre los datos originales, especificando para cada tipo de variable (por ejemplo, categórica o numérica) cómo se deben agrupar y resumir los datos. Cada elemento de la lista `"variables_a_agrupar"` es un diccionario que define:
+- `"columna_diccionario_filtro_excluir"` y `"valores_a_excluir"` (Opcionales):  
+  Permiten establecer una columna del diccionario para filtrar basándose en una lista de valores específicos a excluir del preprocesamiento.
+
+- `"variables_identificadoras_list_lugares"`:  
+  Lista de columnas que identifican de manera única cada grupo sobre el que se realizarán las agregaciones y transformaciones orientadas geográficamente o por "lugares" (por ejemplo, `["ENTIDAD_RES", "MUNICIPIO_RES"]`). El resultado tendrá una fila por cada combinación única de estos identificadores.
+
+- `"variables_a_agrupar_lugares"`:
+  Permite definir distintos tipos de agrupaciones sobre los datos originales para los lugares identificados, especificando para cada tipo de variable (por ejemplo, categórica o numérica) cómo se deben agrupar y resumir los datos. Cada elemento de la lista es un diccionario que define:
 
     - `"tipo_variables"`: El tipo de variable a agrupar (`"categorico"` para variables de opciones, `"numerico"` para variables continuas).
 
-        - **Variables categóricas**:  Se cuenta, para cada grupo (por ejemplo, municipio), cuántos registros hay de cada valor posible de cada variable categórica seleccionada. El resultado tendrá columnas con el formato `variable-valor`, representando el conteo de cada posible valor de cada variable.
-        - **Variables numéricas**:  Se calcula, para cada grupo, el resultado de aplicar la operación especificada (por ejemplo, `"media"`) a cada variable numérica seleccionada. El resultado tendrá columnas con el formato `media::variable`, representando el cálculo de la operación especificada aplicada a cada variable.
+        - **Variables categóricas**:  Se cuenta, para cada grupo, cuántos registros hay de cada valor posible de cada variable categórica seleccionada. El resultado tendrá columnas con el formato `variable-valor`.
+        - **Variables numéricas**:  Se calcula, para cada grupo, el resultado de aplicar la operación especificada a cada variable numérica seleccionada. El resultado tendrá columnas con el formato `operacion::variable`.
 
-    - `"operacion"`: (Solo para variables numéricas) La operación de agregación a aplicar, por ejemplo `"media"` para promedio.
+    - `"operacion"`: (Solo para variables numéricas) La operación de agregación a aplicar, por ejemplo `"media"` para promedio o `"mediana"`.
     - `"variables_a_agrupar_list"`: Lista explícita de variables a agrupar.
     - `"variables_a_agrupar_regex"`: Lista de expresiones regulares para seleccionar variables a agrupar.
     - `"variables_a_agrupar_clasificacion_diccionario"`: (Opcional) Permite seleccionar variables automáticamente según una columna del diccionario de datos (por ejemplo, todas las variables cuyo valor en la columna `"var_type"` sea `"options"` o `"abierta"`).
+
+- `"variables_identificadoras_list_personas"` (Opcional):  
+  Lista de columnas que identifican de manera única cada registro individual (por ejemplo `["ID_REGISTRO"]`). Habilita la exportación adicional orientada a personas.
+
+- `"variables_a_agrupar_personas"` (Opcional):
+  Define la agrupación para los datos de personas, siguiendo la misma estructura que `"variables_a_agrupar_lugares"`.
+
 
 ### Salida
 
@@ -183,80 +184,97 @@ Ejemplo: `config/procesador_example_ensanut.json`
 
 ```json
 {
-    "rutas_csv_mallas" : {
-        "mun" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv"
+    "rutas_csv_mallas": {
+        "mun": "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun.csv"
     },
-    "ruta_csv_dataframe_alias" : "../data/ensanut/preprocessed/preprocesamiento_ensanut_alias_example_mun.csv",
-    "ruta_csv_salida" : "../data/ensanut/processed/procesamiento_ensanut_example.csv",
-
-    "columna_dataframe_alias_nombres" : "alias",
-    "columna_dataframe_alias_alias" : "variable",
-
-    "variables_identificadoras" : ["municipio"],
-
-    "variables_excluidas_list" : ["agua_lavar_ropa-88", "agua_lavar_ropa-99"],
-    "variables_excluidas_regex" : ["^entidad.*', '^region.*"],
-
-    "variables_a_procesar_list" : {
-        "None" : ["conteo::total_datos"],
-        "conteo::total_datos" : ["salud_tiene_obesidad-1", "salud_tiene_obesidad-2"]
+    "rutas_csv_personas": {
+        "personas": "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun_personas.csv"
     },
-    "variables_a_procesar_regex" : {
-        "None" : ["^agua.*"],
-        "conteo::total_datos" : ["^accidente.*", "^secuelas_post_covid.*"]
+    "ruta_csv_dataframe_alias": "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun.csv",
+    "ruta_csv_dataframe_alias_personas": "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun_personas.csv",
+    "ruta_csv_salida": "../data/covid19/processed/procesamiento_covid19_example.csv",
+    
+    "columna_dataframe_alias_nombres": "alias",
+    "columna_dataframe_alias_alias": "variable",
+    "columna_dataframe_alias_descripcion": "descripcion",
+
+    "variables_identificadoras_lugares": {
+        "mun": ["ENTIDAD_RES", "MUNICIPIO_RES"]
+    },
+    "variables_excluidas_list_lugares": ["ASMA-1"],
+    "variables_excluidas_regex_lugares": ["^ENTIDAD.*"],
+    "variables_a_procesar_list_lugares": {
+        "None": ["media::EDAD"]
+    },
+    "variables_a_procesar_regex_lugares": {
+        "conteo::total_datos": ["^TIPO_PACIENTE.*"]
     },
 
-     "q" : 10
+    "variables_identificadoras_personas": {
+        "personas": ["ID_REGISTRO"]
+    },
+    "variables_excluidas_list_personas": ["ASMA-1"],
+    "variables_excluidas_regex_personas": ["^ENTIDAD.*"],
+    "variables_a_procesar_list_personas": {
+        "None": ["EDAD"]
+    },
+    "variables_a_procesar_regex_personas": {
+        "None": ["^CLASIFICACION_FINAL_COVID.*"]
+    },
+
+    "q": 10
 }
 ```
 
 - `"rutas_csv_mallas"`:  
-  Diccionario que indica las rutas a los archivos CSV de entrada para cada malla diferente (por ejemplo, `"mun"` para municipio). Cada clave es el nombre de la malla y el valor es la ruta al archivo correspondiente.
+  Diccionario que indica las rutas a los archivos CSV de entrada para cada malla diferente (por ejemplo, `"mun"` para municipio). Cada clave es el nombre de la malla y el valor es la ruta al archivo correspondiente para lugares.
 
+- `"rutas_csv_personas"` (Opcional):  
+  Similar a `"rutas_csv_mallas"`, usado específicamente para las ejecuciones basadas en individuos/personas.
+  
 - `"ruta_csv_dataframe_alias"`:  
-  Ruta al archivo CSV que contiene el dataframe de alias de variables y valores, generado en el preprocesamiento.
+  Ruta al archivo CSV que contiene el dataframe de alias de variables y valores original, generado en el preprocesamiento de lugares.
+
+- `"ruta_csv_dataframe_alias_personas"` (Opcional):  
+  Ruta al archivo CSV que contiene el dataframe de alias originado por el preprocesamiento de personas. De no especificarse, se usará el alias general.
 
 - `"ruta_csv_salida"`:  
-  Ruta donde se guardará el archivo CSV con los resultados del procesamiento.
+  Ruta base general de guardado para el archivo CSV con resultados. Un archivo `_personas.csv` se auto-generará si los campos de personas están definidos.
 
 - `"columna_dataframe_alias_nombres"`:  
-  Nombre de la columna en el dataframe de alias que contiene los nombres descriptivos de las variables.
+  Nombre de la columna en el dataframe de alias que contiene los nombres descriptivos.
 
 - `"columna_dataframe_alias_alias"`:  
-  Nombre de la columna en el dataframe de alias que contiene los alias o nombres cortos de las variables.
+  Nombre de la columna en el dataframe de alias que contiene los alias o nombres cortos.
 
-- `"variables_identificadoras"`:  
-  Lista de columnas que identifican de manera única cada grupo (entidad) en  (por ejemplo, `"municipio"`).
+- `"columna_dataframe_alias_descripcion"` (Opcional):  
+  Nombre de la columna en el dataframe de alias que alberga información descriptiva ampliada. Al especificarse, el resultado mantendrá estas descripciones.
 
-- `"variables_excluidas_list"`:  
-  Lista explícita de variables (o columnas) que se deben excluir del procesamiento.
+- `"variables_identificadoras_lugares"` / `"variables_identificadoras_personas"`:  
+  Diccionario que mapea cada malla a una lista de columnas identificadoras únicas. Ej: `{"mun": ["ENTIDAD_RES", "MUNICIPIO_RES"]}`.
 
-- `"variables_excluidas_regex"`:  
-  Lista de expresiones regulares para excluir variables cuyo nombre coincida con alguno de los patrones especificados.
+- `"variables_excluidas_list_lugares"` / `"variables_excluidas_list_personas"`:  
+  Lista explícita de variables (o columnas) a excluir del procesamiento.
 
-- `"variables_a_procesar_list"`:  
-  Diccionario que indica pares de: variable utilizada como base de normalización (clave), y una lista de variables a procesar (valor). Si la clave es `"None"`, las variables se procesan sin normalizar.
+- `"variables_excluidas_regex_lugares"` / `"variables_excluidas_regex_personas"`:  
+  Lista de expresiones regulares para excluir variables cuyo nombre coincida con algún patrón especificado.
 
-    - Ejemplo:  
-      ```json
-      {
-        "None": ["conteo::total_datos"],
-        "conteo::total_datos": ["salud_tiene_obesidad-1", "salud_tiene_obesidad-2"]
-      }
-      ```
-      Esto procesará `"conteo::total_datos"` sin normalizar y `"salud_tiene_obesidad-1"` y `"salud_tiene_obesidad-2"` normalizadas por `"conteo::total_datos"`.
+- `"variables_a_procesar_list_lugares"` / `"variables_a_procesar_list_personas"`:  
+  Diccionario que indica pares de: variable utilizada como base de normalización (clave), y una lista explícita de variables a procesar (valor). Si la clave es `"None"`, las variables se procesan sin normalizar. Ejemplo:
+    ```json
+    {
+      "None": ["conteo::total_datos"],
+      "conteo::total_datos": ["salud_tiene_obesidad-1"]
+    }
+    ```
 
-- `"variables_a_procesar_regex"`:  
-  Diccionario que indica pares de: variable utilizada como base de normalización (clave), y una lista de expresiones regulares para seleccionar variables a procesar (valor). Si la clave es `"None"`, las variables se procesan sin normalizar.
-
-    - Ejemplo:  
-      ```json
-      {
-        "None": ["^agua.*"],
-        "conteo::total_datos": ["^accidente.*", "^secuelas_post_covid.*"]
-      }
-      ```
-      Esto selecciona todas las variables que empiezan con `"agua"` para procesar sin normalizar, y todas las que empiezan con `"accidente"` o `"secuelas_post_covid"` para procesar normalizadas por `"conteo::total_datos"`.
+- `"variables_a_procesar_regex_lugares"` / `"variables_a_procesar_regex_personas"`:  
+  Diccionario que indica pares de: variable utilizada como base de normalización (clave), y una lista de expresiones regulares para englobar variables a procesar (valor). Ejemplo:
+    ```json
+    {
+      "conteo::total_datos": ["^accidente.*"]
+    }
+    ```
 
 - `"q"`:  
   Número de categorías (cuantiles) en las que se dividirán las variables durante la categorización.
@@ -298,6 +316,10 @@ DB_USER=usuario
 DB_PASSWORD=contrasena
 DB_TABLE=nombre_de_tabla
 ```
+
+### Salida
+
+Este script automatiza la carga de datos procesados desde el archivo CSV del script de procesamiento hacia la base de datos PostgreSQL, implementando una normalización automática de tablas. Detecta y transforma tipos de datos avanzados de PostgreSQL, convirtiendo columnas con prefijo `cells_` en arreglos de enteros (`INTEGER[]`) y columnas `interval_` en rangos numéricos (`NUMRANGE`), adaptando formatos como "min:max" a la sintaxis nativa "[min,max)". Adicionalmente, optimiza el esquema separando los metadatos repetitivos en una tabla diccionario (`dict_<tabla>`) y vinculándolos a la tabla principal mediante una clave foránea (`dict_id`).
 
 ---
 
