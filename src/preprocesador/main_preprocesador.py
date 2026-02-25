@@ -121,13 +121,22 @@ if __name__ == '__main__':
     if valores_a_excluir is not None:
         if not isinstance(valores_a_excluir, list):
             raise TypeError('El valor asociado al campo valores_a_excluir debe ser de tipo list')
+            
+    # validaciones campo columna_diccionario_descripcion
+    columna_diccionario_descripcion = preprocesador_config.get('columna_diccionario_descripcion')
+    if columna_diccionario_descripcion is not None:
+        if not isinstance(columna_diccionario_descripcion, str):
+            raise TypeError('El valor asociado al campo columna_diccionario_descripcion debe ser de tipo str')
+        if columna_diccionario_descripcion not in diccionario_datos.columns:
+            print(f'Advertencia: El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_descripcion}.')
     
     # inicializar preprocesador
     preprocesador = Preprocesador(
         df=df, 
         diccionario_datos=diccionario_datos,
         columna_diccionario_nombres=columna_diccionario_nombres,
-        columna_diccionario_posibles_valores=columna_diccionario_posibles_valores
+        columna_diccionario_posibles_valores=columna_diccionario_posibles_valores,
+        columna_diccionario_descripcion=columna_diccionario_descripcion
     )
     
      # eliminar de cadenas vacias en el dataframe
@@ -145,152 +154,204 @@ if __name__ == '__main__':
             valores_a_excluir=valores_a_excluir
         )
 
-    # validaciones campo variables_identificadoras_list
-    if 'variables_identificadoras_list' not in preprocesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras_list')
-    variables_identificadoras_list = preprocesador_config['variables_identificadoras_list']
-    if not isinstance(variables_identificadoras_list, list):
-        raise TypeError('El valor asociado al campo variables_identificadoras_list debe ser de tipo list')
+    # validaciones campo variables_identificadoras_list_lugares
+    if 'variables_identificadoras_list_lugares' not in preprocesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_identificadoras_list_lugares')
+    variables_identificadoras_list_lugares = preprocesador_config['variables_identificadoras_list_lugares']
+    if not isinstance(variables_identificadoras_list_lugares, list):
+        raise TypeError('El valor asociado al campo variables_identificadoras_list_lugares debe ser de tipo list')
     
-    # validaciones campo variables_a_agrupar
-    if 'variables_a_agrupar' not in preprocesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_a_agrupar')
-    variables_a_agrupar = preprocesador_config['variables_a_agrupar']
-    if not isinstance(variables_a_agrupar, list):
-        raise TypeError('El valor asociado al campo variables_a_agrupar debe ser de tipo list')
+    # validaciones campo variables_a_agrupar_lugares
+    if 'variables_a_agrupar_lugares' not in preprocesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo variables_a_agrupar_lugares')
+    variables_a_agrupar_lugares = preprocesador_config['variables_a_agrupar_lugares']
+    if not isinstance(variables_a_agrupar_lugares, list):
+        raise TypeError('El valor asociado al campo variables_a_agrupar_lugares debe ser de tipo list')
     
     
-    # inicializar de listas para almacenar resultados y diccionarios de alias
-    resultados_dfs = []
-    resultados_alias = []
-    
-    # agregar conteo total de datos y su alias a las listas de resultados correspondientes
-    resultados_dfs.append(preprocesador.agrupar_total_datos(variables_id_agrupacion=variables_identificadoras_list))
-    resultados_alias.append(preprocesador.generar_alias_total_datos())
-    
-    # obtener elementos de la lista 'variables_a_agrupar'
-    for agrupacion in variables_a_agrupar:
+    # definicion de funcion para procesar agrupacion
+    def procesar_agrupacion(preprocesador, variables_identificadoras_list, variables_a_agrupar):
+        """
+        Ejecuta la logica de agrupacion para una lista de variables identificadoras y variables a agrupar.
+        Retorna el dataframe resultante y el diccionario de alias.
+        """
         
-        # validaciones elemento actual (agrupacion)
-        if not isinstance(agrupacion, dict):
-            raise TypeError('La lista asociada al campo preprocesamiento debe contener elementos de tipo dict')
+        # inicializar de listas para almacenar resultados y diccionarios de alias
+        resultados_dfs = []
+        resultados_alias = []
         
-        # validaciones subcampo tipo_variables
-        if 'tipo_variables' not in agrupacion.keys():
-            raise ValueError('El campo agrupacion debe tener una llave tipo_variables')
-        tipo_variables = agrupacion['tipo_variables']
-        print(f"Comenzando arupación de variables de tipo {tipo_variables}")
+        # agregar conteo total de datos y su alias a las listas de resultados correspondientes
+        resultados_dfs.append(preprocesador.agrupar_total_datos(variables_id_agrupacion=variables_identificadoras_list))
+        resultados_alias.append(preprocesador.generar_alias_total_datos())
         
-        # validaciones subcampo variables_a_agrupar_list
-        if 'variables_a_agrupar_list' not in agrupacion.keys():
-            raise ValueError('El campo agrupacion debe tener una llave variables_a_agrupar_list')
-        variables_a_agrupar_list = agrupacion['variables_a_agrupar_list']
-        
-        # validaciones subcampo variables_a_agrupar_regex
-        if 'variables_a_agrupar_regex' not in agrupacion.keys():
-            raise ValueError('El campo agrupacion debe tener una llave variables_a_agrupar_regex')
-        variables_a_agrupar_regex = agrupacion['variables_a_agrupar_regex']
-        
-        # campo opcional variables_a_agrupar_clasificacion_diccionario
-        variables_a_agrupar_clasificacion_diccionario = agrupacion.get('variables_a_agrupar_clasificacion_diccionario')
-        
-        # obtener variables a agrupar segun filtros variables_a_agrupar_list, variables_a_agrupar_regex y variables_a_agrupar_clasificacion_diccionario
-        # primero inicializando set para almacenar variables a agrupar, primero con los elementos de variables_a_agrupar_list
-        variables_a_agrupar_total = set(variables_a_agrupar_list)
-        
-        # evaluar regex en lista variables_a_agrupar_regex y agregar resultado a set
-        for regex in variables_a_agrupar_regex:
+        # obtener elementos de la lista 'variables_a_agrupar'
+        for agrupacion in variables_a_agrupar:
             
-            variables_a_agrupar_total = variables_a_agrupar_total | set(obtener_variables_regex_df(regex=regex, df=preprocesador.df))
+            # validaciones elemento actual (agrupacion)
+            if not isinstance(agrupacion, dict):
+                raise TypeError('La lista asociada al campo preprocesamiento debe contener elementos de tipo dict')
             
-        # obtener subcampo opcional variables_a_agrupar_clasificacion_diccionario
-        if variables_a_agrupar_clasificacion_diccionario is not None:
+            # validaciones subcampo tipo_variables
+            if 'tipo_variables' not in agrupacion.keys():
+                raise ValueError('El campo agrupacion debe tener una llave tipo_variables')
+            tipo_variables = agrupacion['tipo_variables']
+            print(f"Comenzando arupación de variables de tipo {tipo_variables}")
             
-            # este a su vez tiene subcampos 'columna_diccionario_filtro' y 'valores'
-            columna_diccionario_filtro = variables_a_agrupar_clasificacion_diccionario['columna_diccionario_filtro']
-            valores = variables_a_agrupar_clasificacion_diccionario['valores']
+            # validaciones subcampo variables_a_agrupar_list
+            if 'variables_a_agrupar_list' not in agrupacion.keys():
+                raise ValueError('El campo agrupacion debe tener una llave variables_a_agrupar_list')
+            variables_a_agrupar_list = agrupacion['variables_a_agrupar_list']
             
-            # obtener las filas del dataframe del diccionario donde su valor para la columna 'columna_diccionario_filtro'
-            # coincida con alguno de los elementos de la lista 'valores'
-            diccionario_filtrados = preprocesador.diccionario_datos.loc[preprocesador.diccionario_datos[columna_diccionario_filtro].isin(valores)]
+            # validaciones subcampo variables_a_agrupar_regex
+            if 'variables_a_agrupar_regex' not in agrupacion.keys():
+                raise ValueError('El campo agrupacion debe tener una llave variables_a_agrupar_regex')
+            variables_a_agrupar_regex = agrupacion['variables_a_agrupar_regex']
             
-            # a partir de las filas del diccionario obtener las variables filtradas en la columna 'columna_diccionario_nombres'
-            variables_filtradas_clasificacion_diccionario = [var for var in diccionario_filtrados[columna_diccionario_nombres] if var in preprocesador.df.columns]
+            # campo opcional variables_a_agrupar_clasificacion_diccionario
+            variables_a_agrupar_clasificacion_diccionario = agrupacion.get('variables_a_agrupar_clasificacion_diccionario')
             
-            # agregar variables filtradas a set
-            variables_a_agrupar_total = variables_a_agrupar_total | set(variables_filtradas_clasificacion_diccionario)
+            # obtener variables a agrupar segun filtros variables_a_agrupar_list, variables_a_agrupar_regex y variables_a_agrupar_clasificacion_diccionario
+            # primero inicializando set para almacenar variables a agrupar, primero con los elementos de variables_a_agrupar_list
+            variables_a_agrupar_total = set(variables_a_agrupar_list)
             
-        variables_a_agrupar_total = sorted(variables_a_agrupar_total)
-        
-        # imprimir en terminal lista de variables a agrupar
-        print(f"Variables a agrupar según filtros: {variables_a_agrupar_total}")
-        
-        if tipo_variables == 'categorico':
+            # evaluar regex en lista variables_a_agrupar_regex y agregar resultado a set
+            for regex in variables_a_agrupar_regex:
+                
+                variables_a_agrupar_total = variables_a_agrupar_total | set(obtener_variables_regex_df(regex=regex, df=preprocesador.df))
+                
+            # obtener subcampo opcional variables_a_agrupar_clasificacion_diccionario
+            if variables_a_agrupar_clasificacion_diccionario is not None:
+                
+                # este a su vez tiene subcampos 'columna_diccionario_filtro' y 'valores'
+                columna_diccionario_filtro = variables_a_agrupar_clasificacion_diccionario['columna_diccionario_filtro']
+                valores = variables_a_agrupar_clasificacion_diccionario['valores']
+                
+                # obtener las filas del dataframe del diccionario donde su valor para la columna 'columna_diccionario_filtro'
+                # coincida con alguno de los elementos de la lista 'valores'
+                diccionario_filtrados = preprocesador.diccionario_datos.loc[preprocesador.diccionario_datos[columna_diccionario_filtro].isin(valores)]
+                
+                # a partir de las filas del diccionario obtener las variables filtradas en la columna 'columna_diccionario_nombres'
+                variables_filtradas_clasificacion_diccionario = [var for var in diccionario_filtrados[columna_diccionario_nombres] if var in preprocesador.df.columns]
+                
+                # agregar variables filtradas a set
+                variables_a_agrupar_total = variables_a_agrupar_total | set(variables_filtradas_clasificacion_diccionario)
+                
+            variables_a_agrupar_total = sorted(variables_a_agrupar_total)
             
-            # agrupacion variables categoricas
-            df_agregado = preprocesador.agrupar_variables_categoricas(
-                variables_id_agrupacion=variables_identificadoras_list,
-                variables_a_agrupar=variables_a_agrupar_total
-            )
+            # imprimir en terminal lista de variables a agrupar
+            print(f"Variables a agrupar según filtros: {variables_a_agrupar_total}")
+            
+            if tipo_variables == 'categorico':
+                
+                # agrupacion variables categoricas
+                df_agregado = preprocesador.agrupar_variables_categoricas(
+                    variables_id_agrupacion=variables_identificadoras_list,
+                    variables_a_agrupar=variables_a_agrupar_total
+                )
 
-            # agregar agrupacion a lista de resultados correspondiente
-            resultados_dfs.append(df_agregado)
-        
-            # generar diccionario de alias para agrupacion
-            diccionario_alias = preprocesador.generar_alias_variables_categoricas(
-                variables=variables_a_agrupar_total, 
-                columna_diccionario_alias=columna_diccionario_alias, 
-                columna_diccionario_posibles_valores_alias=columna_diccionario_posibles_valores_alias
-            )
+                # agregar agrupacion a lista de resultados correspondiente
+                resultados_dfs.append(df_agregado)
             
-            # agregar diccionario de alias a lista de resultados correspondiente
-            resultados_alias.append(diccionario_alias)
-            
-        elif tipo_variables == 'numerico':
-            
-            # validacion subcampo operacion, solo cuando el subcampo tipo_variables es == 'numerico'
-            if 'operacion' not in agrupacion.keys():
-                raise ValueError('El campo agrupacion debe tener una llave operacion cuando se selecciona el valor numerico para tipo_variables')
-            operacion = agrupacion['operacion']
-            
-            # agrupacion variables numericas
-            df_agregado = preprocesador.agrupar_variables_numericas(
-                variables_id_agrupacion=variables_identificadoras_list,
-                variables_a_agrupar=variables_a_agrupar_total,
-                operacion=operacion
-            )
+                # generar diccionario de alias para agrupacion
+                diccionario_alias = preprocesador.generar_alias_variables_categoricas(
+                    variables=variables_a_agrupar_total, 
+                    columna_diccionario_alias=columna_diccionario_alias, 
+                    columna_diccionario_posibles_valores_alias=columna_diccionario_posibles_valores_alias
+                )
+                
+                # agregar diccionario de alias a lista de resultados correspondiente
+                resultados_alias.append(diccionario_alias)
+                
+            elif tipo_variables == 'numerico':
+                
+                # validacion subcampo operacion, solo cuando el subcampo tipo_variables es == 'numerico'
+                if 'operacion' not in agrupacion.keys():
+                    raise ValueError('El campo agrupacion debe tener una llave operacion cuando se selecciona el valor numerico para tipo_variables')
+                operacion = agrupacion['operacion']
+                
+                # agrupacion variables numericas
+                df_agregado = preprocesador.agrupar_variables_numericas(
+                    variables_id_agrupacion=variables_identificadoras_list,
+                    variables_a_agrupar=variables_a_agrupar_total,
+                    operacion=operacion
+                )
 
-            # agregar agrupacion a lista de resultados correspondiente
-            resultados_dfs.append(df_agregado)
+                # agregar agrupacion a lista de resultados correspondiente
+                resultados_dfs.append(df_agregado)
+                
+                # generar diccionario de alias para agrupacion
+                diccionario_alias = preprocesador.generar_alias_variables_numericas(
+                    variables=variables_a_agrupar_total, 
+                    columna_diccionario_alias=columna_diccionario_alias, 
+                    operacion=operacion
+                )
+                
+                # agregar diccionario de alias a lista de resultados correspondiente
+                resultados_alias.append(diccionario_alias)
+                
+            else:
+                raise ValueError('El valor de tipo_variables debe ser una de las cadenas: categorico, numerico')
             
-            # generar diccionario de alias para agrupacion
-            diccionario_alias = preprocesador.generar_alias_variables_numericas(
-                variables=variables_a_agrupar_total, 
-                columna_diccionario_alias=columna_diccionario_alias, 
-                operacion=operacion
+        # hacer join de todas las agrupaciones realizadas
+        join_dfs = functools.reduce(
+            lambda left, right: pd.merge(left, right, on=variables_identificadoras_list, how='inner'),
+            resultados_dfs
+        )
+        
+        # combinar diccionarios obtenidos por cada agrupacion
+        alias_final = {}
+        for d in resultados_alias:
+            alias_final.update(d)
+        
+        if columna_diccionario_descripcion is not None:
+            alias_df = pd.DataFrame(
+                [(k, v[0], v[1]) for k, v in alias_final.items()], 
+                columns=['variable', 'alias', 'descripcion']
             )
-            
-            # agregar diccionario de alias a lista de resultados correspondiente
-            resultados_alias.append(diccionario_alias)
-            
         else:
-            raise ValueError('El valor de tipo_variables debe ser una de las cadenas: categorico, numerico')
+            # Fallback if no description configured but tuple returned
+            alias_df = pd.DataFrame(
+                [(k, v[0] if isinstance(v, tuple) else v) for k, v in alias_final.items()], 
+                columns=['variable', 'alias']
+            )
         
-    # hacer join de todas las agrupaciones realizadas
-    join_dfs = functools.reduce(
-        lambda left, right: pd.merge(left, right, on=variables_identificadoras_list, how='inner'),
-        resultados_dfs
-    )
+        return join_dfs, alias_df
+
+    # --- PROCESAMIENTO LUGARES ---
+    print("--- Procesando Agrupación por Lugares ---")
+    join_dfs_lugares, alias_df_lugares = procesar_agrupacion(preprocesador, variables_identificadoras_list_lugares, variables_a_agrupar_lugares)
     
-    # combinar diccionarios obtenidos por cada agrupacion
-    alias_final = {}
-    for d in resultados_alias:
-        alias_final.update(d)
-    alias_df = pd.DataFrame(list(alias_final.items()), columns=['variable', 'alias'])
-    
-    # guardar resultados en archivos csv
-    join_dfs.to_csv(ruta_salida_dataset, index=False)
-    print(f'Archivo csv de datos preprocesados creado en la ruta {ruta_salida_dataset}')
-    alias_df.to_csv(ruta_salida_alias, index=False)
-    print(f'Archivo csv de alias creado en la ruta {ruta_salida_alias}')
+    # guardar resultados lugares
+    join_dfs_lugares.to_csv(ruta_salida_dataset, index=False)
+    print(f'Archivo csv de datos preprocesados (lugares) creado en la ruta {ruta_salida_dataset}')
+    alias_df_lugares.to_csv(ruta_salida_alias, index=False)
+    print(f'Archivo csv de alias (lugares) creado en la ruta {ruta_salida_alias}')
+
+    # --- PROCESAMIENTO PERSONAS (Opcional) ---
+    if 'variables_identificadoras_list_personas' in preprocesador_config and 'variables_a_agrupar_personas' in preprocesador_config:
+        print("--- Procesando Datos por Personas ---")
+        variables_identificadoras_list_personas = preprocesador_config['variables_identificadoras_list_personas']
+        variables_a_agrupar_personas = preprocesador_config['variables_a_agrupar_personas']
+        
+        if isinstance(variables_identificadoras_list_personas, list) and isinstance(variables_a_agrupar_personas, list):
+            
+            join_dfs_personas, alias_df_personas = procesar_agrupacion(preprocesador, variables_identificadoras_list_personas, variables_a_agrupar_personas)
+            
+            # Drop conteo::total_datos for records since it's redundant (always 1 for single records)
+            if 'conteo::total_datos' in join_dfs_personas.columns:
+                join_dfs_personas = join_dfs_personas.drop(columns=['conteo::total_datos'])
+            alias_df_personas = alias_df_personas[alias_df_personas['variable'] != 'conteo::total_datos']
+            
+            # generar rutas de salida para personas
+            ruta_salida_dataset_personas = ruta_salida_dataset.replace('.csv', '_personas.csv')
+            ruta_salida_alias_personas = ruta_salida_alias.replace('.csv', '_personas.csv')
+            
+            # guardar resultados personas
+            join_dfs_personas.to_csv(ruta_salida_dataset_personas, index=False)
+            print(f'Archivo csv de datos preprocesados (personas) creado en la ruta {ruta_salida_dataset_personas}')
+            alias_df_personas.to_csv(ruta_salida_alias_personas, index=False)
+            print(f'Archivo csv de alias (personas) creado en la ruta {ruta_salida_alias_personas}')
+        else:
+             print("Advertencia: claves de configuración para personas existen pero no son listas válidas.")
+
 

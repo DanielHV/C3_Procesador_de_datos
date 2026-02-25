@@ -12,7 +12,7 @@ class Procesador:
     realizando operaciones de normalización y categorización, para generar un nuevo archivo como resultado.
     Todos DataFrames que toma como atributos esta clase son generados por la clase Preprocesador.
     """
-    def __init__(self, dataframes_mallas:dict, dataframe_alias:pd.DataFrame, columna_dataframe_alias_nombres:str, columna_dataframe_alias_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list):
+    def __init__(self, dataframes_mallas:dict, dataframe_alias:pd.DataFrame, columna_dataframe_alias_nombres:str, columna_dataframe_alias_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list, columna_dataframe_alias_descripcion:str=None):
         """
         Inicializa el procesador validando los parámetros y configurando las variables a excluir.
 
@@ -82,6 +82,10 @@ class Procesador:
         # asignacion de atributos
         self.dataframes_mallas = dataframes_mallas
         self.alias = dict(zip(dataframe_alias[columna_dataframe_alias_alias], dataframe_alias[columna_dataframe_alias_nombres]))
+        self.descripcion = {}
+        if columna_dataframe_alias_descripcion and columna_dataframe_alias_descripcion in dataframe_alias.columns:
+            self.descripcion = dict(zip(dataframe_alias[columna_dataframe_alias_alias], dataframe_alias[columna_dataframe_alias_descripcion]))
+            
         self.variables_identificadoras = variables_identificadoras
         self.variables_excluidas = set(variables_excluidas_list)
         self.variables_faltantes_alias = []
@@ -315,6 +319,7 @@ class Procesador:
         resultado = {
             'name': [],
             'code': [],
+            'descripcion': [],
             'bin': []
         }
         
@@ -356,6 +361,7 @@ class Procesador:
         # obtener el nombre y código de la variable desde el diccionario de alias
         nombre = self.alias[var]
         codigo = var
+        descripcion = self.descripcion.get(var, pd.NA) if hasattr(self, 'descripcion') else pd.NA
         
         # inicializar diccionario para almacenar la lista de intervalos generados en cada malla de manera ordenada
         # el diccionario intervalos_ordenados_mallas se va a ver de la siguiente forma: 
@@ -423,9 +429,10 @@ class Procesador:
         # se eliminaran los bins donde ninguna malla haya generado un intervalo en ese bin (se tienen valores nulos pd.NA en las columnas de ese bin)
         for i in range(q+1):
             
-            # agregar name, code y bin al resultado
+            # agregar name, code, descripcion y bin al resultado
             resultado['name'].append(nombre)
             resultado['code'].append(codigo)
+            resultado['descripcion'].append(descripcion)
             resultado['bin'].append(i+1)
             
             for malla in mallas:

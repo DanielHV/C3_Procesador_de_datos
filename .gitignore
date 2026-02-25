@@ -106,7 +106,7 @@ ipython_config.py
 #   commonly ignored for libraries.
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
-#poetry.toml
+#poetry.toml*personas.csv
 
 # pdm
 #   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
@@ -207,3 +207,9 @@ marimo/_lsp/
 __marimo__/
 
 .DS_Store
+
+
+data/*personas.csv
+data/covid19/preprocessed/preprocesamiento_covid19_example_mun_personas.csv
+# Generated preprocessed data
+data/covid19/preprocessed/*.csv

@@ -8,7 +8,7 @@ class Preprocesador:
     conversión de tipos y agrupaciones, así como la generación de archivos de alias
     para la agrupación de dichas variables.
     """
-    def __init__(self, df:pd.DataFrame, diccionario_datos:pd.DataFrame, columna_diccionario_nombres:str, columna_diccionario_posibles_valores:str):
+    def __init__(self, df:pd.DataFrame, diccionario_datos:pd.DataFrame, columna_diccionario_nombres:str, columna_diccionario_posibles_valores:str, columna_diccionario_descripcion:str=None):
         """
         Inicializa el preprocesador con los datos y diccionario_datos.
 
@@ -42,6 +42,7 @@ class Preprocesador:
         self.diccionario_datos = diccionario_datos
         self.columna_diccionario_nombres = columna_diccionario_nombres
         self.columna_diccionario_posibles_valores = columna_diccionario_posibles_valores
+        self.columna_diccionario_descripcion = columna_diccionario_descripcion
         
         # eliminar columna 'Unnamed: 0' (esta existe cuando se tiene una primera columna de indices sin nombre)
         if 'Unnamed: 0' in self.df.columns:
@@ -183,9 +184,14 @@ class Preprocesador:
             posibles_valores = ast.literal_eval(fila[self.columna_diccionario_posibles_valores].values[0])
             posibles_valores_alias = ast.literal_eval(fila[columna_diccionario_posibles_valores_alias].values[0])
             
+            # obtener descripcion
+            descripcion = None
+            if self.columna_diccionario_descripcion and self.columna_diccionario_descripcion in fila.columns:
+                descripcion = fila[self.columna_diccionario_descripcion].values[0]
+            
             # generar alias para cada combinación de valor y alias
             for valor, valor_alias in zip(posibles_valores, posibles_valores_alias):
-                alias[f'{variable}-{valor}'] = f'{variable_alias}-{valor_alias}'
+                alias[f'{variable}-{valor}'] = (f'{variable_alias}-{valor_alias}', descripcion)
 
         return alias
     
@@ -230,8 +236,13 @@ class Preprocesador:
                 continue
             # obtener el alias de la variable desde el diccionario
             variable_alias = fila[columna_diccionario_alias].values[0]
+            # obtener descripcion
+            descripcion = None
+            if self.columna_diccionario_descripcion and self.columna_diccionario_descripcion in fila.columns:
+                descripcion = fila[self.columna_diccionario_descripcion].values[0]
+                
             # generar alias para la variable, representando la aplicación de la operación especificada
-            alias[f'{operacion}::{variable}'] = f'{operacion}::{variable_alias}'
+            alias[f'{operacion}::{variable}'] = (f'{operacion}::{variable_alias}', descripcion)
         
         return alias
     
@@ -243,7 +254,7 @@ class Preprocesador:
         Returns:
             dict: Diccionario de alias para la columna que representa el conteo total de datos.
         """
-        return {'conteo::total_datos':'conteo::total_datos'}
+        return {'conteo::total_datos': ('conteo::total_datos', 'Conteo total de datos en el grupo')}
 
 
     def agrupar_variables_categoricas(self, variables_id_agrupacion, variables_a_agrupar):
@@ -302,7 +313,7 @@ class Preprocesador:
             fill_value=0
         )
         
-        # convertir las columnas a enterios, sin contar las que se usaron como identificadores para agrupar
+        # convertir las columnas a enteros, sin contar las que se usaron como identificadores para agrupar
         columnas_conteos = [col for col in df_agregado.columns if col not in variables_id_agrupacion]
         for col in columnas_conteos:
             df_agregado[col] = df_agregado[col].astype(int)
