@@ -1,3 +1,4 @@
+import ast
 import os
 import argparse
 import json
@@ -5,6 +6,115 @@ import pandas as pd
 import functools
 from utils.regex_utils import obtener_variables_regex_df
 from preprocesador.preprocesador import Preprocesador
+
+
+def validar_diccionario(
+    diccionario_datos: pd.DataFrame,
+    df: pd.DataFrame,
+    columna_diccionario_nombres: str,
+    columna_diccionario_posibles_valores: str,
+    columna_diccionario_posibles_valores_alias: str = None,
+) -> None:
+    """
+    Verifica que el diccionario de datos cumple la especificación mínima requerida.
+
+    Checks:
+    1. Sin valores nulos en columna_diccionario_nombres.
+    2. Sin nombres de variable duplicados en columna_diccionario_nombres.
+    3. Para variables del diccionario presentes en el dataset: posibles_valores
+       debe ser una cadena que represente una lista Python (ast.literal_eval).
+    4. Si se usa columna_diccionario_posibles_valores_alias (distinta de posibles_valores):
+       sus listas deben tener la misma longitud que posibles_valores en cada fila.
+
+    Raises:
+        ValueError: Si alguna condición de la especificación no se cumple.
+    """
+    # 1. Sin nulos en nombres
+    nulos = diccionario_datos[columna_diccionario_nombres].isna().sum()
+    if nulos > 0:
+        raise ValueError(
+            f'La columna "{columna_diccionario_nombres}" del diccionario contiene '
+            f'{nulos} valor(es) nulo(s). Todos los nombres de variable deben estar definidos.'
+        )
+
+    # 2. Sin duplicados en nombres
+    mascara_dup = diccionario_datos[columna_diccionario_nombres].duplicated()
+    if mascara_dup.any():
+        vars_dup = diccionario_datos.loc[mascara_dup, columna_diccionario_nombres].tolist()
+        raise ValueError(
+            f'La columna "{columna_diccionario_nombres}" del diccionario contiene '
+            f'nombres de variable duplicados: {vars_dup}. '
+            f'Cada variable debe aparecer una única vez.'
+        )
+
+    # Filas del diccionario cuyas variables existen en el dataset (aplican checks 3 y 4)
+    vars_en_dataset = set(df.columns)
+    filas_activas = diccionario_datos[
+        diccionario_datos[columna_diccionario_nombres].isin(vars_en_dataset)
+    ]
+
+    if filas_activas.empty:
+        return  # Sin solapamiento entre dict y dataset; no aplican checks de contenido
+
+    # 3. posibles_valores son listas Python válidas (solo se valida si el valor parece un intento de lista)
+    errores_formato = []
+    for _, fila in filas_activas.iterrows():
+        valor = fila[columna_diccionario_posibles_valores]
+        if pd.isna(valor):
+            continue  # NaN = variable sin posibles_valores definidos, se omite
+        if not str(valor).strip().startswith('['):
+            continue  # texto plano (ej. descripción), no es un intento de lista, se omite
+        try:
+            parsed = ast.literal_eval(valor)
+            if not isinstance(parsed, list):
+                errores_formato.append((fila[columna_diccionario_nombres], valor, 'no es una lista'))
+        except (ValueError, SyntaxError) as e:
+            errores_formato.append((fila[columna_diccionario_nombres], valor, str(e)))
+
+    if errores_formato:
+        detalles = '\n'.join(
+            [f'  Variable "{v}": "{val}" → {err}' for v, val, err in errores_formato[:5]]
+        )
+        mas = f'\n  ... y {len(errores_formato) - 5} más' if len(errores_formato) > 5 else ''
+        raise ValueError(
+            f'La columna "{columna_diccionario_posibles_valores}" contiene '
+            f'{len(errores_formato)} valor(es) con formato inválido. '
+            f'Se esperan cadenas que representen listas Python (ej. "[1, 2, 3]"):\n{detalles}{mas}'
+        )
+
+    # 4. Longitudes de posibles_valores y posibles_valores_alias coinciden
+    if (
+        columna_diccionario_posibles_valores_alias
+        and columna_diccionario_posibles_valores_alias != columna_diccionario_posibles_valores
+    ):
+        errores_longitud = []
+        for _, fila in filas_activas.iterrows():
+            val = fila[columna_diccionario_posibles_valores]
+            val_alias = fila[columna_diccionario_posibles_valores_alias]
+            if pd.isna(val) or pd.isna(val_alias):
+                continue
+            try:
+                lista = ast.literal_eval(val)
+                lista_alias = ast.literal_eval(val_alias)
+                if len(lista) != len(lista_alias):
+                    errores_longitud.append(
+                        (fila[columna_diccionario_nombres], len(lista), len(lista_alias))
+                    )
+            except (ValueError, SyntaxError):
+                pass  # Ya capturado en check 3
+        if errores_longitud:
+            detalles = '\n'.join(
+                [f'  Variable "{v}": {n} posibles_valores vs {na} alias'
+                 for v, n, na in errores_longitud[:5]]
+            )
+            mas = f'\n  ... y {len(errores_longitud) - 5} más' if len(errores_longitud) > 5 else ''
+            raise ValueError(
+                f'Inconsistencia de longitud en {len(errores_longitud)} variable(s): '
+                f'las listas de "{columna_diccionario_posibles_valores}" y '
+                f'"{columna_diccionario_posibles_valores_alias}" deben tener '
+                f'el mismo número de elementos por fila:\n{detalles}{mas}'
+            )
+
 
 if __name__ == '__main__':
     """
@@ -130,6 +240,15 @@ if __name__ == '__main__':
         if columna_diccionario_descripcion not in diccionario_datos.columns:
             print(f'Advertencia: El DataFrame del diccionario de datos no tiene una columna llamada {columna_diccionario_descripcion}.')
     
+    # validar contenido del diccionario según especificación
+    validar_diccionario(
+        diccionario_datos=diccionario_datos,
+        df=df,
+        columna_diccionario_nombres=columna_diccionario_nombres,
+        columna_diccionario_posibles_valores=columna_diccionario_posibles_valores,
+        columna_diccionario_posibles_valores_alias=columna_diccionario_posibles_valores_alias,
+    )
+
     # inicializar preprocesador
     preprocesador = Preprocesador(
         df=df, 

@@ -10,6 +10,7 @@ Procesamiento de fuentes de datos heterogéneas de interés en el C3.
 C3_Procesador_de_datos/
 ├── data/                  # Datos de entrada y salida (raw, preprocessed, processed)
 ├── notebooks/             # Notebooks de generación de diccionarios de datos
+├── scripts/               # Scripts de transformación de datasets previo al preprocesamiento
 ├── src/
 │   ├── procesador/        # Clasificación y procesamiento de variables
 │   │   ├── procesador.py
@@ -320,6 +321,18 @@ DB_TABLE=nombre_de_tabla
 ### Salida
 
 Este script automatiza la carga de datos procesados desde el archivo CSV del script de procesamiento hacia la base de datos PostgreSQL, implementando una normalización automática de tablas. Detecta y transforma tipos de datos avanzados de PostgreSQL, convirtiendo columnas con prefijo `cells_` en arreglos de enteros (`INTEGER[]`) y columnas `interval_` en rangos numéricos (`NUMRANGE`), adaptando formatos como "min:max" a la sintaxis nativa "[min,max)". Adicionalmente, optimiza el esquema separando los metadatos repetitivos en una tabla diccionario (`dict_<tabla>`) y vinculándolos a la tabla principal mediante una clave foránea (`dict_id`).
+
+---
+
+## Scripts de transformación
+
+En la carpeta [`scripts/`](scripts/) se incluyen scripts de transformación de datasets crudos, pensados para ejecutarse como paso previo al preprocesamiento cuando la estructura original del dataset no es directamente compatible con el flujo principal.
+
+Cada script corresponde a una fuente de datos específica y genera un archivo transformado listo para ser procesado por el preprocesador.
+
+| Script | Dataset | Descripción |
+|---|---|---|
+| `transform_denue_muestra.py` | DENUE | Transforma el dataset transaccional del DENUE generando un `id` reversible a partir de coordenadas (base64), conservando `cve_mun_resumido` y construyendo `var` como `{codigo_act}_{year}` |
 
 ---
 

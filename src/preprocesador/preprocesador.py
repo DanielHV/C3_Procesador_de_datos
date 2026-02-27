@@ -134,10 +134,13 @@ class Preprocesador:
 
         # filtrar diccionario_datos para excluir las variables especificadas
         diccionario_datos_filtrado = self.diccionario_datos.loc[~self.diccionario_datos[columna_diccionario_filtro_excluir].isin(valores_a_excluir)]
-        # obtener las columnas filtradas que existen en el dataframe
-        columnas_filtradas = [col for col in diccionario_datos_filtrado[self.columna_diccionario_nombres] if col in self.df.columns]
-        # actualizar el dataframe manteniendo solo las columnas filtradas
-        self.df = self.df[columnas_filtradas]
+        # columnas del dataframe que no están en el diccionario (ej. identificadores) se conservan siempre
+        vars_en_diccionario = set(self.diccionario_datos[self.columna_diccionario_nombres])
+        columnas_fuera_diccionario = [col for col in self.df.columns if col not in vars_en_diccionario]
+        # columnas del diccionario filtrado que existen en el dataframe
+        columnas_en_diccionario_filtrado = [col for col in diccionario_datos_filtrado[self.columna_diccionario_nombres] if col in self.df.columns]
+        # actualizar el dataframe manteniendo columnas fuera del diccionario y las no excluidas del diccionario
+        self.df = self.df[columnas_fuera_diccionario + columnas_en_diccionario_filtrado]
         
     def generar_alias_variables_categoricas(self, variables:list, columna_diccionario_alias:str, columna_diccionario_posibles_valores_alias:str) -> dict:
         """
