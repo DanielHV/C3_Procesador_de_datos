@@ -298,12 +298,14 @@ El archivo de salida generado por el procesamiento es un archivo CSV en formato 
 
 ```sh
 cd src
-python conexion_base/conexion_base_datos.py --ruta-datos-procesados ../data/covid19/processed/procesamiento_covid19_example.csv --ruta-env ./.env --crear-tabla
+python conexion_base/conexion_base_datos.py --ruta-datos-lugares ../data/covid19/processed/procesamiento_covid19_example.csv --ruta-datos-personas ../data/covid19/processed/procesamiento_covid19_example_personas.csv --ruta-env ./.env --crear-tabla
 ```
 
-- `--ruta-datos-procesados`: Ruta del archivo generado en el paso de procesamiento.
-- `--ruta-env`: Ruta del archivo de configuración, por defecto `.`
-- `--crear-tabla`: No toma ningún valor, si se incluye, se crea la tabla especificada en caso de no existir en la base de datos.
+- `--ruta-datos-lugares`: Ruta del archivo de datos procesados de lugares (mallas) generado en el paso de procesamiento.
+- `--ruta-datos-personas`: Ruta del archivo de ensamble de personas generado en el paso de procesamiento. Al especificarse, los datos se cargan en tablas separadas con sufijo `_personas`.
+- `--ruta-datos-procesados`: (Deprecado) Ruta al archivo CSV con los datos procesados. Se asume que corresponde a datos de lugares si se usa.
+- `--ruta-env`: Ruta del archivo de configuración, por defecto `./.env`.
+- `--crear-tabla`: No toma ningún valor; si se incluye, se crean las tablas especificadas en caso de no existir en la base de datos.
 
 ### Archivo de configuración
 
