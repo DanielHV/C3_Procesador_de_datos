@@ -437,14 +437,17 @@ if __name__ == '__main__':
         return join_dfs, alias_df
 
     # --- PROCESAMIENTO LUGARES ---
-    print("--- Procesando Agrupación por Lugares ---")
-    join_dfs_lugares, alias_df_lugares = procesar_agrupacion(preprocesador, variables_identificadoras_list_lugares, variables_a_agrupar_lugares)
-    
-    # guardar resultados lugares
-    join_dfs_lugares.to_csv(ruta_salida_dataset, index=False)
-    print(f'Archivo csv de datos preprocesados (lugares) creado en la ruta {ruta_salida_dataset}')
-    alias_df_lugares.to_csv(ruta_salida_alias, index=False)
-    print(f'Archivo csv de alias (lugares) creado en la ruta {ruta_salida_alias}')
+    if variables_identificadoras_list_lugares:
+        print("--- Procesando Agrupación por Lugares ---")
+        join_dfs_lugares, alias_df_lugares = procesar_agrupacion(preprocesador, variables_identificadoras_list_lugares, variables_a_agrupar_lugares)
+
+        # guardar resultados lugares
+        join_dfs_lugares.to_csv(ruta_salida_dataset, index=False)
+        print(f'Archivo csv de datos preprocesados (lugares) creado en la ruta {ruta_salida_dataset}')
+        alias_df_lugares.to_csv(ruta_salida_alias, index=False)
+        print(f'Archivo csv de alias (lugares) creado en la ruta {ruta_salida_alias}')
+    else:
+        print("Advertencia: variables_identificadoras_list_lugares está vacío, se omite el procesamiento de lugares.")
 
     # --- PROCESAMIENTO PERSONAS (Opcional) ---
     if 'variables_identificadoras_list_personas' in preprocesador_config and 'variables_a_agrupar_personas' in preprocesador_config:
@@ -452,7 +455,7 @@ if __name__ == '__main__':
         variables_identificadoras_list_personas = preprocesador_config['variables_identificadoras_list_personas']
         variables_a_agrupar_personas = preprocesador_config['variables_a_agrupar_personas']
         
-        if isinstance(variables_identificadoras_list_personas, list) and isinstance(variables_a_agrupar_personas, list):
+        if isinstance(variables_identificadoras_list_personas, list) and len(variables_identificadoras_list_personas) > 0 and isinstance(variables_a_agrupar_personas, list):
             
             join_dfs_personas, alias_df_personas = procesar_agrupacion(preprocesador, variables_identificadoras_list_personas, variables_a_agrupar_personas)
             

@@ -40,20 +40,10 @@
         ]
     },
     "variables_identificadoras_personas": {
-        "mun": [
-            "UPM",
-            "VIVIENDA",
-            "HOGAR",
-            "NUMREN"
-        ]
     },
     "variables_excluidas_list_personas": [],
     "variables_excluidas_regex_personas": [],
     "variables_a_procesar_list_personas": {
-        "None": [
-            "conteo::total_datos"
-        ],
-        "conteo::total_datos": []
     },
     "variables_a_procesar_regex_personas": {},
     "q": 10

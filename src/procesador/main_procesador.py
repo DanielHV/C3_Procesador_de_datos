@@ -190,36 +190,39 @@ if __name__ == '__main__':
         raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_alias}')
     
     # --- PROCESAMIENTO LUGARES ---
-    print("--- Procesando Lugares ---")
-    resultado = ejecutar_procesamiento(
-        dataframes_mallas=dataframes_mallas,
-        dataframe_alias=dataframe_alias,
-        columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
-        columna_dataframe_alias_alias=columna_dataframe_alias_alias,
-        columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
-        variables_identificadoras=variables_identificadoras_lugares,
-        variables_excluidas_list=variables_excluidas_list_lugares,
-        variables_excluidas_regex=variables_excluidas_regex_lugares,
-        variables_a_procesar_list=variables_a_procesar_list_lugares,
-        variables_a_procesar_regex=variables_a_procesar_regex_lugares,
-        q=q
-    )
+    if variables_identificadoras_lugares:
+        print("--- Procesando Lugares ---")
+        resultado = ejecutar_procesamiento(
+            dataframes_mallas=dataframes_mallas,
+            dataframe_alias=dataframe_alias,
+            columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
+            columna_dataframe_alias_alias=columna_dataframe_alias_alias,
+            columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+            variables_identificadoras=variables_identificadoras_lugares,
+            variables_excluidas_list=variables_excluidas_list_lugares,
+            variables_excluidas_regex=variables_excluidas_regex_lugares,
+            variables_a_procesar_list=variables_a_procesar_list_lugares,
+            variables_a_procesar_regex=variables_a_procesar_regex_lugares,
+            q=q
+        )
 
-    # verificar duplicados en resultado
-    duplicados = resultado.duplicated(['code', 'bin'])
+        # verificar duplicados en resultado
+        duplicados = resultado.duplicated(['code', 'bin'])
 
-    # imprimir advertencia de duplicados en resultado
-    if duplicados.any():
-        print('Advertencia: el resultado del procesamiento contiene categorías duplicadas:')
-        print(resultado.loc[duplicados, ['code', 'bin']])
-        
-    # guardar resultado en archivo csv segun ruta_csv_salida
-    resultado.to_csv(ruta_csv_salida, index=False)
-    print(f'Archivo csv de datos procesados (lugares) creado en la ruta {ruta_csv_salida}')
+        # imprimir advertencia de duplicados en resultado
+        if duplicados.any():
+            print('Advertencia: el resultado del procesamiento contiene categorías duplicadas:')
+            print(resultado.loc[duplicados, ['code', 'bin']])
+
+        # guardar resultado en archivo csv segun ruta_csv_salida
+        resultado.to_csv(ruta_csv_salida, index=False)
+        print(f'Archivo csv de datos procesados (lugares) creado en la ruta {ruta_csv_salida}')
+    else:
+        print("Advertencia: variables_identificadoras_lugares está vacío, se omite el procesamiento de lugares.")
     
     # --- PROCESAMIENTO PERSONAS (Opcional) ---
 
-    if 'variables_identificadoras_personas' in procesador_config:
+    if 'variables_identificadoras_personas' in procesador_config and procesador_config.get('variables_identificadoras_personas'):
          print("--- Procesando Personas ---")
          
          # Obtener configuraciones de personas
