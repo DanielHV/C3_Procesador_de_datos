@@ -64,16 +64,8 @@ def ejecutar_procesamiento(
         resultado = procesamiento_regex
         
     if not resultado.empty:
-        resultado['variable_name'] = resultado['name'].apply(lambda x: x.split('-', 1)[0].strip() if '-' in str(x) else str(x).strip())
-        
-        # Sort values to ensure grouped re-indexing goes in order of appearance or logical order
-        resultado = resultado.sort_values(by=['variable_name', 'name', 'bin']).reset_index(drop=True)
-        
-        # Re-calculate bin based on variable_name rather than name-code combination
-        resultado['bin'] = resultado.groupby('variable_name').cumcount() + 1
-        
-        # Drop the temporary column
-        resultado = resultado.drop(columns=['variable_name'])
+        resultado = resultado.sort_values(by=['code', 'bin']).reset_index(drop=True)
+        resultado['bin'] = resultado.groupby('code').cumcount() + 1
         
     return resultado
 
