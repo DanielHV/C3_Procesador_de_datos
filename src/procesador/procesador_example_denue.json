@@ -2,8 +2,9 @@
     "rutas_csv_mallas": {
         "mun": "../data/denue/preprocessed/preprocesamiento_denue_example_mun.csv"
     },
+    "tipo_ensamble": "empresas",
     "rutas_csv_personas": {
-        "personas": "../data/denue/preprocessed/preprocesamiento_denue_example_mun_personas.csv"
+        "empresas": "../data/denue/preprocessed/preprocesamiento_denue_example_mun_empresas.csv"
     },
     "ruta_csv_dataframe_alias": "../data/denue/preprocessed/preprocesamiento_denue_alias_example_mun.csv",
     "ruta_csv_salida": "../data/denue/processed/procesamiento_denue_example.csv",
@@ -22,7 +23,7 @@
         "conteo::total_datos": ["\\d+_\\d{4}"]
     },
     "variables_identificadoras_personas": {
-        "personas": [
+        "empresas": [
             "id"
         ]
     },

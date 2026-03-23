@@ -23,7 +23,8 @@ if __name__ == "__main__":
     # definir flags de archivos de configuracion
     parser = argparse.ArgumentParser(description="Gestor de carga de datos procesados a base de datos")
     parser.add_argument("--ruta-datos-lugares", type=str, required=False, help="Ruta de los datos procesados de lugares (mallas) que serán cargados a la base de datos")
-    parser.add_argument("--ruta-datos-personas", type=str, required=False, help="Ruta de los datos procesados de personas que serán cargados a la base de datos")
+    parser.add_argument("--ruta-datos-personas", type=str, required=False, help="Ruta de los datos procesados del ensamble secundario que serán cargados a la base de datos")
+    parser.add_argument("--tipo-ensamble", type=str, default="personas", help="Tipo de ensamble secundario (e.g. 'personas', 'establecimientos'). Define el sufijo de la tabla en la base de datos (por defecto: 'personas')")
     parser.add_argument("--ruta-datos-procesados", type=str, required=False, help="(Deprecado) Ruta al archivo CSV con los datos procesados (se asume lugares si se usa)")
     parser.add_argument("--ruta-env", type=str, default='./.env', help="Ruta al archivo .env")
     parser.add_argument("--crear-tabla", action='store_true', help="Adicionalmente crea la tabla especificada en el archivo .env")
@@ -44,13 +45,13 @@ if __name__ == "__main__":
         else:
             raise FileNotFoundError(f"No se encontró el archivo de lugares: {ruta_lugares}")
 
-    # Cargar datos de personas
+    # Cargar datos del ensamble secundario
     if args.ruta_datos_personas:
         if os.path.exists(args.ruta_datos_personas):
-            dataframes['personas'] = pd.read_csv(args.ruta_datos_personas)
-            print(f"Cargado archivo de personas: {args.ruta_datos_personas}")
+            dataframes[args.tipo_ensamble] = pd.read_csv(args.ruta_datos_personas)
+            print(f"Cargado archivo de ensamble '{args.tipo_ensamble}': {args.ruta_datos_personas}")
         else:
-            raise FileNotFoundError(f"No se encontró el archivo de personas: {args.ruta_datos_personas}")
+            raise FileNotFoundError(f"No se encontró el archivo de ensamble '{args.tipo_ensamble}': {args.ruta_datos_personas}")
 
     if not os.path.exists(args.ruta_env):
         raise FileNotFoundError(f"No se encontró el archivo .env en la ruta: {args.ruta_env}")
@@ -172,13 +173,7 @@ if __name__ == "__main__":
             }
 
             for key, df in dataframes.items():
-                if key == 'mun':
-                    suffix = '_mun'
-                elif key == 'personas':
-                    suffix = '_personas'
-                else:
-                    suffix = '' # Fallback
-                
+                suffix = f'_{key}'
                 tabla_destino = f"{tabla_base}{suffix}"
                 tabla_dict = f"dict_{tabla_base}{suffix}"
                 

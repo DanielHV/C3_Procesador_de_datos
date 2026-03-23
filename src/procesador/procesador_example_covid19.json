@@ -42,6 +42,7 @@
             "^TIPO_PACIENTE.*"
         ]
     },
+    "tipo_ensamble": "personas",
     "variables_identificadoras_personas": {
         "personas": [
             "ID_REGISTRO"

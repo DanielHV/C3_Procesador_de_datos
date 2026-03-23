@@ -95,6 +95,7 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
     "variables_identificadoras_list_lugares" : ["ENTIDAD_RES", "MUNICIPIO_RES"],
     "variables_a_agrupar_lugares" : [ ... ],
 
+    "tipo_ensamble": "personas",
     "variables_identificadoras_list_personas" : ["ID_REGISTRO"],
     "variables_a_agrupar_personas": [ ... ]
 }
@@ -143,11 +144,14 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
     - `"variables_a_agrupar_regex"`: Lista de expresiones regulares para seleccionar variables a agrupar.
     - `"variables_a_agrupar_clasificacion_diccionario"`: (Opcional) Permite seleccionar variables automáticamente según una columna del diccionario de datos (por ejemplo, todas las variables cuyo valor en la columna `"var_type"` sea `"options"` o `"abierta"`).
 
-- `"variables_identificadoras_list_personas"` (Opcional):  
-  Lista de columnas que identifican de manera única cada registro individual (por ejemplo `["ID_REGISTRO"]`). Habilita la exportación adicional orientada a personas.
+- `"tipo_ensamble"` (Opcional):
+  Nombre del tipo de ensamble secundario. Define el sufijo que se usará en los archivos de salida (por ejemplo, `"personas"` genera `_personas.csv`, `"empresas"` genera `_empresas.csv`). Por defecto es `"personas"`. Debe especificarse cuando el dataset no contiene un ensamble estadístico de personas sino de otra entidad (empresas, establecimientos, viviendas, etc.).
+
+- `"variables_identificadoras_list_personas"` (Opcional):
+  Lista de columnas que identifican de manera única cada registro individual del ensamble secundario (por ejemplo `["ID_REGISTRO"]`, `["id"]`). Habilita la exportación adicional del ensamble secundario.
 
 - `"variables_a_agrupar_personas"` (Opcional):
-  Define la agrupación para los datos de personas, siguiendo la misma estructura que `"variables_a_agrupar_lugares"`.
+  Define la agrupación para los datos del ensamble secundario, siguiendo la misma estructura que `"variables_a_agrupar_lugares"`.
 
 
 ### Salida
@@ -211,6 +215,7 @@ Ejemplo: `config/procesador_example_ensanut.json`
         "conteo::total_datos": ["^TIPO_PACIENTE.*"]
     },
 
+    "tipo_ensamble": "personas",
     "variables_identificadoras_personas": {
         "personas": ["ID_REGISTRO"]
     },
@@ -230,17 +235,20 @@ Ejemplo: `config/procesador_example_ensanut.json`
 - `"rutas_csv_mallas"`:  
   Diccionario que indica las rutas a los archivos CSV de entrada para cada malla diferente (por ejemplo, `"mun"` para municipio). Cada clave es el nombre de la malla y el valor es la ruta al archivo correspondiente para lugares.
 
-- `"rutas_csv_personas"` (Opcional):  
-  Similar a `"rutas_csv_mallas"`, usado específicamente para las ejecuciones basadas en individuos/personas.
-  
-- `"ruta_csv_dataframe_alias"`:  
+- `"tipo_ensamble"` (Opcional):
+  Nombre del tipo de ensamble secundario. Define el sufijo del archivo de salida generado (por ejemplo, `"personas"` produce `_personas.csv`, `"empresas"` produce `_empresas.csv`). Por defecto es `"personas"`. La clave usada en `"rutas_csv_personas"` y `"variables_identificadoras_personas"` debe coincidir con este valor.
+
+- `"rutas_csv_personas"` (Opcional):
+  Diccionario que indica las rutas a los archivos CSV del ensamble secundario. La clave debe coincidir con el valor de `"tipo_ensamble"` (por ejemplo `{"personas": "..."}` o `{"empresas": "..."}`).
+
+- `"ruta_csv_dataframe_alias"`:
   Ruta al archivo CSV que contiene el dataframe de alias de variables y valores original, generado en el preprocesamiento de lugares.
 
-- `"ruta_csv_dataframe_alias_personas"` (Opcional):  
-  Ruta al archivo CSV que contiene el dataframe de alias originado por el preprocesamiento de personas. De no especificarse, se usará el alias general.
+- `"ruta_csv_dataframe_alias_personas"` (Opcional):
+  Ruta al archivo CSV que contiene el dataframe de alias originado por el preprocesamiento del ensamble secundario. De no especificarse, se usará el alias general.
 
-- `"ruta_csv_salida"`:  
-  Ruta base general de guardado para el archivo CSV con resultados. Un archivo `_personas.csv` se auto-generará si los campos de personas están definidos.
+- `"ruta_csv_salida"`:
+  Ruta base general de guardado para el archivo CSV con resultados. Un archivo con sufijo `_<tipo_ensamble>.csv` se auto-generará si los campos del ensamble secundario están definidos.
 
 - `"columna_dataframe_alias_nombres"`:  
   Nombre de la columna en el dataframe de alias que contiene los nombres descriptivos.
@@ -251,8 +259,8 @@ Ejemplo: `config/procesador_example_ensanut.json`
 - `"columna_dataframe_alias_descripcion"` (Opcional):  
   Nombre de la columna en el dataframe de alias que alberga información descriptiva ampliada. Al especificarse, el resultado mantendrá estas descripciones.
 
-- `"variables_identificadoras_lugares"` / `"variables_identificadoras_personas"`:  
-  Diccionario que mapea cada malla a una lista de columnas identificadoras únicas. Ej: `{"mun": ["ENTIDAD_RES", "MUNICIPIO_RES"]}`.
+- `"variables_identificadoras_lugares"` / `"variables_identificadoras_personas"`:
+  Diccionario que mapea cada malla a una lista de columnas identificadoras únicas. La clave en `"variables_identificadoras_personas"` debe coincidir con `"tipo_ensamble"`. Ej: `{"mun": ["ENTIDAD_RES", "MUNICIPIO_RES"]}` / `{"personas": ["ID_REGISTRO"]}`.
 
 - `"variables_excluidas_list_lugares"` / `"variables_excluidas_list_personas"`:  
   Lista explícita de variables (o columnas) a excluir del procesamiento.
@@ -298,11 +306,29 @@ El archivo de salida generado por el procesamiento es un archivo CSV en formato 
 
 ```sh
 cd src
-python conexion_base/conexion_base_datos.py --ruta-datos-lugares ../data/covid19/processed/procesamiento_covid19_example.csv --ruta-datos-personas ../data/covid19/processed/procesamiento_covid19_example_personas.csv --ruta-env ./.env --crear-tabla
+python conexion_base/conexion_base_datos.py \
+  --ruta-datos-lugares ../data/covid19/processed/procesamiento_covid19_example.csv \
+  --ruta-datos-personas ../data/covid19/processed/procesamiento_covid19_example_personas.csv \
+  --tipo-ensamble personas \
+  --ruta-env ./.env \
+  --crear-tabla
+```
+
+Para un dataset con ensamble de empresas (DENUE):
+
+```sh
+cd src
+python conexion_base/conexion_base_datos.py \
+  --ruta-datos-lugares ../data/denue/processed/procesamiento_denue_example.csv \
+  --ruta-datos-personas ../data/denue/processed/procesamiento_denue_example_empresas.csv \
+  --tipo-ensamble empresas \
+  --ruta-env ./.env \
+  --crear-tabla
 ```
 
 - `--ruta-datos-lugares`: Ruta del archivo de datos procesados de lugares (mallas) generado en el paso de procesamiento.
-- `--ruta-datos-personas`: Ruta del archivo de ensamble de personas generado en el paso de procesamiento. Al especificarse, los datos se cargan en tablas separadas con sufijo `_personas`.
+- `--ruta-datos-personas`: Ruta del archivo del ensamble secundario generado en el paso de procesamiento. Al especificarse, los datos se cargan en tablas separadas con sufijo `_<tipo-ensamble>`.
+- `--tipo-ensamble`: Nombre del tipo de ensamble secundario (por defecto `personas`). Define la clave interna y el sufijo de las tablas en la base de datos. Debe coincidir con el `tipo_ensamble` configurado en el procesador.
 - `--ruta-datos-procesados`: (Deprecado) Ruta al archivo CSV con los datos procesados. Se asume que corresponde a datos de lugares si se usa.
 - `--ruta-env`: Ruta del archivo de configuración, por defecto `./.env`.
 - `--crear-tabla`: No toma ningún valor; si se incluye, se crean las tablas especificadas en caso de no existir en la base de datos.
@@ -322,7 +348,9 @@ DB_TABLE=nombre_de_tabla
 
 ### Salida
 
-Este script automatiza la carga de datos procesados desde el archivo CSV del script de procesamiento hacia la base de datos PostgreSQL, implementando una normalización automática de tablas. Detecta y transforma tipos de datos avanzados de PostgreSQL, convirtiendo columnas con prefijo `cells_` en arreglos de enteros (`INTEGER[]`) y columnas `interval_` en rangos numéricos (`NUMRANGE`), adaptando formatos como "min:max" a la sintaxis nativa "[min,max)". Adicionalmente, optimiza el esquema separando los metadatos repetitivos en una tabla diccionario (`dict_<tabla>`) y vinculándolos a la tabla principal mediante una clave foránea (`dict_id`).
+Este script automatiza la carga de datos procesados desde los archivos CSV del paso de procesamiento hacia la base de datos PostgreSQL, implementando una normalización automática de tablas. Detecta y transforma tipos de datos avanzados de PostgreSQL, convirtiendo columnas con prefijo `cells_` en arreglos de enteros (`INTEGER[]`) y columnas `interval_` en rangos numéricos (`NUMRANGE`), adaptando formatos como "min:max" a la sintaxis nativa "[min,max)". Adicionalmente, optimiza el esquema separando los metadatos repetitivos en una tabla diccionario (`dict_<tabla>`) y vinculándolos a la tabla principal mediante una clave foránea (`dict_id`).
+
+Las tablas generadas para cada dataset siguen la convención `<DB_TABLE>_<tipo>`, donde `<tipo>` es `mun` para el ensamble de lugares y el valor de `--tipo-ensamble` para el ensamble secundario (por ejemplo `_personas`, `_empresas`). Lo mismo aplica para las tablas auxiliares `dict_<tabla>` y `values_<tabla>`.
 
 ---
 

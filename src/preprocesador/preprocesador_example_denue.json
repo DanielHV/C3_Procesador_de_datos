@@ -23,6 +23,7 @@
             ]
         }
     ],
+    "tipo_ensamble": "empresas",
     "variables_identificadoras_list_personas": [
         "id"
     ],

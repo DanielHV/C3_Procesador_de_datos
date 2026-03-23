@@ -449,31 +449,32 @@ if __name__ == '__main__':
     else:
         print("Advertencia: variables_identificadoras_list_lugares está vacío, se omite el procesamiento de lugares.")
 
-    # --- PROCESAMIENTO PERSONAS (Opcional) ---
+    # --- PROCESAMIENTO ENSAMBLE SECUNDARIO (Opcional) ---
     if 'variables_identificadoras_list_personas' in preprocesador_config and 'variables_a_agrupar_personas' in preprocesador_config:
-        print("--- Procesando Datos por Personas ---")
+        tipo_ensamble = preprocesador_config.get('tipo_ensamble', 'personas')
+        print(f"--- Procesando Datos por {tipo_ensamble} ---")
         variables_identificadoras_list_personas = preprocesador_config['variables_identificadoras_list_personas']
         variables_a_agrupar_personas = preprocesador_config['variables_a_agrupar_personas']
-        
+
         if isinstance(variables_identificadoras_list_personas, list) and len(variables_identificadoras_list_personas) > 0 and isinstance(variables_a_agrupar_personas, list):
-            
+
             join_dfs_personas, alias_df_personas = procesar_agrupacion(preprocesador, variables_identificadoras_list_personas, variables_a_agrupar_personas)
-            
+
             # Drop conteo::total_datos for records since it's redundant (always 1 for single records)
             if 'conteo::total_datos' in join_dfs_personas.columns:
                 join_dfs_personas = join_dfs_personas.drop(columns=['conteo::total_datos'])
             alias_df_personas = alias_df_personas[alias_df_personas['variable'] != 'conteo::total_datos']
-            
-            # generar rutas de salida para personas
-            ruta_salida_dataset_personas = ruta_salida_dataset.replace('.csv', '_personas.csv')
-            ruta_salida_alias_personas = ruta_salida_alias.replace('.csv', '_personas.csv')
-            
-            # guardar resultados personas
+
+            # generar rutas de salida usando el tipo de ensamble configurado
+            ruta_salida_dataset_personas = ruta_salida_dataset.replace('.csv', f'_{tipo_ensamble}.csv')
+            ruta_salida_alias_personas = ruta_salida_alias.replace('.csv', f'_{tipo_ensamble}.csv')
+
+            # guardar resultados
             join_dfs_personas.to_csv(ruta_salida_dataset_personas, index=False)
-            print(f'Archivo csv de datos preprocesados (personas) creado en la ruta {ruta_salida_dataset_personas}')
+            print(f'Archivo csv de datos preprocesados ({tipo_ensamble}) creado en la ruta {ruta_salida_dataset_personas}')
             alias_df_personas.to_csv(ruta_salida_alias_personas, index=False)
-            print(f'Archivo csv de alias (personas) creado en la ruta {ruta_salida_alias_personas}')
+            print(f'Archivo csv de alias ({tipo_ensamble}) creado en la ruta {ruta_salida_alias_personas}')
         else:
-             print("Advertencia: claves de configuración para personas existen pero no son listas válidas.")
+             print("Advertencia: claves de configuración para el ensamble secundario existen pero no son listas válidas.")
 
 

@@ -212,49 +212,43 @@ if __name__ == '__main__':
     else:
         print("Advertencia: variables_identificadoras_lugares está vacío, se omite el procesamiento de lugares.")
     
-    # --- PROCESAMIENTO PERSONAS (Opcional) ---
+    # --- PROCESAMIENTO ENSAMBLE SECUNDARIO (Opcional) ---
 
     if 'variables_identificadoras_personas' in procesador_config and procesador_config.get('variables_identificadoras_personas'):
-         print("--- Procesando Personas ---")
-         
-         # Obtener configuraciones de personas
+         tipo_ensamble = procesador_config.get('tipo_ensamble', 'personas')
+         print(f"--- Procesando {tipo_ensamble} ---")
+
+         # Obtener configuraciones de ensamble secundario
          variables_identificadoras_personas = procesador_config.get('variables_identificadoras_personas')
          variables_excluidas_list_personas = procesador_config.get('variables_excluidas_list_personas', [])
          variables_excluidas_regex_personas = procesador_config.get('variables_excluidas_regex_personas', [])
          variables_a_procesar_list_personas = procesador_config.get('variables_a_procesar_list_personas', None)
          variables_a_procesar_regex_personas = procesador_config.get('variables_a_procesar_regex_personas', None)
-         
-         # Obtener rutas de csv para personas
+
+         # Obtener rutas de csv para el ensamble secundario
          if 'rutas_csv_personas' not in procesador_config:
              raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_personas si se especifican variables_identificadoras_personas')
          rutas_csv_personas = procesador_config['rutas_csv_personas']
-         
-         # Cargar dataframes de personas
+
+         # Cargar dataframes del ensamble secundario
          dataframes_personas = {}
          for malla, ruta in rutas_csv_personas.items():
              if not os.path.exists(ruta):
                  raise FileNotFoundError(f'La ruta especificada para el archivo .csv de la malla {malla} no existe')
-             
+
              if malla not in variables_identificadoras_personas:
-                 raise ValueError(f'El diccionario de variables identificadoras (personas) no contiene la malla {malla}')
-             
+                 raise ValueError(f'El diccionario de variables identificadoras ({tipo_ensamble}) no contiene la malla {malla}')
+
              id_cols = variables_identificadoras_personas[malla]
              dtype_dict = {col: str for col in id_cols}
              dataframes_personas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
-             
-         # Cargar dataframe de alias para personas (opcional, fallback al general)
+
+         # Cargar dataframe de alias para el ensamble secundario (opcional, fallback al general)
          ruta_alias_personas = procesador_config.get('ruta_csv_dataframe_alias_personas')
          if ruta_alias_personas and os.path.exists(ruta_alias_personas):
              dataframe_alias_personas = pd.read_csv(ruta_alias_personas)
          else:
              dataframe_alias_personas = dataframe_alias
-
-         print("Personas shape:", dataframes_personas["personas"].shape)
-         print("Personas columns:", list(dataframes_personas["personas"].columns))
-         print("EDAD in personas?", "EDAD" in dataframes_personas["personas"].columns)
-
-         print("Alias personas shape:", dataframe_alias_personas.shape)
-         print("EDAD in alias?", (dataframe_alias_personas["variable"] == "EDAD").any())
 
          # Ejecutar procesamiento
          resultado_personas = ejecutar_procesamiento(
@@ -270,13 +264,13 @@ if __name__ == '__main__':
             variables_a_procesar_regex=variables_a_procesar_regex_personas,
             q=q
         )
-         
-         # Generar ruta de salida
-         ruta_csv_salida_personas = ruta_csv_salida.replace('.csv', '_personas.csv')
-         
-         # Guardar resultado personas
+
+         # Generar ruta de salida usando el tipo de ensamble configurado
+         ruta_csv_salida_personas = ruta_csv_salida.replace('.csv', f'_{tipo_ensamble}.csv')
+
+         # Guardar resultado
          resultado_personas.to_csv(ruta_csv_salida_personas, index=False)
-         print(f'Archivo csv de datos procesados (personas) creado en la ruta {ruta_csv_salida_personas}')
+         print(f'Archivo csv de datos procesados ({tipo_ensamble}) creado en la ruta {ruta_csv_salida_personas}')
 
     # imprimir tiempo total de ejecucion
     timestamp_fin = time.time()

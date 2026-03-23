@@ -37,6 +37,7 @@
             "variables_a_agrupar_regex": []
         }
     ],
+    "tipo_ensamble": "personas",
     "variables_identificadoras_list_personas": [
         "ID_REGISTRO"
     ],
