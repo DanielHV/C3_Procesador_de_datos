@@ -93,8 +93,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     # cargar archivo de configuracion
-    with open(args.config) as f:
-        procesador_config = json.load(f)
+    if not os.path.exists(args.config):
+        raise FileNotFoundError(f'No se encontró el archivo de configuración: {args.config}')
+    try:
+        with open(args.config) as f:
+            procesador_config = json.load(f)
+    except json.JSONDecodeError as e:
+        raise ValueError(f'El archivo de configuración {args.config} no es un JSON válido: {e}') from None
+    except PermissionError:
+        raise PermissionError(f'No hay permisos para leer el archivo de configuración: {args.config}') from None
     
 
     print("Configuración cargada:", procesador_config)

@@ -101,37 +101,43 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 }
 ```
 
-- `"ruta_csv_diccionario_datos"`:  
-  Ruta al archivo de diccionario de datos que describe las variables del dataset, sus tipos, valores posibles, alias, etc. Es necesario para la selección automática de variables y para la generación de diccionarios de alias.
-
-- `"ruta_csv_dataset"`:  
+- `"ruta_csv_dataset"` **(Obligatorio)**:
   Ruta al archivo de datos.
 
-- `"ruta_salida_dataset"`:  
+- `"ruta_csv_diccionario_datos"` **(Obligatorio)**:
+  Ruta al archivo de diccionario de datos que describe las variables del dataset, sus tipos, valores posibles, alias, etc. Es necesario para la selección automática de variables y para la generación de diccionarios de alias.
+
+- `"ruta_salida_dataset"` **(Obligatorio)**:
   Ruta donde se guardará el archivo de datos preprocesados y transformados, resultado de todas las operaciones y agrupaciones configuradas.
 
-- `"ruta_salida_alias"`:  
+- `"ruta_salida_alias"` **(Obligatorio)**:
   Ruta donde se guardará el dataframe de alias, que mapea nombres originales a alias o códigos.
 
-- `"columna_diccionario_nombres"` y `"columna_diccionario_posibles_valores"`:  
-  Nombres de las columnas en el archivo de diccionario de datos que contienen los nombres originales de las variables y sus valores posibles, respectivamente. Estas columnas son obligatorias.
+- `"columna_diccionario_nombres"` **(Obligatorio)**:
+  Nombre de la columna en el archivo de diccionario de datos que contiene los nombres originales de las variables.
 
-- `"columna_diccionario_alias"` y `"columna_diccionario_posibles_valores_alias"`:  
-  Nombres de las columnas en el archivo de diccionario de datos que contienen los alias de las variables y los alias de sus valores posibles, que serán utilizados para dar alias a los nombres originales en el diccionario. Estos campos son obligatorios, sin embargo, es posible establecer las mismas columnas con nombres originales como columnas de alias.
-  
-- `"columna_diccionario_descripcion"` (Opcional):  
+- `"columna_diccionario_posibles_valores"` **(Obligatorio)**:
+  Nombre de la columna en el archivo de diccionario de datos que contiene los valores posibles de cada variable.
+
+- `"columna_diccionario_alias"` (Opcional):
+  Nombre de la columna en el diccionario que contiene los alias de las variables. Si no se especifica, se usa `columna_diccionario_nombres`.
+
+- `"columna_diccionario_posibles_valores_alias"` (Opcional):
+  Nombre de la columna en el diccionario que contiene los alias de los valores posibles. Si no se especifica, se usa `columna_diccionario_posibles_valores`.
+
+- `"columna_diccionario_descripcion"` (Opcional):
   Nombre de la columna en el diccionario de datos que contiene la descripción o información textual de la variable. Estos datos se incluirán como una nueva columna en el archivo alias final.
 
-- `"columna_diccionario_tipos"` (Opcional):  
+- `"columna_diccionario_tipos"` (Opcional):
   Permite realizar conversiones de tipo cast para columnas.
 
-- `"columna_diccionario_filtro_excluir"` y `"valores_a_excluir"` (Opcionales):  
+- `"columna_diccionario_filtro_excluir"` y `"valores_a_excluir"` (Opcionales):
   Permiten establecer una columna del diccionario para filtrar basándose en una lista de valores específicos a excluir del preprocesamiento.
 
-- `"variables_identificadoras_list_lugares"`:  
+- `"variables_identificadoras_list_lugares"` **(Obligatorio)**:
   Lista de columnas que identifican de manera única cada grupo sobre el que se realizarán las agregaciones y transformaciones orientadas geográficamente o por "lugares" (por ejemplo, `["ENTIDAD_RES", "MUNICIPIO_RES"]`). El resultado tendrá una fila por cada combinación única de estos identificadores.
 
-- `"variables_a_agrupar_lugares"`:
+- `"variables_a_agrupar_lugares"` **(Obligatorio)**:
   Permite definir distintos tipos de agrupaciones sobre los datos originales para los lugares identificados, especificando para cada tipo de variable (por ejemplo, categórica o numérica) cómo se deben agrupar y resumir los datos. Cada elemento de la lista es un diccionario que define:
 
     - `"tipo_variables"`: El tipo de variable a agrupar (`"categorico"` para variables de opciones, `"numerico"` para variables continuas).
@@ -232,7 +238,7 @@ Ejemplo: `config/procesador_example_ensanut.json`
 }
 ```
 
-- `"rutas_csv_mallas"`:  
+- `"rutas_csv_mallas"` **(Obligatorio)**:
   Diccionario que indica las rutas a los archivos CSV de entrada para cada malla diferente (por ejemplo, `"mun"` para municipio). Cada clave es el nombre de la malla y el valor es la ruta al archivo correspondiente para lugares.
 
 - `"tipo_ensamble"` (Opcional):
@@ -241,34 +247,35 @@ Ejemplo: `config/procesador_example_ensanut.json`
 - `"rutas_csv_personas"` (Opcional):
   Diccionario que indica las rutas a los archivos CSV del ensamble secundario. La clave debe coincidir con el valor de `"tipo_ensamble"` (por ejemplo `{"personas": "..."}` o `{"empresas": "..."}`).
 
-- `"ruta_csv_dataframe_alias"`:
+- `"ruta_csv_dataframe_alias"` **(Obligatorio)**:
   Ruta al archivo CSV que contiene el dataframe de alias de variables y valores original, generado en el preprocesamiento de lugares.
 
 - `"ruta_csv_dataframe_alias_personas"` (Opcional):
   Ruta al archivo CSV que contiene el dataframe de alias originado por el preprocesamiento del ensamble secundario. De no especificarse, se usará el alias general.
 
-- `"ruta_csv_salida"`:
+- `"ruta_csv_salida"` **(Obligatorio)**:
   Ruta base general de guardado para el archivo CSV con resultados. Un archivo con sufijo `_<tipo_ensamble>.csv` se auto-generará si los campos del ensamble secundario están definidos.
 
-- `"columna_dataframe_alias_nombres"`:  
+- `"columna_dataframe_alias_nombres"` **(Obligatorio)**:
   Nombre de la columna en el dataframe de alias que contiene los nombres descriptivos.
 
-- `"columna_dataframe_alias_alias"`:  
+- `"columna_dataframe_alias_alias"` **(Obligatorio)**:
   Nombre de la columna en el dataframe de alias que contiene los alias o nombres cortos.
 
 - `"columna_dataframe_alias_descripcion"` (Opcional):  
   Nombre de la columna en el dataframe de alias que alberga información descriptiva ampliada. Al especificarse, el resultado mantendrá estas descripciones.
 
-- `"variables_identificadoras_lugares"` / `"variables_identificadoras_personas"`:
+- `"variables_identificadoras_lugares"` **(Obligatorio)** / `"variables_identificadoras_personas"` (Opcional):
   Diccionario que mapea cada malla a una lista de columnas identificadoras únicas. La clave en `"variables_identificadoras_personas"` debe coincidir con `"tipo_ensamble"`. Ej: `{"mun": ["ENTIDAD_RES", "MUNICIPIO_RES"]}` / `{"personas": ["ID_REGISTRO"]}`.
 
-- `"variables_excluidas_list_lugares"` / `"variables_excluidas_list_personas"`:  
+- `"variables_excluidas_list_lugares"` / `"variables_excluidas_list_personas"` (Opcionales):
   Lista explícita de variables (o columnas) a excluir del procesamiento.
 
-- `"variables_excluidas_regex_lugares"` / `"variables_excluidas_regex_personas"`:  
+- `"variables_excluidas_regex_lugares"` / `"variables_excluidas_regex_personas"` (Opcionales):
   Lista de expresiones regulares para excluir variables cuyo nombre coincida con algún patrón especificado.
 
-- `"variables_a_procesar_list_lugares"` / `"variables_a_procesar_list_personas"`:  
+- `"variables_a_procesar_list_lugares"` / `"variables_a_procesar_list_personas"` (al menos uno de `_list` o `_regex` para lugares es **Obligatorio**):
+
   Diccionario que indica pares de: variable utilizada como base de normalización (clave), y una lista explícita de variables a procesar (valor). Si la clave es `"None"`, las variables se procesan sin normalizar. Ejemplo:
     ```json
     {
@@ -277,7 +284,8 @@ Ejemplo: `config/procesador_example_ensanut.json`
     }
     ```
 
-- `"variables_a_procesar_regex_lugares"` / `"variables_a_procesar_regex_personas"`:  
+- `"variables_a_procesar_regex_lugares"` / `"variables_a_procesar_regex_personas"` (al menos uno de `_list` o `_regex` para lugares es **Obligatorio**):
+
   Diccionario que indica pares de: variable utilizada como base de normalización (clave), y una lista de expresiones regulares para englobar variables a procesar (valor). Ejemplo:
     ```json
     {
@@ -285,7 +293,7 @@ Ejemplo: `config/procesador_example_ensanut.json`
     }
     ```
 
-- `"q"`:  
+- `"q"` **(Obligatorio)**:
   Número de categorías (cuantiles) en las que se dividirán las variables durante la categorización.
 
 ### Salida
