@@ -234,6 +234,9 @@ Ejemplo: `config/procesador_example_ensanut.json`
         "None": ["^CLASIFICACION_FINAL_COVID.*"]
     },
 
+    "variables_a_procesar_list_presencia": ["MIGRANTE-1"],
+    "variables_a_procesar_regex_presencia": ["^CLASIFICACION_FINAL_COVID.*"],
+
     "q": 10
 }
 ```
@@ -293,18 +296,38 @@ Ejemplo: `config/procesador_example_ensanut.json`
     }
     ```
 
+- `"variables_a_procesar_list_presencia"` (Opcional):
+
+  Lista explícita de variables a procesar mediante presencia. Para cada variable, se genera una fila en el archivo de salida con la lista de lugares cuyo valor en esa variable es **mayor o igual a 1** en la salida del preprocesamiento. A diferencia del procesamiento por cuantiles, no se realiza normalización ni categorización: el resultado es una lista directa de entidades con presencia. Ejemplo:
+    ```json
+    ["MIGRANTE-1", "OBESIDAD-1"]
+    ```
+
+- `"variables_a_procesar_regex_presencia"` (Opcional):
+
+  Lista de expresiones regulares para seleccionar variables a procesar mediante presencia. Funciona igual que `variables_a_procesar_list_presencia`, pero las variables se identifican por coincidencia de patrón en lugar de por nombre explícito. Ejemplo:
+    ```json
+    ["^CLASIFICACION_FINAL_COVID.*"]
+    ```
+
 - `"q"` **(Obligatorio)**:
   Número de categorías (cuantiles) en las que se dividirán las variables durante la categorización.
 
 ### Salida
 
-El archivo de salida generado por el procesamiento es un archivo CSV en formato largo, donde cada fila representa una categoría (bin) de una variable procesada para una malla específica (el número de filas por variable será igual al número de categorías (`q`) más una posible fila adicional para "Sin clasificar"). La estructura general incluye las siguientes columnas:
+El archivo de salida generado por el procesamiento es un archivo CSV en formato largo. Incluye dos tipos de filas:
+
+**Filas de cuantiles** (procesamiento estándar): cada fila representa una categoría (bin) de una variable procesada. El número de filas por variable será igual al número de categorías (`q`), más una posible fila adicional para valores sin clasificar.
+
+**Filas de presencia** (procesamiento de presencia): cada fila representa una variable procesada con `variables_a_procesar_list_presencia` o `variables_a_procesar_regex_presencia`. El código de la variable lleva el sufijo `::presencia` para distinguirla de las variables de cuantiles. Estas filas no tienen bin ni intervalo asociado.
+
+La estructura de columnas es:
 
 - **name**: Nombre descriptivo de la variable procesada (según el diccionario de alias).
-- **code**: Alias o código de la variable procesada.
-- **bin**: Número de la categoría o bin asignado (por ejemplo, 1 a q, donde q es el número de cuantiles).
-- **interval_{malla}**: Intervalo numérico o de porcentaje correspondiente a la categoría para cada malla (por ejemplo, `interval_mun`).
-- **cells_{malla}**: Conjunto de entidades (por ejemplo, municipios) que pertenecen a ese intervalo/categoría para la malla correspondiente.
+- **code**: Alias o código de la variable procesada. Para variables de presencia incluye el sufijo `::presencia` (por ejemplo, `MIGRANTE-1::presencia`).
+- **bin**: Número de la categoría o bin asignado (1 a `q`). Nulo para filas de presencia.
+- **interval_{malla}**: Intervalo numérico o de porcentaje correspondiente a la categoría para cada malla (por ejemplo, `interval_mun`). Nulo para filas de presencia.
+- **cells_{malla}**: Conjunto de entidades (por ejemplo, municipios) que pertenecen a ese intervalo/categoría, o bien que tienen valor ≥ 1 en el caso de filas de presencia.
 
 ---
 
