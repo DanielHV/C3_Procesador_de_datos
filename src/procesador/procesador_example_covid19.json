@@ -42,6 +42,12 @@
             "^TIPO_PACIENTE.*"
         ]
     },
+    "variables_a_procesar_list_presencia": [
+        "MIGRANTE-1"
+    ],
+    "variables_a_procesar_regex_presencia": [
+        "^CLASIFICACION_FINAL_COVID.*"
+    ],
     "tipo_ensamble": "personas",
     "variables_identificadoras_personas": {
         "personas": [

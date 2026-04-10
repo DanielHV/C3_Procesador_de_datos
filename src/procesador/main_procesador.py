@@ -6,6 +6,60 @@ import time
 from procesador.procesador import Procesador
 
 
+def ejecutar_procesamiento_presencia(
+    dataframes_mallas,
+    dataframe_alias,
+    columna_dataframe_alias_nombres,
+    columna_dataframe_alias_alias,
+    columna_dataframe_alias_descripcion,
+    variables_identificadoras,
+    variables_excluidas_list,
+    variables_excluidas_regex,
+    variables_a_procesar_list_presencia,
+    variables_a_procesar_regex_presencia,
+):
+    """
+    Ejecuta el flujo de procesamiento de presencia: para cada variable, genera la lista
+    de lugares con valor >= 1 en la salida del preprocesamiento, sin categorizar en bins.
+    """
+    procesador = Procesador(
+        dataframes_mallas=dataframes_mallas,
+        dataframe_alias=dataframe_alias,
+        columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
+        columna_dataframe_alias_alias=columna_dataframe_alias_alias,
+        columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+        variables_identificadoras=variables_identificadoras,
+        variables_excluidas_list=variables_excluidas_list,
+        variables_excluidas_regex=variables_excluidas_regex,
+    )
+
+    mallas = list(dataframes_mallas.keys())
+    resultados = []
+
+    if variables_a_procesar_list_presencia:
+        df_list = procesador.procesar_multiples_variables_list_presencia(
+            mallas=mallas,
+            lista_vars=variables_a_procesar_list_presencia,
+        )
+        if not df_list.empty:
+            resultados.append(df_list)
+
+    if variables_a_procesar_regex_presencia:
+        df_regex = procesador.procesar_multiples_variables_regex_presencia(
+            mallas=mallas,
+            regex_list=variables_a_procesar_regex_presencia,
+        )
+        if not df_regex.empty:
+            resultados.append(df_regex)
+
+    if not resultados:
+        return pd.DataFrame()
+
+    resultado = pd.concat(resultados, ignore_index=True)
+    resultado = resultado.drop_duplicates(subset=['code']).sort_values(by='code').reset_index(drop=True)
+    return resultado
+
+
 def ejecutar_procesamiento(
     dataframes_mallas,
     dataframe_alias,
@@ -205,6 +259,29 @@ if __name__ == '__main__':
             q=q
         )
 
+        # --- PROCESAMIENTO PRESENCIA (Opcional) ---
+
+        variables_a_procesar_list_presencia = procesador_config.get('variables_a_procesar_list_presencia', None)
+        variables_a_procesar_regex_presencia = procesador_config.get('variables_a_procesar_regex_presencia', None)
+
+        if variables_a_procesar_list_presencia is not None or variables_a_procesar_regex_presencia is not None:
+            print("--- Procesando Presencia ---")
+            resultado_presencia = ejecutar_procesamiento_presencia(
+                dataframes_mallas=dataframes_mallas,
+                dataframe_alias=dataframe_alias,
+                columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
+                columna_dataframe_alias_alias=columna_dataframe_alias_alias,
+                columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+                variables_identificadoras=variables_identificadoras_lugares,
+                variables_excluidas_list=variables_excluidas_list_lugares,
+                variables_excluidas_regex=variables_excluidas_regex_lugares,
+                variables_a_procesar_list_presencia=variables_a_procesar_list_presencia,
+                variables_a_procesar_regex_presencia=variables_a_procesar_regex_presencia,
+            )
+
+            if not resultado_presencia.empty:
+                resultado = pd.concat([resultado, resultado_presencia], ignore_index=True)
+
         # verificar duplicados en resultado
         duplicados = resultado.duplicated(['code', 'bin'])
 
@@ -218,7 +295,7 @@ if __name__ == '__main__':
         print(f'Archivo csv de datos procesados (lugares) creado en la ruta {ruta_csv_salida}')
     else:
         print("Advertencia: variables_identificadoras_lugares está vacío, se omite el procesamiento de lugares.")
-    
+
     # --- PROCESAMIENTO ENSAMBLE SECUNDARIO (Opcional) ---
 
     if 'variables_identificadoras_personas' in procesador_config and procesador_config.get('variables_identificadoras_personas'):

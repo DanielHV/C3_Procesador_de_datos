@@ -22,6 +22,10 @@
     "variables_a_procesar_regex_lugares": {
         "conteo::total_datos": ["\\d+_\\d{4}"]
     },
+    "variables_a_procesar_list_presencia": [],
+    "variables_a_procesar_regex_presencia": [
+        "\\d+_\\d{4}"
+    ],
     "variables_identificadoras_personas": {
         "empresas": [
             "id"

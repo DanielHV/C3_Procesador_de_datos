@@ -39,6 +39,12 @@
             "^secuelas_post_covid.*"
         ]
     },
+    "variables_a_procesar_list_presencia": [
+        "salud_tiene_obesidad-1"
+    ],
+    "variables_a_procesar_regex_presencia": [
+        "^agua.*"
+    ],
     "variables_identificadoras_personas": {
     },
     "variables_excluidas_list_personas": [],

@@ -466,6 +466,189 @@ class Procesador:
         
         return df_resultado[~bins_nulos].reset_index(drop=True)
     
+    def procesar_variable_presencia(self, mallas:list, var:str) -> pd.DataFrame:
+        """
+        Procesa una variable de presencia: para cada malla, genera la lista de entidades
+        cuyo valor en la variable es >= 1.
+
+        Args:
+            mallas (list): Lista de mallas (DataFrames) donde se procesará la variable.
+            var (str): Nombre de la variable a procesar.
+
+        Returns:
+            pd.DataFrame: DataFrame con una fila para la variable, con columnas name, code,
+                descripcion y cells_<malla> por cada malla.
+
+        Raises:
+            TypeError: Si los parámetros no son del tipo esperado.
+            ValueError: Si la variable no existe en ninguna de las mallas especificadas.
+        """
+        # validaciones mallas
+        if not isinstance(mallas, list):
+            raise TypeError('El parámetro mallas debe ser de tipo list')
+        for malla in mallas:
+            if not isinstance(malla, str):
+                raise TypeError('Los elementos del parámetro mallas deben ser de tipo str')
+            if malla not in self.dataframes_mallas.keys():
+                raise ValueError(f'La malla {malla} no es válida, pues no fue proporcionado un DataFrame para esta')
+
+        # validaciones var
+        if not isinstance(var, str):
+            raise TypeError('El parámetro var debe ser de tipo str')
+        if var in self.variables_excluidas:
+            raise ValueError(f'La variable {var} está en la lista de variables excluidas')
+
+        # verificar que var exista en al menos una malla
+        if all(var not in self.dataframes_mallas[malla].columns for malla in mallas):
+            raise ValueError(f'La variable {var} no existe en ninguno de los DataFrames de las mallas especificadas')
+
+        # obtener nombre, código y descripción desde el diccionario de alias
+        nombre = self.alias[var]
+        codigo = f'{var}::presencia'
+        descripcion = self.descripcion.get(var, pd.NA) if hasattr(self, 'descripcion') else pd.NA
+
+        resultado = {
+            'name': [nombre],
+            'code': [codigo],
+            'descripcion': [descripcion],
+            'bin': [pd.NA],
+        }
+
+        for malla in mallas:
+            resultado[f'interval_{malla}'] = [pd.NA]
+
+        for malla in mallas:
+            if var not in self.dataframes_mallas[malla].columns:
+                print(f'La variable {var} no existe en el DataFrame de la malla {malla}')
+                resultado[f'cells_{malla}'] = [pd.NA]
+                continue
+
+            df = self.dataframes_mallas[malla]
+
+            # identificar filas donde el valor de la variable es >= 1
+            valores_numericos = pd.to_numeric(df[var], errors='coerce').fillna(0)
+            mascara = valores_numericos >= 1
+
+            # construir la cadena identificadora de cada entidad con presencia
+            entidades = [
+                "".join(str(df.iloc[i][col]) for col in self.variables_identificadoras[malla])
+                for i in df.index[mascara]
+            ]
+
+            resultado[f'cells_{malla}'] = [self.__list_a_postgres_array(entidades) if entidades else pd.NA]
+
+        return pd.DataFrame(resultado)
+
+    def procesar_multiples_variables_list_presencia(self, mallas:list, lista_vars:list) -> pd.DataFrame:
+        """
+        Procesa múltiples variables de presencia utilizando una lista explícita de nombres de variables.
+
+        Args:
+            mallas (list): Lista de mallas (DataFrames) donde se procesarán las variables.
+            lista_vars (list): Lista de variables a procesar.
+
+        Returns:
+            pd.DataFrame: DataFrame con los resultados del procesamiento de presencia.
+
+        Raises:
+            TypeError: Si los parámetros no son del tipo esperado.
+            ValueError: Si los parámetros no cumplen con los requisitos.
+        """
+        # validaciones mallas
+        if not isinstance(mallas, list):
+            raise TypeError('El parámetro mallas debe ser de tipo list')
+        for malla in mallas:
+            if not isinstance(malla, str):
+                raise TypeError('Los elementos del parámetro mallas deben ser de tipo str')
+            if malla not in self.dataframes_mallas.keys():
+                raise ValueError(f'La malla {malla} no es válida, pues no fue proporcionado un DataFrame para esta')
+
+        # validaciones lista_vars
+        if not isinstance(lista_vars, list):
+            raise TypeError('El parámetro lista_vars debe ser de tipo list')
+
+        totales = len(lista_vars)
+        print(f"Total de variables de presencia a procesar (con lista explícita): {totales}")
+
+        variables_procesadas = []
+        contador = 0
+
+        for var in lista_vars:
+            if not isinstance(var, str):
+                raise TypeError('Los elementos de lista_vars deben ser de tipo str')
+
+            contador += 1
+
+            if var in self.variables_excluidas:
+                print(f"- {contador}/{totales} La variable '{var}' está en la lista de variables excluidas, no se procesará")
+                continue
+
+            print(f"- Procesando variable de presencia {contador}/{totales}: '{var}'")
+            variables_procesadas.append(self.procesar_variable_presencia(mallas=mallas, var=var))
+
+        return pd.concat(variables_procesadas, ignore_index=True) if variables_procesadas else pd.DataFrame()
+
+    def procesar_multiples_variables_regex_presencia(self, mallas:list, regex_list:list) -> pd.DataFrame:
+        """
+        Procesa múltiples variables de presencia utilizando expresiones regulares para seleccionarlas.
+
+        Args:
+            mallas (list): Lista de mallas (DataFrames) donde se procesarán las variables.
+            regex_list (list): Lista de expresiones regulares para seleccionar variables.
+
+        Returns:
+            pd.DataFrame: DataFrame con los resultados del procesamiento de presencia.
+
+        Raises:
+            TypeError: Si los parámetros no son del tipo esperado.
+            ValueError: Si los parámetros no cumplen con los requisitos.
+        """
+        # validaciones mallas
+        if not isinstance(mallas, list):
+            raise TypeError('El parámetro mallas debe ser de tipo list')
+        for malla in mallas:
+            if not isinstance(malla, str):
+                raise TypeError('Los elementos del parámetro mallas deben ser de tipo str')
+            if malla not in self.dataframes_mallas.keys():
+                raise ValueError(f'La malla {malla} no es válida, pues no fue proporcionado un DataFrame para esta')
+
+        # validaciones regex_list
+        if not isinstance(regex_list, list) or not all(isinstance(r, str) for r in regex_list):
+            raise TypeError('El parámetro regex_list debe ser una lista de strings (regex)')
+        for regex in regex_list:
+            try:
+                re.compile(regex)
+            except re.error:
+                raise ValueError(f'La expresión regular {regex} no es válida')
+
+        # combinar todas las regex en una sola y obtener variables coincidentes
+        regex_combinada = "|".join(f"(?:{r})" for r in regex_list)
+        variables_obtenidas = set()
+        for malla in mallas:
+            variables_obtenidas |= set(obtener_variables_regex_df(self.dataframes_mallas[malla], regex_combinada))
+
+        if not variables_obtenidas:
+            print(f'Ninguna expresión regular en la lista {regex_list} coincide con alguna variable en los DataFrames')
+            return pd.DataFrame()
+
+        totales = len(variables_obtenidas)
+        print(f"Total de variables de presencia a procesar (con lista de expresiones regulares): {totales}")
+
+        variables_procesadas = []
+        contador = 0
+
+        for var in sorted(variables_obtenidas):
+            contador += 1
+
+            if var in self.variables_excluidas:
+                print(f"- {contador}/{totales} La variable '{var}' está en la lista de variables excluidas, no se procesará")
+                continue
+
+            print(f"- Procesando variable de presencia {contador}/{totales}: '{var}'")
+            variables_procesadas.append(self.procesar_variable_presencia(mallas=mallas, var=var))
+
+        return pd.concat(variables_procesadas, ignore_index=True) if variables_procesadas else pd.DataFrame()
+
     def procesar_multiples_variables_list(self, mallas:list, dicc:dict, q:int=10) -> dict:
         """
         Procesa múltiples variables utilizando listas explícitas de nombres de variables.
