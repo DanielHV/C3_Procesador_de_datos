@@ -12,18 +12,19 @@ class Procesador:
     realizando operaciones de normalización y categorización, para generar un nuevo archivo como resultado.
     Todos DataFrames que toma como atributos esta clase son generados por la clase Preprocesador.
     """
-    def __init__(self, dataframes_mallas:dict, dataframe_alias:pd.DataFrame, columna_dataframe_alias_nombres:str, columna_dataframe_alias_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list, columna_dataframe_alias_descripcion:str=None):
+    def __init__(self, dataframes_mallas:dict, dataframe_diccionario:pd.DataFrame, columna_diccionario_nombres:str, columna_diccionario_alias:str, variables_identificadoras:dict, variables_excluidas_list:list, variables_excluidas_regex:list, columna_diccionario_descripcion:str=None):
         """
         Inicializa el procesador validando los parámetros y configurando las variables a excluir.
 
         Args:
             dataframes_mallas (dict): Diccionario {malla: DataFrame}.
-            dataframe_alias (pd.DataFrame): DataFrame con alias de variables.
-            columna_alias_nombres (str): Nombre de columna con nombres descriptivos.
-            columna_alias_alias (str): Nombre de columna con alias de variables.
+            dataframe_diccionario (pd.DataFrame): Diccionario de datos derivado generado por el preprocesador.
+            columna_diccionario_nombres (str): Columna con los nombres de variable que coinciden con las columnas de los DataFrames de las mallas.
+            columna_diccionario_alias (str): Columna con la versión legible (alias) de cada variable.
             variables_identificadoras (dict): Diccionario de variables identificadoras por malla.
             variables_excluidas_list (list): Lista de variables a excluir (explícitamente).
             variables_excluidas_regex (list): Lista de variables a excluir (por expresión regular).
+            columna_diccionario_descripcion (str, opcional): Columna con la descripción de cada variable.
 
         Raises:
             TypeError: Si los parámetros no son del tipo esperado.
@@ -36,20 +37,20 @@ class Procesador:
             raise TypeError('Las llaves del diccionario dataframes_mallas deben ser de tipo str')
         if not all(isinstance(valor, pd.DataFrame) for valor in dataframes_mallas.values()):
             raise TypeError('Los valores del diccionario dataframes_mallas deben ser de tipo pd.DataFrame')
-        
-        # validaciones dataframe_alias
-        if not isinstance(dataframe_alias, pd.DataFrame):
-            raise TypeError('El valor del parámetro diccionario_variables debe ser de tipo dict')
-        
-        # validaciones columnas_dataframe_alias_nombres y columnas_dataframe_alias_alias
-        if not isinstance(columna_dataframe_alias_nombres, str):
-            raise TypeError('El valor del parámetro columna_dataframe_alias_nombres debe ser de tipo str')
-        if not isinstance(columna_dataframe_alias_alias, str):
-            raise TypeError('El valor del parámetro columna_diccionario_alias_alias debe ser de tipo str')
-        if columna_dataframe_alias_nombres not in dataframe_alias.columns:
-            raise ValueError(f'El DataFrame de alias debe contener una columna con nombre {columna_dataframe_alias_nombres} para identificar el nombre descriptivo de cada variable')
-        if columna_dataframe_alias_alias not in dataframe_alias.columns:
-            raise ValueError(f'El DataFrame de alias debe contener una columna con nombre {columna_dataframe_alias_alias} para identificar el alias de cada variable')
+
+        # validaciones dataframe_diccionario
+        if not isinstance(dataframe_diccionario, pd.DataFrame):
+            raise TypeError('El valor del parámetro dataframe_diccionario debe ser de tipo pd.DataFrame')
+
+        # validaciones columna_diccionario_nombres y columna_diccionario_alias
+        if not isinstance(columna_diccionario_nombres, str):
+            raise TypeError('El valor del parámetro columna_diccionario_nombres debe ser de tipo str')
+        if not isinstance(columna_diccionario_alias, str):
+            raise TypeError('El valor del parámetro columna_diccionario_alias debe ser de tipo str')
+        if columna_diccionario_nombres not in dataframe_diccionario.columns:
+            raise ValueError(f'El DataFrame de diccionario debe contener una columna con nombre {columna_diccionario_nombres} para identificar el nombre de cada variable')
+        if columna_diccionario_alias not in dataframe_diccionario.columns:
+            raise ValueError(f'El DataFrame de diccionario debe contener una columna con nombre {columna_diccionario_alias} para identificar el alias de cada variable')
         
         # validaciones variables_identificadoras
         if not isinstance(variables_identificadoras, dict):
@@ -81,10 +82,11 @@ class Procesador:
         
         # asignacion de atributos
         self.dataframes_mallas = dataframes_mallas
-        self.alias = dict(zip(dataframe_alias[columna_dataframe_alias_alias], dataframe_alias[columna_dataframe_alias_nombres]))
+        # mapeo: nombre que coincide con la columna del dataset -> alias legible
+        self.alias = dict(zip(dataframe_diccionario[columna_diccionario_nombres], dataframe_diccionario[columna_diccionario_alias]))
         self.descripcion = {}
-        if columna_dataframe_alias_descripcion and columna_dataframe_alias_descripcion in dataframe_alias.columns:
-            self.descripcion = dict(zip(dataframe_alias[columna_dataframe_alias_alias], dataframe_alias[columna_dataframe_alias_descripcion]))
+        if columna_diccionario_descripcion and columna_diccionario_descripcion in dataframe_diccionario.columns:
+            self.descripcion = dict(zip(dataframe_diccionario[columna_diccionario_nombres], dataframe_diccionario[columna_diccionario_descripcion]))
             
         self.variables_identificadoras = variables_identificadoras
         self.variables_excluidas = set(variables_excluidas_list)

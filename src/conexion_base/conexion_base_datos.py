@@ -151,6 +151,20 @@ if __name__ == "__main__":
         df['values_id'] = df_vals['id']
         dataframes[key] = df
 
+    # construir mapeo variable_name -> conjunto de ensambles donde aparece
+    # (cruzando todos los df_vars de cada ensamble cargado en `dataframes`)
+    variable_to_grids = {}
+    for grid_key, dicts in df_dicts.items():
+        for var_name in dicts['vars']['variable_name']:
+            variable_to_grids.setdefault(var_name, set()).add(grid_key)
+
+    # serializar el conjunto a literal de array de PostgreSQL '{a,b}' por variable, en cada df_vars
+    for grid_key in df_dicts:
+        df_vars_grid = df_dicts[grid_key]['vars']
+        df_vars_grid['available_grids'] = df_vars_grid['variable_name'].apply(
+            lambda v: '{' + ','.join(sorted(variable_to_grids.get(v, set()))) + '}'
+        )
+
     # conexion postgres
     with psycopg.connect(
         host = os.getenv("DB_HOST"),
@@ -188,20 +202,23 @@ if __name__ == "__main__":
                     CREATE TABLE IF NOT EXISTS {tabla_dict} (
                         id INTEGER PRIMARY KEY,
                         variable_name TEXT,
-                        description TEXT
+                        description TEXT,
+                        available_grids TEXT[]
                     );
                     """
                     cursor.execute(create_dict_sql)
+                    # asegurar que la columna available_grids exista cuando la tabla ya estaba creada con el esquema previo
+                    cursor.execute(f"ALTER TABLE {tabla_dict} ADD COLUMN IF NOT EXISTS available_grids TEXT[];")
                     cursor.execute(f"TRUNCATE TABLE {tabla_dict} CASCADE;")
 
                 # Insertar datos vars
                 buffer_vars = StringIO()
-                df_vars[['id', 'variable_name', 'description']].to_csv(buffer_vars, index=False, header=True)
+                df_vars[['id', 'variable_name', 'description', 'available_grids']].to_csv(buffer_vars, index=False, header=True)
                 buffer_vars.seek(0)
-                
+
                 with cursor.copy(sql.SQL("COPY {} ({}) FROM STDIN WITH CSV HEADER").format(
                     sql.Identifier(tabla_dict),
-                    sql.SQL("id, variable_name, description")
+                    sql.SQL("id, variable_name, description, available_grids")
                 )) as copy:
                     copy.write(buffer_vars.getvalue())
                 

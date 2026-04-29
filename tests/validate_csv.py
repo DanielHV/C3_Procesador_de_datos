@@ -7,24 +7,24 @@ import ast
 import json
 
 
-DATAFRAME_ALIAS_PATH = os.getenv("ruta_csv_dataframe_alias")
+DICCIONARIO_PATH = os.getenv("ruta_csv_diccionario_datos")
 CSV_OUTPUT_PATH = os.getenv("ruta_csv_salida")
-COLUMN_ALIAS_NAME = os.getenv("columna_dataframe_alias_nombres")
-COLUMN_ALIAS = os.getenv("columna_dataframe_alias_alias")
-COLUMN_ALIAS_DESCRIPTION = os.getenv("columna_dataframe_alias_descripcion")
+COLUMN_DICCIONARIO_NOMBRES = os.getenv("columna_diccionario_nombres")
+COLUMN_DICCIONARIO_ALIAS = os.getenv("columna_diccionario_alias", "alias")
+COLUMN_DICCIONARIO_DESCRIPCION = os.getenv("columna_diccionario_descripcion")
 
 GRID_CSV_PATH = json.loads(os.getenv("rutas_csv_mallas"))
 GRID_CSV_MUN_PATH = GRID_CSV_PATH["mun"]
 
 grid_df = pd.read_csv(GRID_CSV_MUN_PATH)
-alias_df = pd.read_csv(DATAFRAME_ALIAS_PATH)
+diccionario_df = pd.read_csv(DICCIONARIO_PATH)
 
 
 ###VERIFY ALL FILES AVAILABLE
 
-def test_dataframe_alias_file_exists():
-    assert DATAFRAME_ALIAS_PATH is not None, "ruta_csv_dataframe_alias is not set"
-    assert os.path.exists(DATAFRAME_ALIAS_PATH), f"File not found: {DATAFRAME_ALIAS_PATH}"
+def test_diccionario_file_exists():
+    assert DICCIONARIO_PATH is not None, "ruta_csv_diccionario_datos is not set"
+    assert os.path.exists(DICCIONARIO_PATH), f"File not found: {DICCIONARIO_PATH}"
 
 def test_mallas_mun_file_exists():
     assert GRID_CSV_MUN_PATH is not None, "rutas_csv_mallas.mun is not set"
@@ -32,28 +32,28 @@ def test_mallas_mun_file_exists():
 
 ### VERIFY INTEGRITY OF CSV
 
-def test_dataframe_alias_has_column_nombres():
-    assert COLUMN_ALIAS_NAME in alias_df.columns, f"Column '{COLUMN_ALIAS_NAME}' not found"
+def test_diccionario_has_column_nombres():
+    assert COLUMN_DICCIONARIO_NOMBRES in diccionario_df.columns, f"Column '{COLUMN_DICCIONARIO_NOMBRES}' not found"
 
-def test_dataframe_alias_has_column_alias():
-    assert COLUMN_ALIAS in alias_df.columns, f"Column '{COLUMN_ALIAS}' not found"
+def test_diccionario_has_column_alias():
+    assert COLUMN_DICCIONARIO_ALIAS in diccionario_df.columns, f"Column '{COLUMN_DICCIONARIO_ALIAS}' not found"
 
-def test_dataframe_alias_has_column_descripcion():
-    assert COLUMN_ALIAS_DESCRIPTION in alias_df.columns, f"Column '{COLUMN_ALIAS_DESCRIPTION}' not found"
+def test_diccionario_has_column_descripcion():
+    assert COLUMN_DICCIONARIO_DESCRIPCION in diccionario_df.columns, f"Column '{COLUMN_DICCIONARIO_DESCRIPCION}' not found"
 
 
 ### VERIFY THAT THE ROWS IN CSV EXISTS IN MUNICIPALES
-# def test_alias_var_columns_exist_in_mallas():
-#     expected_columns = alias_df[COLUMN_ALIAS_NAME].tolist()
+# def test_diccionario_var_columns_exist_in_mallas():
+#     expected_columns = diccionario_df[COLUMN_DICCIONARIO_NOMBRES].tolist()
 #     missing = [col for col in expected_columns if col not in grid_df.columns]
 #     assert not missing, f"Missing columns in mallas: {missing}"
 #
 
 ### VERIFY VALUES IN RANGE
-def test_alias_var_values_within_range():
+def test_diccionario_var_values_within_range():
     errors = []
-    for _, row in alias_df.iterrows():
-        column = row[COLUMN_ALIAS_NAME]
+    for _, row in diccionario_df.iterrows():
+        column = row[COLUMN_DICCIONARIO_NOMBRES]
         values = ast.literal_eval(row["Values"])
 
         if values.get("is_category") == "true":

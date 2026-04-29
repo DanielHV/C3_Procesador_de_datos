@@ -260,6 +260,111 @@ class Preprocesador:
         return {'conteo::total_datos': ('conteo::total_datos', 'Conteo total de datos en el grupo')}
 
 
+    def generar_diccionario_derivado(self, variables_categoricas:list, variables_numericas_operaciones:dict, columna_diccionario_alias:str, columna_diccionario_posibles_valores_alias:str) -> pd.DataFrame:
+        """
+        Genera un diccionario de datos derivado donde cada variable original agrupada se sustituye
+        por las variables que se generan tras la agrupación. Cada variable categórica se expande en
+        N filas (una por posible valor, con nombre 'variable-valor'), y cada variable numérica se expande
+        en una fila por operación aplicada (con nombre 'operacion::variable'). Las demás columnas del
+        diccionario se copian de la fila de la variable original.
+
+        Se agrega una columna 'alias' con la versión legible de cada variable derivada
+        ('variable_alias-valor_alias' para categóricas, 'operacion::variable_alias' para numéricas) y
+        una fila adicional para 'conteo::total_datos'.
+
+        Las columnas de posibles valores y posibles valores alias se sustituyen por '[]' en las filas
+        derivadas, dado que las nuevas variables son numéricas (conteos para categóricas, resultado de
+        operación para numéricas). Las variables que no fueron agrupadas se omiten del diccionario derivado.
+
+        Args:
+            variables_categoricas (list): Variables categóricas que fueron agrupadas en el preprocesamiento.
+            variables_numericas_operaciones (dict): Mapeo {variable: [operaciones]} de variables numéricas
+                agrupadas y las operaciones aplicadas a cada una.
+            columna_diccionario_alias (str): Columna del diccionario con los alias de variables.
+            columna_diccionario_posibles_valores_alias (str): Columna del diccionario con los alias
+                de los posibles valores.
+
+        Returns:
+            pd.DataFrame: Diccionario derivado, con las mismas columnas que self.diccionario_datos
+                más una columna 'alias'.
+
+        Raises:
+            TypeError: Si los parámetros no son del tipo esperado.
+        """
+        # validaciones variables_categoricas
+        if not isinstance(variables_categoricas, list):
+            raise TypeError('El parámetro variables_categoricas debe ser de tipo list')
+
+        # validaciones variables_numericas_operaciones
+        if not isinstance(variables_numericas_operaciones, dict):
+            raise TypeError('El parámetro variables_numericas_operaciones debe ser de tipo dict')
+
+        # validaciones columna_diccionario_alias
+        if not isinstance(columna_diccionario_alias, str):
+            raise TypeError('El parámetro columna_diccionario_alias debe ser de tipo str')
+
+        # validaciones columna_diccionario_posibles_valores_alias
+        if not isinstance(columna_diccionario_posibles_valores_alias, str):
+            raise TypeError('El parámetro columna_diccionario_posibles_valores_alias debe ser de tipo str')
+
+        filas_derivadas = []
+
+        # variables categoricas: una fila por cada posible valor, con nombre 'variable-valor'
+        for variable in variables_categoricas:
+            fila = self.diccionario_datos[self.diccionario_datos[self.columna_diccionario_nombres] == variable]
+            if fila.empty:
+                continue
+            fila = fila.iloc[0]
+            posibles_valores = ast.literal_eval(fila[self.columna_diccionario_posibles_valores])
+            posibles_valores_alias = ast.literal_eval(fila[columna_diccionario_posibles_valores_alias])
+            variable_alias = fila[columna_diccionario_alias]
+
+            for valor, valor_alias in zip(posibles_valores, posibles_valores_alias):
+                nueva = fila.copy()
+                # el nombre debe coincidir con la columna del dataset preprocesado (formato 'variable-valor'),
+                # mientras que la columna 'alias' usa la forma legible (variable_alias-valor_alias).
+                nueva[self.columna_diccionario_nombres] = f'{variable}-{valor}'
+                if columna_diccionario_alias != self.columna_diccionario_nombres:
+                    nueva[columna_diccionario_alias] = f'{variable_alias}-{valor_alias}'
+                # las variables derivadas son numéricas (conteos), por lo que no tienen posibles valores
+                nueva[self.columna_diccionario_posibles_valores] = '[]'
+                if columna_diccionario_posibles_valores_alias != self.columna_diccionario_posibles_valores:
+                    nueva[columna_diccionario_posibles_valores_alias] = '[]'
+                nueva['alias'] = f'{variable_alias}-{valor_alias}'
+                filas_derivadas.append(nueva)
+
+        # variables numericas: una fila por cada operacion aplicada, con nombre 'operacion::variable'
+        for variable, operaciones in variables_numericas_operaciones.items():
+            fila = self.diccionario_datos[self.diccionario_datos[self.columna_diccionario_nombres] == variable]
+            if fila.empty:
+                continue
+            fila = fila.iloc[0]
+            variable_alias = fila[columna_diccionario_alias]
+
+            for operacion in operaciones:
+                nueva = fila.copy()
+                nueva[self.columna_diccionario_nombres] = f'{operacion}::{variable}'
+                if columna_diccionario_alias != self.columna_diccionario_nombres:
+                    nueva[columna_diccionario_alias] = f'{operacion}::{variable_alias}'
+                nueva['alias'] = f'{operacion}::{variable_alias}'
+                filas_derivadas.append(nueva)
+
+        # fila para conteo::total_datos
+        fila_total = pd.Series({col: pd.NA for col in self.diccionario_datos.columns})
+        fila_total[self.columna_diccionario_nombres] = 'conteo::total_datos'
+        if columna_diccionario_alias != self.columna_diccionario_nombres:
+            fila_total[columna_diccionario_alias] = 'conteo::total_datos'
+        fila_total[self.columna_diccionario_posibles_valores] = '[]'
+        if columna_diccionario_posibles_valores_alias != self.columna_diccionario_posibles_valores:
+            fila_total[columna_diccionario_posibles_valores_alias] = '[]'
+        if self.columna_diccionario_descripcion and self.columna_diccionario_descripcion in self.diccionario_datos.columns:
+            fila_total[self.columna_diccionario_descripcion] = 'Conteo total de datos en el grupo'
+        fila_total['alias'] = 'conteo::total_datos'
+        filas_derivadas.append(fila_total)
+
+        return pd.DataFrame(filas_derivadas).reset_index(drop=True)
+
+
     def agrupar_variables_categoricas(self, variables_id_agrupacion, variables_a_agrupar):
         """
         Agrupa y cuenta las combinaciones de variable-posible_valor por identificadores de agrupación.
