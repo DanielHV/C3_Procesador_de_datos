@@ -6,11 +6,11 @@
     "rutas_csv_personas": {
         "empresas": "../data/denue/preprocessed/preprocesamiento_denue_example_mun_empresas.csv"
     },
-    "ruta_csv_dataframe_alias": "../data/denue/preprocessed/preprocesamiento_denue_alias_example_mun.csv",
+    "ruta_csv_diccionario_datos": "../data/denue/preprocessed/preprocesamiento_denue_diccionario_datos_example_mun.csv",
     "ruta_csv_salida": "../data/denue/processed/procesamiento_denue_example.csv",
-    "columna_dataframe_alias_nombres": "alias",
-    "columna_dataframe_alias_alias": "variable",
-    "columna_dataframe_alias_descripcion": "descripcion",
+    "columna_diccionario_nombres": "var",
+    "columna_diccionario_alias": "alias",
+    "columna_diccionario_descripcion": "description",
     "variables_identificadoras_lugares": {
         "mun": ["cve_mun_resumido"]
     },

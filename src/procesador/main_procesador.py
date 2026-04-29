@@ -8,10 +8,10 @@ from procesador.procesador import Procesador
 
 def ejecutar_procesamiento_presencia(
     dataframes_mallas,
-    dataframe_alias,
-    columna_dataframe_alias_nombres,
-    columna_dataframe_alias_alias,
-    columna_dataframe_alias_descripcion,
+    dataframe_diccionario,
+    columna_diccionario_nombres,
+    columna_diccionario_alias,
+    columna_diccionario_descripcion,
     variables_identificadoras,
     variables_excluidas_list,
     variables_excluidas_regex,
@@ -24,10 +24,10 @@ def ejecutar_procesamiento_presencia(
     """
     procesador = Procesador(
         dataframes_mallas=dataframes_mallas,
-        dataframe_alias=dataframe_alias,
-        columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
-        columna_dataframe_alias_alias=columna_dataframe_alias_alias,
-        columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+        dataframe_diccionario=dataframe_diccionario,
+        columna_diccionario_nombres=columna_diccionario_nombres,
+        columna_diccionario_alias=columna_diccionario_alias,
+        columna_diccionario_descripcion=columna_diccionario_descripcion,
         variables_identificadoras=variables_identificadoras,
         variables_excluidas_list=variables_excluidas_list,
         variables_excluidas_regex=variables_excluidas_regex,
@@ -62,10 +62,10 @@ def ejecutar_procesamiento_presencia(
 
 def ejecutar_procesamiento(
     dataframes_mallas,
-    dataframe_alias,
-    columna_dataframe_alias_nombres,
-    columna_dataframe_alias_alias,
-    columna_dataframe_alias_descripcion,
+    dataframe_diccionario,
+    columna_diccionario_nombres,
+    columna_diccionario_alias,
+    columna_diccionario_descripcion,
     variables_identificadoras,
     variables_excluidas_list,
     variables_excluidas_regex,
@@ -78,14 +78,14 @@ def ejecutar_procesamiento(
     """
     # inicializar procesador
     procesador = Procesador(
-        dataframes_mallas=dataframes_mallas, 
-        dataframe_alias=dataframe_alias, 
-        columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
-        columna_dataframe_alias_alias=columna_dataframe_alias_alias,
-        columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+        dataframes_mallas=dataframes_mallas,
+        dataframe_diccionario=dataframe_diccionario,
+        columna_diccionario_nombres=columna_diccionario_nombres,
+        columna_diccionario_alias=columna_diccionario_alias,
+        columna_diccionario_descripcion=columna_diccionario_descripcion,
         variables_identificadoras=variables_identificadoras,
-        variables_excluidas_list=variables_excluidas_list, 
-        variables_excluidas_regex=variables_excluidas_regex 
+        variables_excluidas_list=variables_excluidas_list,
+        variables_excluidas_regex=variables_excluidas_regex
     )
     
     # procesar variables especificadas por listas explicitas
@@ -164,24 +164,22 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo rutas_csv_mallas')
     rutas_csv_mallas = procesador_config['rutas_csv_mallas']
     
-    # validaciones campo ruta_csv_dataframe_alias
-    if 'ruta_csv_dataframe_alias' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_dataframe_alias')
-    ruta_csv_dataframe_alias = procesador_config['ruta_csv_dataframe_alias']
-    if not os.path.exists(ruta_csv_dataframe_alias):
-        raise FileNotFoundError('La ruta especificada para el archivo .csv de alias no existe')
-    
-    # validaciones campo columna_dataframe_alias_nombres
-    if 'columna_dataframe_alias_nombres' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_nombres')
-    columna_dataframe_alias_nombres = procesador_config['columna_dataframe_alias_nombres']
-    
-    # validaciones campo columna_dataframe_alias_alias
-    if 'columna_dataframe_alias_alias' not in procesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_dataframe_alias_alias')
-    columna_dataframe_alias_alias = procesador_config['columna_dataframe_alias_alias']
-    
-    columna_dataframe_alias_descripcion = procesador_config.get('columna_dataframe_alias_descripcion', None)
+    # validaciones campo ruta_csv_diccionario_datos
+    if 'ruta_csv_diccionario_datos' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_csv_diccionario_datos')
+    ruta_csv_diccionario_datos = procesador_config['ruta_csv_diccionario_datos']
+    if not os.path.exists(ruta_csv_diccionario_datos):
+        raise FileNotFoundError('La ruta especificada para el archivo .csv del diccionario de datos no existe')
+
+    # validaciones campo columna_diccionario_nombres
+    if 'columna_diccionario_nombres' not in procesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo columna_diccionario_nombres')
+    columna_diccionario_nombres = procesador_config['columna_diccionario_nombres']
+
+    # campo opcional columna_diccionario_alias (default 'alias')
+    columna_diccionario_alias = procesador_config.get('columna_diccionario_alias', 'alias')
+
+    columna_diccionario_descripcion = procesador_config.get('columna_diccionario_descripcion', None)
     
     # obtener listas de variables a excluir mediante lista explicita y/o lista de expresiones regulares,
     # en caso de existir el campo en el archivo de configuracion
@@ -233,24 +231,24 @@ if __name__ == '__main__':
         dtype_dict = {col: str for col in id_cols}
         dataframes_mallas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
         
-    # cargar dataframe de alias
-    dataframe_alias = pd.read_csv(ruta_csv_dataframe_alias)
-    
-    # validaciones columna_dataframe y columna_dataframe_alias_alias
-    if columna_dataframe_alias_nombres not in dataframe_alias.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_nombres}')
-    if columna_dataframe_alias_alias not in dataframe_alias.columns:
-        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_dataframe_alias debe contener la columna {columna_dataframe_alias_alias}')
-    
+    # cargar dataframe de diccionario de datos
+    dataframe_diccionario = pd.read_csv(ruta_csv_diccionario_datos)
+
+    # validaciones columnas del diccionario
+    if columna_diccionario_nombres not in dataframe_diccionario.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_diccionario_datos debe contener la columna {columna_diccionario_nombres}')
+    if columna_diccionario_alias not in dataframe_diccionario.columns:
+        raise ValueError(f'El DataFrame correspondiente al campo ruta_csv_diccionario_datos debe contener la columna {columna_diccionario_alias}')
+
     # --- PROCESAMIENTO LUGARES ---
     if variables_identificadoras_lugares:
         print("--- Procesando Lugares ---")
         resultado = ejecutar_procesamiento(
             dataframes_mallas=dataframes_mallas,
-            dataframe_alias=dataframe_alias,
-            columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
-            columna_dataframe_alias_alias=columna_dataframe_alias_alias,
-            columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+            dataframe_diccionario=dataframe_diccionario,
+            columna_diccionario_nombres=columna_diccionario_nombres,
+            columna_diccionario_alias=columna_diccionario_alias,
+            columna_diccionario_descripcion=columna_diccionario_descripcion,
             variables_identificadoras=variables_identificadoras_lugares,
             variables_excluidas_list=variables_excluidas_list_lugares,
             variables_excluidas_regex=variables_excluidas_regex_lugares,
@@ -268,10 +266,10 @@ if __name__ == '__main__':
             print("--- Procesando Presencia ---")
             resultado_presencia = ejecutar_procesamiento_presencia(
                 dataframes_mallas=dataframes_mallas,
-                dataframe_alias=dataframe_alias,
-                columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
-                columna_dataframe_alias_alias=columna_dataframe_alias_alias,
-                columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+                dataframe_diccionario=dataframe_diccionario,
+                columna_diccionario_nombres=columna_diccionario_nombres,
+                columna_diccionario_alias=columna_diccionario_alias,
+                columna_diccionario_descripcion=columna_diccionario_descripcion,
                 variables_identificadoras=variables_identificadoras_lugares,
                 variables_excluidas_list=variables_excluidas_list_lugares,
                 variables_excluidas_regex=variables_excluidas_regex_lugares,
@@ -327,20 +325,20 @@ if __name__ == '__main__':
              dtype_dict = {col: str for col in id_cols}
              dataframes_personas[malla] = pd.read_csv(ruta, dtype=dtype_dict)
 
-         # Cargar dataframe de alias para el ensamble secundario (opcional, fallback al general)
-         ruta_alias_personas = procesador_config.get('ruta_csv_dataframe_alias_personas')
-         if ruta_alias_personas and os.path.exists(ruta_alias_personas):
-             dataframe_alias_personas = pd.read_csv(ruta_alias_personas)
+         # Cargar dataframe de diccionario para el ensamble secundario (opcional, fallback al general)
+         ruta_diccionario_personas = procesador_config.get('ruta_csv_diccionario_datos_personas')
+         if ruta_diccionario_personas and os.path.exists(ruta_diccionario_personas):
+             dataframe_diccionario_personas = pd.read_csv(ruta_diccionario_personas)
          else:
-             dataframe_alias_personas = dataframe_alias
+             dataframe_diccionario_personas = dataframe_diccionario
 
          # Ejecutar procesamiento
          resultado_personas = ejecutar_procesamiento(
             dataframes_mallas=dataframes_personas,
-            dataframe_alias=dataframe_alias_personas,
-            columna_dataframe_alias_nombres=columna_dataframe_alias_nombres,
-            columna_dataframe_alias_alias=columna_dataframe_alias_alias,
-            columna_dataframe_alias_descripcion=columna_dataframe_alias_descripcion,
+            dataframe_diccionario=dataframe_diccionario_personas,
+            columna_diccionario_nombres=columna_diccionario_nombres,
+            columna_diccionario_alias=columna_diccionario_alias,
+            columna_diccionario_descripcion=columna_diccionario_descripcion,
             variables_identificadoras=variables_identificadoras_personas,
             variables_excluidas_list=variables_excluidas_list_personas,
             variables_excluidas_regex=variables_excluidas_regex_personas,

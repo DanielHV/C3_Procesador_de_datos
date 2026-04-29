@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 ## Flujo general
 
-1. **Preprocesamiento de datos** ([`src/preprocesador/main_preprocesador.py`](src/preprocesador/preprocesador.py)): Limpiar, transformar y agrupar los datos originales, generando archivos preprocesados y diccionarios de alias.
+1. **Preprocesamiento de datos** ([`src/preprocesador/main_preprocesador.py`](src/preprocesador/preprocesador.py)): Limpiar, transformar y agrupar los datos originales, generando archivos preprocesados y diccionarios de datos derivados.
 
 2. **Categorización y procesamiento** ([`src/procesador/main_procesador.py`](src/procesador/procesador.py)): Normalizar variables categorizarlas en cuantiles, y procesar el resultado generando archivos estructurados para análisis subsecuente.
 
@@ -83,7 +83,7 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
     "ruta_csv_diccionario_datos" : "../data/covid19/raw/240708 Descriptores_rework.csv",
     "ruta_csv_dataset" : "../data/covid19/raw/COVID19MEXICO_rework.csv",
     "ruta_salida_dataset" : "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun.csv",
-    "ruta_salida_alias" : "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun.csv",
+    "ruta_salida_diccionario_datos" : "../data/covid19/preprocessed/preprocesamiento_covid19_diccionario_datos_example_mun.csv",
 
     "columna_diccionario_nombres" : "NOMBRE DE VARIABLE",
     "columna_diccionario_posibles_valores" : "POSIBLES VALORES ALIAS",
@@ -110,8 +110,8 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 - `"ruta_salida_dataset"` **(Obligatorio)**:
   Ruta donde se guardará el archivo de datos preprocesados y transformados, resultado de todas las operaciones y agrupaciones configuradas.
 
-- `"ruta_salida_alias"` **(Obligatorio)**:
-  Ruta donde se guardará el dataframe de alias, que mapea nombres originales a alias o códigos.
+- `"ruta_salida_diccionario_datos"` **(Obligatorio)**:
+  Ruta donde se guardará el diccionario de datos derivado: una versión del diccionario original donde cada variable agrupada es sustituida por sus N variables derivadas (`variable-valor` por cada posible valor para categóricas; `operacion::variable` por cada operación aplicada para numéricas), heredando las demás columnas del diccionario de la variable original. Se agrega una columna `alias` con la versión legible (`variable_alias-valor_alias` para categóricas, `operacion::variable_alias` para numéricas) y una fila para `conteo::total_datos`. Las columnas de posibles valores quedan como lista vacía (`[]`) en las filas derivadas. Las variables que no fueron agrupadas no se incluyen. Si se ejecuta el ensamble secundario, se genera un archivo adicional con sufijo `_<tipo_ensamble>.csv` para él (sin la fila de `conteo::total_datos`).
 
 - `"columna_diccionario_nombres"` **(Obligatorio)**:
   Nombre de la columna en el archivo de diccionario de datos que contiene los nombres originales de las variables.
@@ -126,7 +126,7 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
   Nombre de la columna en el diccionario que contiene los alias de los valores posibles. Si no se especifica, se usa `columna_diccionario_posibles_valores`.
 
 - `"columna_diccionario_descripcion"` (Opcional):
-  Nombre de la columna en el diccionario de datos que contiene la descripción o información textual de la variable. Estos datos se incluirán como una nueva columna en el archivo alias final.
+  Nombre de la columna en el diccionario de datos que contiene la descripción o información textual de la variable. Estos datos se conservarán en el diccionario de datos derivado.
 
 - `"columna_diccionario_tipos"` (Opcional):
   Permite realizar conversiones de tipo cast para columnas.
@@ -163,7 +163,7 @@ Ejemplo: `config/preprocesador_example_ensanut.json`
 ### Salida
 
 El archivo de salida contendrá, para cada grupo, los conteos de cada valor posible de las variables categóricas, el resultado de aplicar la operación especificada a las variables numéricas, y el total de registros que se incluye automáticamente una columna `conteo::total_datos`.
-Además, se generará un archivo de diccionario de alias, necesario en el paso de procesamiento.
+Además, se generará un diccionario de datos derivado donde cada variable original agrupada es sustituida por sus variables derivadas correspondientes (con columna `alias` adicional), necesario en el paso de procesamiento.
 
 ---
 
@@ -184,10 +184,10 @@ En este paso se realiza una clasificación en cuantiles y procesamiento de los d
 1. Archivo de datos
   - Obligatorio
     - Columna que tenga como valores identificadores para cada grupo existente (por ejemplo, municipios, estados, etc.).
-2. Archivo de alias
+2. Archivo de diccionario de datos derivado (generado por el preprocesador)
   - Obligatorio
-    - Columna que tenga como valores los nombres de las variables tal cual se escriben en las columnas del archivo de datos. Nota: El programa solo procesará variables existente en esta columna, si se especifica una variable que no existe, se omitirá.
-    - Columna que tenga como valores los nombres alternativos (alias) de las variables.
+    - Columna que tenga como valores los nombres de las variables tal cual se escriben en las columnas del archivo de datos. Nota: El programa solo procesará variables existentes en esta columna, si se especifica una variable que no existe, se omitirá.
+    - Columna `alias` con los nombres alternativos (alias) legibles de las variables.
 
 ### Archivo de configuración
 
@@ -201,13 +201,13 @@ Ejemplo: `config/procesador_example_ensanut.json`
     "rutas_csv_personas": {
         "personas": "../data/covid19/preprocessed/preprocesamiento_covid19_example_mun_personas.csv"
     },
-    "ruta_csv_dataframe_alias": "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun.csv",
-    "ruta_csv_dataframe_alias_personas": "../data/covid19/preprocessed/preprocesamiento_covid19_alias_example_mun_personas.csv",
+    "ruta_csv_diccionario_datos": "../data/covid19/preprocessed/preprocesamiento_covid19_diccionario_datos_example_mun.csv",
+    "ruta_csv_diccionario_datos_personas": "../data/covid19/preprocessed/preprocesamiento_covid19_diccionario_datos_example_mun_personas.csv",
     "ruta_csv_salida": "../data/covid19/processed/procesamiento_covid19_example.csv",
-    
-    "columna_dataframe_alias_nombres": "alias",
-    "columna_dataframe_alias_alias": "variable",
-    "columna_dataframe_alias_descripcion": "descripcion",
+
+    "columna_diccionario_nombres": "NOMBRE DE VARIABLE",
+    "columna_diccionario_alias": "alias",
+    "columna_diccionario_descripcion": "DESCRIPCIÓN DE VARIABLE",
 
     "variables_identificadoras_lugares": {
         "mun": ["ENTIDAD_RES", "MUNICIPIO_RES"]
@@ -250,23 +250,23 @@ Ejemplo: `config/procesador_example_ensanut.json`
 - `"rutas_csv_personas"` (Opcional):
   Diccionario que indica las rutas a los archivos CSV del ensamble secundario. La clave debe coincidir con el valor de `"tipo_ensamble"` (por ejemplo `{"personas": "..."}` o `{"empresas": "..."}`).
 
-- `"ruta_csv_dataframe_alias"` **(Obligatorio)**:
-  Ruta al archivo CSV que contiene el dataframe de alias de variables y valores original, generado en el preprocesamiento de lugares.
+- `"ruta_csv_diccionario_datos"` **(Obligatorio)**:
+  Ruta al archivo CSV que contiene el diccionario de datos derivado, generado en el preprocesamiento de lugares.
 
-- `"ruta_csv_dataframe_alias_personas"` (Opcional):
-  Ruta al archivo CSV que contiene el dataframe de alias originado por el preprocesamiento del ensamble secundario. De no especificarse, se usará el alias general.
+- `"ruta_csv_diccionario_datos_personas"` (Opcional):
+  Ruta al archivo CSV que contiene el diccionario de datos derivado del ensamble secundario. De no especificarse, se usará el diccionario general.
 
 - `"ruta_csv_salida"` **(Obligatorio)**:
   Ruta base general de guardado para el archivo CSV con resultados. Un archivo con sufijo `_<tipo_ensamble>.csv` se auto-generará si los campos del ensamble secundario están definidos.
 
-- `"columna_dataframe_alias_nombres"` **(Obligatorio)**:
-  Nombre de la columna en el dataframe de alias que contiene los nombres descriptivos.
+- `"columna_diccionario_nombres"` **(Obligatorio)**:
+  Nombre de la columna del diccionario de datos cuyos valores coinciden con las columnas del archivo de datos preprocesados.
 
-- `"columna_dataframe_alias_alias"` **(Obligatorio)**:
-  Nombre de la columna en el dataframe de alias que contiene los alias o nombres cortos.
+- `"columna_diccionario_alias"` (Opcional, default `"alias"`):
+  Nombre de la columna del diccionario de datos que contiene la versión legible (alias) de cada variable.
 
-- `"columna_dataframe_alias_descripcion"` (Opcional):  
-  Nombre de la columna en el dataframe de alias que alberga información descriptiva ampliada. Al especificarse, el resultado mantendrá estas descripciones.
+- `"columna_diccionario_descripcion"` (Opcional):
+  Nombre de la columna del diccionario de datos con la descripción de cada variable. Al especificarse, el resultado mantendrá estas descripciones.
 
 - `"variables_identificadoras_lugares"` **(Obligatorio)** / `"variables_identificadoras_personas"` (Opcional):
   Diccionario que mapea cada malla a una lista de columnas identificadoras únicas. La clave en `"variables_identificadoras_personas"` debe coincidir con `"tipo_ensamble"`. Ej: `{"mun": ["ENTIDAD_RES", "MUNICIPIO_RES"]}` / `{"personas": ["ID_REGISTRO"]}`.
@@ -323,7 +323,7 @@ El archivo de salida generado por el procesamiento es un archivo CSV en formato 
 
 La estructura de columnas es:
 
-- **name**: Nombre descriptivo de la variable procesada (según el diccionario de alias).
+- **name**: Nombre descriptivo de la variable procesada (según la columna `alias` del diccionario de datos).
 - **code**: Alias o código de la variable procesada. Para variables de presencia incluye el sufijo `::presencia` (por ejemplo, `MIGRANTE-1::presencia`).
 - **bin**: Número de la categoría o bin asignado (1 a `q`). Nulo para filas de presencia.
 - **interval_{malla}**: Intervalo numérico o de porcentaje correspondiente a la categoría para cada malla (por ejemplo, `interval_mun`). Nulo para filas de presencia.
@@ -382,6 +382,8 @@ DB_TABLE=nombre_de_tabla
 Este script automatiza la carga de datos procesados desde los archivos CSV del paso de procesamiento hacia la base de datos PostgreSQL, implementando una normalización automática de tablas. Detecta y transforma tipos de datos avanzados de PostgreSQL, convirtiendo columnas con prefijo `cells_` en arreglos de enteros (`INTEGER[]`) y columnas `interval_` en rangos numéricos (`NUMRANGE`), adaptando formatos como "min:max" a la sintaxis nativa "[min,max)". Adicionalmente, optimiza el esquema separando los metadatos repetitivos en una tabla diccionario (`dict_<tabla>`) y vinculándolos a la tabla principal mediante una clave foránea (`dict_id`).
 
 Las tablas generadas para cada dataset siguen la convención `<DB_TABLE>_<tipo>`, donde `<tipo>` es `mun` para el ensamble de lugares y el valor de `--tipo-ensamble` para el ensamble secundario (por ejemplo `_personas`, `_empresas`). Lo mismo aplica para las tablas auxiliares `dict_<tabla>` y `values_<tabla>`.
+
+Cada tabla `dict_<tabla>` incluye una columna `available_grids` (`TEXT[]`) con la lista de ensambles donde la variable está disponible. Si se cargan ambos ensambles en la misma corrida (por ejemplo `mun` y `personas`), las variables presentes en los dos quedan con `available_grids = {mun, personas}` en ambas tablas `dict_*`; las exclusivas de un ensamble quedan únicamente con esa clave.
 
 ---
 

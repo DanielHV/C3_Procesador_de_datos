@@ -178,10 +178,12 @@ if __name__ == '__main__':
         raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_dataset')
     ruta_salida_dataset = preprocesador_config['ruta_salida_dataset']
     
-    # validaciones campo ruta_salida_alias
-    if 'ruta_salida_alias' not in preprocesador_config:
-        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_alias')
-    ruta_salida_alias = preprocesador_config['ruta_salida_alias']
+    # validaciones campo ruta_salida_diccionario_datos
+    if 'ruta_salida_diccionario_datos' not in preprocesador_config:
+        raise ValueError('El archivo JSON pasado para --config debe tener el campo ruta_salida_diccionario_datos')
+    ruta_salida_diccionario_datos = preprocesador_config['ruta_salida_diccionario_datos']
+    if not isinstance(ruta_salida_diccionario_datos, str):
+        raise TypeError('El valor asociado al campo ruta_salida_diccionario_datos debe ser de tipo str')
     
     # validaciones campo columna_diccionario_nombres
     if 'columna_diccionario_nombres' not in preprocesador_config:
@@ -299,16 +301,17 @@ if __name__ == '__main__':
     def procesar_agrupacion(preprocesador, variables_identificadoras_list, variables_a_agrupar):
         """
         Ejecuta la logica de agrupacion para una lista de variables identificadoras y variables a agrupar.
-        Retorna el dataframe resultante y el diccionario de alias.
+        Retorna el dataframe resultante y el diccionario de datos derivado.
         """
-        
-        # inicializar de listas para almacenar resultados y diccionarios de alias
+
+        # inicializar lista para almacenar resultados de agrupaciones
         resultados_dfs = []
-        resultados_alias = []
-        
-        # agregar conteo total de datos y su alias a las listas de resultados correspondientes
+        # acumuladores para el diccionario de datos derivado
+        categoricas_total = []
+        numericas_operaciones = {}
+
+        # agregar conteo total de datos a la lista de resultados
         resultados_dfs.append(preprocesador.agrupar_total_datos(variables_id_agrupacion=variables_identificadoras_list))
-        resultados_alias.append(preprocesador.generar_alias_total_datos())
         
         # obtener elementos de la lista 'variables_a_agrupar'
         for agrupacion in variables_a_agrupar:
@@ -368,7 +371,7 @@ if __name__ == '__main__':
             print(f"Variables a agrupar según filtros: {variables_a_agrupar_total}")
             
             if tipo_variables == 'categorico':
-                
+
                 # agrupacion variables categoricas
                 df_agregado = preprocesador.agrupar_variables_categoricas(
                     variables_id_agrupacion=variables_identificadoras_list,
@@ -377,24 +380,19 @@ if __name__ == '__main__':
 
                 # agregar agrupacion a lista de resultados correspondiente
                 resultados_dfs.append(df_agregado)
-            
-                # generar diccionario de alias para agrupacion
-                diccionario_alias = preprocesador.generar_alias_variables_categoricas(
-                    variables=variables_a_agrupar_total, 
-                    columna_diccionario_alias=columna_diccionario_alias, 
-                    columna_diccionario_posibles_valores_alias=columna_diccionario_posibles_valores_alias
-                )
-                
-                # agregar diccionario de alias a lista de resultados correspondiente
-                resultados_alias.append(diccionario_alias)
-                
+
+                # acumular variables categoricas agrupadas para el diccionario derivado
+                for v in variables_a_agrupar_total:
+                    if v not in categoricas_total:
+                        categoricas_total.append(v)
+
             elif tipo_variables == 'numerico':
-                
+
                 # validacion subcampo operacion, solo cuando el subcampo tipo_variables es == 'numerico'
                 if 'operacion' not in agrupacion.keys():
                     raise ValueError('El campo agrupacion debe tener una llave operacion cuando se selecciona el valor numerico para tipo_variables')
                 operacion = agrupacion['operacion']
-                
+
                 # agrupacion variables numericas
                 df_agregado = preprocesador.agrupar_variables_numericas(
                     variables_id_agrupacion=variables_identificadoras_list,
@@ -404,55 +402,42 @@ if __name__ == '__main__':
 
                 # agregar agrupacion a lista de resultados correspondiente
                 resultados_dfs.append(df_agregado)
-                
-                # generar diccionario de alias para agrupacion
-                diccionario_alias = preprocesador.generar_alias_variables_numericas(
-                    variables=variables_a_agrupar_total, 
-                    columna_diccionario_alias=columna_diccionario_alias, 
-                    operacion=operacion
-                )
-                
-                # agregar diccionario de alias a lista de resultados correspondiente
-                resultados_alias.append(diccionario_alias)
-                
+
+                # acumular variables numericas y sus operaciones para el diccionario derivado
+                for v in variables_a_agrupar_total:
+                    operaciones_v = numericas_operaciones.setdefault(v, [])
+                    if operacion not in operaciones_v:
+                        operaciones_v.append(operacion)
+
             else:
                 raise ValueError('El valor de tipo_variables debe ser una de las cadenas: categorico, numerico')
-            
+
         # hacer join de todas las agrupaciones realizadas
         join_dfs = functools.reduce(
             lambda left, right: pd.merge(left, right, on=variables_identificadoras_list, how='inner'),
             resultados_dfs
         )
-        
-        # combinar diccionarios obtenidos por cada agrupacion
-        alias_final = {}
-        for d in resultados_alias:
-            alias_final.update(d)
-        
-        if columna_diccionario_descripcion is not None:
-            alias_df = pd.DataFrame(
-                [(k, v[0], v[1]) for k, v in alias_final.items()], 
-                columns=['variable', 'alias', 'descripcion']
-            )
-        else:
-            # Fallback if no description configured but tuple returned
-            alias_df = pd.DataFrame(
-                [(k, v[0] if isinstance(v, tuple) else v) for k, v in alias_final.items()], 
-                columns=['variable', 'alias']
-            )
-        
-        return join_dfs, alias_df
+
+        # generar diccionario de datos derivado (variable original sustituida por sus N variables derivadas)
+        diccionario_derivado = preprocesador.generar_diccionario_derivado(
+            variables_categoricas=categoricas_total,
+            variables_numericas_operaciones=numericas_operaciones,
+            columna_diccionario_alias=columna_diccionario_alias,
+            columna_diccionario_posibles_valores_alias=columna_diccionario_posibles_valores_alias
+        )
+
+        return join_dfs, diccionario_derivado
 
     # --- PROCESAMIENTO LUGARES ---
     if variables_identificadoras_list_lugares:
         print("--- Procesando Agrupación por Lugares ---")
-        join_dfs_lugares, alias_df_lugares = procesar_agrupacion(preprocesador, variables_identificadoras_list_lugares, variables_a_agrupar_lugares)
+        join_dfs_lugares, diccionario_derivado_lugares = procesar_agrupacion(preprocesador, variables_identificadoras_list_lugares, variables_a_agrupar_lugares)
 
         # guardar resultados lugares
         join_dfs_lugares.to_csv(ruta_salida_dataset, index=False)
         print(f'Archivo csv de datos preprocesados (lugares) creado en la ruta {ruta_salida_dataset}')
-        alias_df_lugares.to_csv(ruta_salida_alias, index=False)
-        print(f'Archivo csv de alias (lugares) creado en la ruta {ruta_salida_alias}')
+        diccionario_derivado_lugares.to_csv(ruta_salida_diccionario_datos, index=False)
+        print(f'Archivo csv de diccionario de datos derivado (lugares) creado en la ruta {ruta_salida_diccionario_datos}')
     else:
         print("Advertencia: variables_identificadoras_list_lugares está vacío, se omite el procesamiento de lugares.")
 
@@ -465,22 +450,24 @@ if __name__ == '__main__':
 
         if isinstance(variables_identificadoras_list_personas, list) and len(variables_identificadoras_list_personas) > 0 and isinstance(variables_a_agrupar_personas, list):
 
-            join_dfs_personas, alias_df_personas = procesar_agrupacion(preprocesador, variables_identificadoras_list_personas, variables_a_agrupar_personas)
+            join_dfs_personas, diccionario_derivado_personas = procesar_agrupacion(preprocesador, variables_identificadoras_list_personas, variables_a_agrupar_personas)
 
             # Drop conteo::total_datos for records since it's redundant (always 1 for single records)
             if 'conteo::total_datos' in join_dfs_personas.columns:
                 join_dfs_personas = join_dfs_personas.drop(columns=['conteo::total_datos'])
-            alias_df_personas = alias_df_personas[alias_df_personas['variable'] != 'conteo::total_datos']
+            diccionario_derivado_personas = diccionario_derivado_personas[
+                diccionario_derivado_personas[columna_diccionario_nombres] != 'conteo::total_datos'
+            ]
 
             # generar rutas de salida usando el tipo de ensamble configurado
             ruta_salida_dataset_personas = ruta_salida_dataset.replace('.csv', f'_{tipo_ensamble}.csv')
-            ruta_salida_alias_personas = ruta_salida_alias.replace('.csv', f'_{tipo_ensamble}.csv')
+            ruta_salida_diccionario_datos_personas = ruta_salida_diccionario_datos.replace('.csv', f'_{tipo_ensamble}.csv')
 
             # guardar resultados
             join_dfs_personas.to_csv(ruta_salida_dataset_personas, index=False)
             print(f'Archivo csv de datos preprocesados ({tipo_ensamble}) creado en la ruta {ruta_salida_dataset_personas}')
-            alias_df_personas.to_csv(ruta_salida_alias_personas, index=False)
-            print(f'Archivo csv de alias ({tipo_ensamble}) creado en la ruta {ruta_salida_alias_personas}')
+            diccionario_derivado_personas.to_csv(ruta_salida_diccionario_datos_personas, index=False)
+            print(f'Archivo csv de diccionario de datos derivado ({tipo_ensamble}) creado en la ruta {ruta_salida_diccionario_datos_personas}')
         else:
              print("Advertencia: claves de configuración para el ensamble secundario existen pero no son listas válidas.")
 

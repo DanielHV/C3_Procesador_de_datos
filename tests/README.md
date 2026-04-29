@@ -12,11 +12,11 @@ DICTIONARY_CSV_PATH=dictionary.csv
 Make sure to have this env vars with the right path inside you dictionary.json
 
 ```Javascript
-"ruta_csv_dataframe_alias": "censo.csv",
+"ruta_csv_diccionario_datos": "censo.csv",
 "ruta_csv_salida": "input/censo_2020_transformado.csv",
-"columna_dataframe_alias_nombres": "var",
-"columna_dataframe_alias_alias": "var",
-"columna_dataframe_alias_descripcion": "Description",
+"columna_diccionario_nombres": "var",
+"columna_diccionario_alias": "alias",
+"columna_diccionario_descripcion": "Description",
 
 # TO DEFINE
 "formato_columna_fecha": "AAAA-MM-DD",

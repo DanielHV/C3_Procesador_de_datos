@@ -2,7 +2,7 @@
     "ruta_csv_diccionario_datos": "../data/ensanut/raw/21ensanut_a20_hias_rework.csv",
     "ruta_csv_dataset": "../data/ensanut/raw/salud_hogar_orig_lower_promedios_for_elastic.csv",
     "ruta_salida_dataset": "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun.csv",
-    "ruta_salida_alias": "../data/ensanut/preprocessed/preprocesamiento_ensanut_alias_example_mun.csv",
+    "ruta_salida_diccionario_datos": "../data/ensanut/preprocessed/preprocesamiento_ensanut_diccionario_datos_example_mun.csv",
     "columna_diccionario_nombres": "var",
     "columna_diccionario_posibles_valores": "posibles_valores_alias",
     "columna_diccionario_alias": "var_alias",

@@ -2,7 +2,7 @@
     "ruta_csv_diccionario_datos": "../data/denue/raw/diccionario_denue_dyana_nostring.csv",
     "ruta_csv_dataset": "../data/denue/raw/denue_muestra_transformed.csv",
     "ruta_salida_dataset": "../data/denue/preprocessed/preprocesamiento_denue_example_mun.csv",
-    "ruta_salida_alias": "../data/denue/preprocessed/preprocesamiento_denue_alias_example_mun.csv",
+    "ruta_salida_diccionario_datos": "../data/denue/preprocessed/preprocesamiento_denue_diccionario_datos_example_mun.csv",
     "columna_diccionario_nombres": "var",
     "columna_diccionario_posibles_valores": "description",
     "columna_diccionario_alias": "var_alias",

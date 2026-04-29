@@ -5,10 +5,10 @@
     "rutas_csv_personas": {
         "mun": "../data/ensanut/preprocessed/preprocesamiento_ensanut_example_mun_personas.csv"
     },
-    "ruta_csv_dataframe_alias": "../data/ensanut/preprocessed/preprocesamiento_ensanut_alias_example_mun.csv",
+    "ruta_csv_diccionario_datos": "../data/ensanut/preprocessed/preprocesamiento_ensanut_diccionario_datos_example_mun.csv",
     "ruta_csv_salida": "../data/ensanut/processed/procesamiento_ensanut_example.csv",
-    "columna_dataframe_alias_nombres": "alias",
-    "columna_dataframe_alias_alias": "variable",
+    "columna_diccionario_nombres": "var",
+    "columna_diccionario_alias": "alias",
     "variables_identificadoras_lugares": {
         "mun": [
             "municipio"
