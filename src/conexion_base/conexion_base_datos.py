@@ -82,9 +82,9 @@ if __name__ == "__main__":
                     if val_content:
                         # Verificar el primer elemento
                         first_elem = val_content.split(',')[0].strip()
-                        # Si es digito, asumimos entero. Si tiene comillas o caracteres alfa, texto.
-                        # Ojo: ID_REGISTRO es alfanumerico (e.g. 109fd5), asi que isdigit() sera False.
-                        if first_elem.isdigit():
+                        # Solo INTEGER[] si es dígito puro Y sin ceros iniciales (identificadores
+                        # como cvegeo '01001' deben ser TEXT[] para preservar el formato).
+                        if first_elem.isdigit() and str(int(first_elem)) == first_elem:
                             is_integer_array = True
                 
                 special_types[col] = "INTEGER[]" if is_integer_array else "TEXT[]"
