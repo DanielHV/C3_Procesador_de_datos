@@ -1,0 +1,42 @@
+{
+    "rutas_csv_mallas": {
+        "ageb": "../data/denue/preprocessed/preprocesamiento_denue_example_ageb.csv"
+    },
+    "rutas_csv_personas": {
+        "personas": "../data/denue/preprocessed/preprocesamiento_denue_example_ageb_personas.csv"
+    },
+    "ruta_csv_diccionario_datos": "../data/denue/preprocessed/preprocesamiento_denue_diccionario_datos_example_ageb.csv",
+    "ruta_csv_salida": "../data/denue/processed/procesamiento_denue_example_ageb.csv",
+    "columna_diccionario_nombres": "var",
+    "columna_diccionario_alias": "alias",
+    "columna_diccionario_descripcion": "description",
+    "variables_identificadoras_lugares": {
+        "ageb": ["ageb"]
+    },
+    "variables_excluidas_list_lugares": [],
+    "variables_excluidas_regex_lugares": [],
+    "variables_a_procesar_list_lugares": {
+        "None": ["conteo::total_datos"]
+    },
+    "variables_a_procesar_regex_lugares": {
+        "conteo::total_datos": ["\\d+_\\d{4}"]
+    },
+    "variables_identificadoras_personas": {
+        "personas": [
+            "id"
+        ]
+    },
+    "variables_excluidas_list_personas": [],
+    "variables_excluidas_regex_personas": [
+        "ageb"
+    ],
+    "variables_a_procesar_list_personas": {
+        "None": []
+    },
+    "variables_a_procesar_regex_personas": {
+        "None": [
+            "\\d+_\\d{4}"
+        ]
+    },
+    "q": 10
+}
